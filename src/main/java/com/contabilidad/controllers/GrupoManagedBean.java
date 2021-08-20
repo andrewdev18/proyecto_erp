@@ -8,14 +8,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.SelectEvent;
 
 @Named(value = "grupoMB")
-@SessionScoped
+@ViewScoped
 public class GrupoManagedBean implements Serializable {
     private GrupoDAO grupoDAO;
     private List<Grupo> listaGrupos;
