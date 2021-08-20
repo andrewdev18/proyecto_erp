@@ -38,6 +38,8 @@ public class AsientoDAO {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }finally {
+            conexion.cerrarConexion();
         }
         return asientos;
     }
