@@ -43,38 +43,41 @@
                                 <p:autoUpdate/>
                             </p:growl>
                             <p:panelMenu stateful="true">
-                                <p:submenu label ="Cuentas por pagar">
+                                <p:submenu label="otro">
+                                    <p:menuitem value="otros item"/>
+                                </p:submenu>
+                                <p:submenu label ="Cuentas por pagar" expanded="true">
                                     <p:menuitem value="Proveedores"
                                                 icon="pi pi-refresh"
-                                                outcome="/View/Proveedor"/>
+                                                outcome="/View/cuentas_por_pagar/Proveedor"/>
                                     <p:menuitem value="Facturas Compra"
                                                 icon="pi pi-file-o"
-                                                outcome="/View/Factura"/>
+                                                outcome="/View/cuentas_por_pagar/Factura"/>
                                     <p:submenu label="Pagos">
                                         <p:menuitem value="Autorizar pago"
                                                     style="display: flex; align-items: center; text-decoration: none;"
                                                     icon="pi pi-check-square"
-                                                    outcome="/View/AutorizacionPago"/>
+                                                    outcome="/View/cuentas_por_pagar/AutorizacionPago"/>
                                         <p:menuitem value="Realizar Pago"
                                                     style="display: flex; align-items: center; text-decoration: none;"
                                                     icon="pi pi-money-bill"
-                                                    outcome="/View/Pago"/>
+                                                    outcome="/View/cuentas_por_pagar/Pago"/>
                                     </p:submenu>
 
                                     <p:submenu label="Reportes">
                                         <p:menuitem value="Generar calendario de pagos"
                                                     icon="pi pi-file-pdf" 
                                                     style="display: flex; align-items: center; text-decoration: none;"
-                                                    outcome="/View/Reportes/Calendario"/>
+                                                    outcome="/View/cuentas_por_pagar/Calendario"/>
 
 
                                     </p:submenu>
                                     <p:menuitem value="Anticipos"
                                                 icon="pi pi-file-o"
-                                                outcome="/View/Anticipo"/>
+                                                outcome="/View/cuentas_por_pagar/Anticipo"/>
                                     <p:menuitem value="Compro. Retención"
                                                 icon="pi pi-file-o"
-                                                outcome="/View/Comprobante"/>
+                                                outcome="/View/cuentas_por_pagar/Comprobante"/>
                                 </p:submenu>                                      
                             </p:panelMenu>
                         </h:form>
