@@ -14,10 +14,13 @@
         <h:outputStylesheet name="css/estilo.css"/>
         <h:outputStylesheet name="css/primeflex.min.css" />   
         <h:outputStylesheet name="css/primeflex.min.css.map" />
+        <h:outputStylesheet library="css" name="contabilidad.css"></h:outputStylesheet>
 
 
         <title>Modulo de cuentas por pagar</title>
 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"/>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
     </h:head>
 
@@ -26,9 +29,9 @@
 
 
             <ui:insert name="top">
-                <div class="navbar">
+                <div class="navbar-principal">
                     <a href="/proyecto_erp/">
-                        <h:graphicImage name="imag/erpLogo.png"  height="60px" style="margin-right: 10px"/>
+                        <h:graphicImage name="images/erpLogo.png"  height="60px" style="margin-right: 10px"/>
                     </a>
                     <h2>ERP CONTABLE</h2>
                 </div>
@@ -39,12 +42,24 @@
 
                     <ui:insert name="left"> 
                         <h:form>
-                            <p:growl>
-                                <p:autoUpdate/>
-                            </p:growl>
                             <p:panelMenu stateful="true">
                                 <p:submenu label="otro">
                                     <p:menuitem value="otros item"/>
+                                </p:submenu>
+                                <p:submenu label="Contabilidad">
+                                    <p:menuitem value="Inicio" outcome="/View/contabilidad/home"/>
+                                    <p:menuitem value="Asientos" outcome="/View/contabilidad/asientos"/>
+                                    <p:menuitem value="Diarios" outcome="/View/contabilidad/diarios"></p:menuitem>
+                                    <p:submenu label="Plan de Cuentas">
+                                        <p:menuitem value="Grupos" outcome="/View/contabilidad/pcGrupos"></p:menuitem>
+                                        <p:menuitem value="Subgrupos" outcome="/View/contabilidad/pcSubgrupos"></p:menuitem>
+                                        <p:menuitem value="Cuentas" outcome="/View/contabilidad/pcCuentas"></p:menuitem>
+                                        <p:menuitem value="Subcuentas" outcome="/View/contabilidad/planCuentas" />
+                                    </p:submenu>
+                                    <p:submenu label="Informes">
+                                        <p:menuitem value="Balance General" outcome="/View/contabilidad/balanceGeneral"></p:menuitem>
+                                        <p:menuitem value="Libro Mayor" outcome="/View/contabilidad/libroMayor"></p:menuitem>
+                                    </p:submenu>
                                 </p:submenu>
                                 <p:submenu label ="Cuentas por pagar" expanded="true">
                                     <p:menuitem value="Proveedores"
@@ -92,7 +107,7 @@
                         <div class="containerWelcome">
                             <h:graphicImage name="imag/erpLogo.png"  height="100px" />
                             <p class="titulo">Bienvenido a ERP Contable</p>
-                            
+
                         </div>
 
                     </ui:insert>

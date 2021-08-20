@@ -5,8 +5,8 @@
  */
 package interfaces;
 
-import Model.ManagerCalendario;
-import Model.ReporteFactura;
+import com.cuentasporpagar.models.ManagerCalendario;
+import com.cuentasporpagar.models.ReporteFactura;
 import java.util.List;
 
 /**

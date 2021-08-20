@@ -8,17 +8,14 @@
     background-color: white;
 }
 
-.navbar {
+.navbar-principal {
     height: 75px;
-    background-color: #445976;
     color: #E2EAF6;
+    background-color: #445976;
     margin-bottom: 10px;
-    padding-left: 20px;
-    
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    border-radius: 2px;
 }
 
 .contenedor-flex {
@@ -60,4 +57,49 @@ button.ui-button {
 .titulo {
     font-size: 3rem; 
     color: #333b47;
+}
+
+.navbar-principal {
+    height: 75px;
+    color: #E2EAF6;
+    background-color: #445976;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navbar-principal h2 {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.containerWelcome {
+    position: relative;
+    left: 25%;
+    top: 180px;
+    width: 40%;
+}
+
+.containerWelcome .logo {
+    display: block;
+    margin: 0px auto;
+}
+
+
+
+@media screen and (max-width: 550px) {
+    .modal-grupo {
+        width: 90% !important;
+    }
+
+    .form-grupo {
+        width: 500px !important;
+    }
+}
+
+@media screen and (max-width: 579px) {
+    .ui-dialog {
+        width: 95% !important;
+    }
 }
