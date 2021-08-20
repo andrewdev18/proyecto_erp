@@ -35,6 +35,8 @@ public class GrupoDAO {
         } catch (SQLException ex) {
             System.out.println("Error getgrupocuenta: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
     
