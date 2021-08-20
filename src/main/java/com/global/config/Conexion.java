@@ -106,6 +106,22 @@ public class Conexion {
             System.out.println("ERROR: " + mensaje);
         }
     }
+    
+    public boolean desconectar() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                statement.close();
+                System.out.println("Conexion desconectada");
+                return true;
+            } else {
+                System.out.println("No hay una conexion para desconectar");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Hubo un problema al desconectar la conexion");
+        }
+        return false;
+    }
 
     public ResultSet ejecutarConsulta(String sql) {
         try {
