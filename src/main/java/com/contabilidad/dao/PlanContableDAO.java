@@ -71,15 +71,14 @@ public class PlanContableDAO {
 
     public List<Grupo> getGrupos() {
         grupos = new ArrayList<>();
-        result = conexion.consultar("select * from public.grupocuenta;");
+        result = conexion.consultar("select getgrupocuenta();");
         try {
             //(String codigo, String grupo, String subgrupo, String cuenta, String subcuenta)
             while (result.next()) {
-                grupos.add(new Grupo(
-                        result.getInt("idgrupo"),
-                        result.getString("codigo"),
-                        result.getString("nombre")
-                ));
+                //System.out.println(result.getString("getgrupocuenta"));
+                String cadenaJSON = result.getString("getgrupocuenta");
+                Grupo g = gson.fromJson(cadenaJSON, Grupo.class);
+                grupos.add(g);
             }
         } catch (SQLException ex) {
             System.out.println("Hubo un problema en getAllClientes: " + ex.getMessage());

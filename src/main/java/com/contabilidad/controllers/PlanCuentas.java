@@ -13,12 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
@@ -61,6 +58,9 @@ public class PlanCuentas implements Serializable {
         cuentas = new ArrayList<>();
         contableDAO = new PlanContableDAO();
         subCuenta = new SubCuenta();
+        intoGrupo = new Grupo();
+        intoSubgrupo = new SubGrupo();
+        intoCuenta = new Cuenta();
     }
 
     @PostConstruct
@@ -75,8 +75,9 @@ public class PlanCuentas implements Serializable {
         if (onSeletedGrupo != null && !onSeletedGrupo.trim().equals("0")) {
             System.out.println("########################Grupo: ");
             codigo = onSeletedGrupo;
+            System.out.println("Codigo: " + codigo);
+            System.out.println("param: " + (Integer.parseInt(codigo.trim()) - 1));
             grupo = grupos.get(Integer.parseInt(codigo.trim()) - 1);
-            System.out.println(grupo);
             subgrupos = contableDAO.getSubGrupos(codigo);
         } else {
             codigo = "";
@@ -164,15 +165,12 @@ public class PlanCuentas implements Serializable {
     }
 
     /* Cambiar el nombre de la funcion por formAgregarGrupo */
-    public void formAgregarClasificacion(String outcome) {
-        System.out.println("############ Agregar Grupo ##########");
-        System.out.println("Grupo: " + Integer.parseInt(onSeletedGrupo.trim()));
-
+    public void formAgregarGrupo() {
+        System.out.println("############ Form Agregar Grupo ##########");
         if (Integer.parseInt(onSeletedGrupo.trim()) <= 0) {
-            System.out.println("pasamos al grupoooo");
             intoGrupo = new Grupo();
             intoGrupo.setCodigo(String.valueOf(grupos.size() + 1));
-            abrirModal("dialogAgregarGrupo");
+            PrimeFaces.current().executeScript("PF('dialogFormGrupo').show();");
         } else {
             showWarn("Ya tiene seleccionado un Grupo");
         }
@@ -187,7 +185,7 @@ public class PlanCuentas implements Serializable {
             intoSubgrupo = new SubGrupo();
             intoSubgrupo.setCodigo(onSeletedGrupo.trim() + "." + String.valueOf(subgrupos.size() + 1));
             intoSubgrupo.setGrupo(Integer.parseInt(onSeletedGrupo.trim()));
-            abrirModal("dialogAgregarSubGrupo");
+            PrimeFaces.current().executeScript("PF('dialogFormSubGrupo').show();");
         } else {
             Messages.showWarn("Ya tiene seleccionado un Subgrupo ó no ha seleccionado un Grupo");
         }
@@ -207,7 +205,7 @@ public class PlanCuentas implements Serializable {
                     subGrupo = g;
                 }
             });
-            abrirModal("dialogAgregarCuenta");
+            PrimeFaces.current().executeScript("PF('dialogFormCuenta').show();");
         } else {
             showWarn("Ya tiene seleccionado una Cuenta ó no ha seleccionado un SubGrupo");
         }
@@ -225,7 +223,9 @@ public class PlanCuentas implements Serializable {
                 // si no existe, agregarlo en la base de datos
                 if (contableDAO.insertGrupo(intoGrupo) == 1) {
                     // si lo agrega actualizar la lista
-                    PrimeFaces.current().dialog().closeDynamic(intoGrupo);
+                    grupos = contableDAO.getGrupos();
+                    Messages.showInfo("Se ha registrado el grupo");
+                    PrimeFaces.current().executeScript("PF('dialogFormGrupo').hide();");
                 } else {
                     showWarn("Hubo un problema al registrar");
                 }
@@ -251,13 +251,14 @@ public class PlanCuentas implements Serializable {
                 //si no existe, agregarlo en la base de datos
                 if (contableDAO.insertSubGrupo(intoSubgrupo) == 1) {
                     //si lo agrega actualizar la lista
-                    System.out.println("Enviando: " + intoSubgrupo.toString());
-                    PrimeFaces.current().dialog().closeDynamic(intoSubgrupo);
+                    subgrupos = contableDAO.getSubGrupos(codigo);
+                    Messages.showInfo("Se ha registrado el subgrupo");
+                    PrimeFaces.current().executeScript("PF('dialogFormSubGrupo').hide();");
                 } else {
                     showWarn("Hubo un problema al registrar");
                 }
             } else {
-                showWarn("Ya existe el grupo " + intoGrupo.getNombre());
+                showWarn("Ya existe el subgrupo " + intoSubgrupo.getNombre());
             }
         } else {
             showWarn("Campo nombre esta vacío");
@@ -278,8 +279,9 @@ public class PlanCuentas implements Serializable {
                 //si no existe, agregarlo en la base de datos
                 if (contableDAO.insertCuenta(intoCuenta) == 1) {
                     //si lo agrega actualizar la lista
-                    System.out.println("Enviando: " + intoCuenta.toString());
-                    PrimeFaces.current().dialog().closeDynamic(intoCuenta);
+                    cuentas = contableDAO.getCuentas(codigo);
+                    Messages.showInfo("Se ha registrado la cuenta");
+                    PrimeFaces.current().executeScript("PF('dialogFormCuenta').hide();");
                 } else {
                     showWarn("Hubo un problema al registrar");
                 }

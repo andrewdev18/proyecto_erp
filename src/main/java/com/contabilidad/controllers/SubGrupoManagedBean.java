@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import org.primefaces.PrimeFaces;
 import com.primefaces.Messages;
+import javax.faces.view.ViewScoped;
 
 @Named(value = "subGrupoMB")
-@SessionScoped
+@ViewScoped
 public class SubGrupoManagedBean implements Serializable {
 
     private SubGrupoDAO subGrupoDAO;

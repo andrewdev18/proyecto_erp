@@ -106,7 +106,7 @@ public class Conexion {
             System.out.println("ERROR: " + mensaje);
         }
     }
-    
+
     public boolean desconectar() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -256,5 +256,30 @@ public class Conexion {
             System.out.print(exc);
         }
     }
+    //para modulo activos fijos
 
+    public String obtenerValor(String consulta, int indx) {
+        String valor = "";
+        try {
+            if (abrirConexion()) {
+                st = conex.createStatement();
+                lector = st.executeQuery(consulta);
+                if (lector.next()) {
+                    valor = lector.getString(indx);
+                }
+                cerrarConexion();
+                mensaje = "Se insertó correctamente : ";
+                tipoMensaje = FacesMessage.SEVERITY_INFO;
+            }
+        } catch (SQLException exc) {
+            System.out.println(consulta);
+            mensaje = exc.getMessage();
+            tipoMensaje = FacesMessage.SEVERITY_FATAL;
+            System.out.println(mensaje);
+
+        } finally {
+            cerrarConexion();
+        }
+        return valor;
+    }
 }
