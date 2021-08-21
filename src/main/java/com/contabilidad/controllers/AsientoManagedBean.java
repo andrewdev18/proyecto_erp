@@ -13,13 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 @Named
@@ -29,13 +27,13 @@ public class AsientoManagedBean implements Serializable {
     private List<Asiento> asientos;
     private Asiento currentAsiento;
 
-    private AsientoDAO asientoDAO = new AsientoDAO();
-    private MovimientoDAO movimientoDAO = new MovimientoDAO();
+    private AsientoDAO asientoDAO;
+    private MovimientoDAO movimientoDAO;
+    private DiarioDAO diarioAccess;
 
     private Date fechaCreacion;
     private Date fechaCierre;
     private List<SubCuenta> subCuentas = new ArrayList<>();
-    private DiarioDAO diarioAccess = new DiarioDAO();
     private Movimiento selectedMovimiento;
     private double totalDebe;
     private double totalHaber;
@@ -43,6 +41,10 @@ public class AsientoManagedBean implements Serializable {
 
     @PostConstruct
     public void main() {
+        asientoDAO = new AsientoDAO();
+        movimientoDAO = new MovimientoDAO();
+        diarioAccess = new DiarioDAO();
+        
         asientos = new ArrayList<>();
         currentAsiento = new Asiento();
         asientos = asientoDAO.getAsientosContables();
