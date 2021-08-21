@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -27,6 +28,7 @@ import org.primefaces.component.export.PDFOrientationType;
 public class BalanceGeneralManagedBean implements Serializable {
     private List<BalanceGeneral> balanceGeneral;
     private BalanceGeneralDAO balanceGeneralDAO;
+    private Date fecha;
     
     private PDFOptions pdfOpt;
     
@@ -34,6 +36,9 @@ public class BalanceGeneralManagedBean implements Serializable {
     public BalanceGeneralManagedBean() {
         balanceGeneral = new ArrayList<>();
         balanceGeneralDAO = new BalanceGeneralDAO();
+        
+        fecha = new Date();
+        //System.out.println("Fecha actual: " + fecha.);
     }
     
     @PostConstruct
