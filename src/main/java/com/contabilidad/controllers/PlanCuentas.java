@@ -279,11 +279,11 @@ public class PlanCuentas implements Serializable {
                 //si no existe, agregarlo en la base de datos
                 if (contableDAO.insertCuenta(intoCuenta) == 1) {
                     //si lo agrega actualizar la lista
-                    cuentas = contableDAO.getCuentas(codigo);
+                    cuentas = contableDAO.getCuentas(onSeletedSubgrupo.trim());
                     Messages.showInfo("Se ha registrado la cuenta");
                     PrimeFaces.current().executeScript("PF('dialogFormCuenta').hide();");
                 } else {
-                    showWarn("Hubo un problema al registrar");
+                    //showWarn("Hubo un problema al registrar");
                 }
             } else {
                 showWarn("Ya existe el grupo " + intoGrupo.getNombre());
