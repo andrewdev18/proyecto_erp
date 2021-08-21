@@ -11,7 +11,7 @@
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-                <!--                Filtra la información de los abono realizados -->
+<!--                                Filtra la información de los abono realizados -->
                 <f:event type="preRenderView" listener="#{abonoProveedorMB.mostrarAbono()}"/>
                 <h:form id="form">
                     <p:panel >
@@ -214,8 +214,8 @@
                                 </p:dataTable>
                             </p:overlayPanel>
                         </p:outputPanel>
-
-                        <f:facet name="footer">
+<!--
+-->                        <f:facet name="footer">
                             <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
                                              update=":form:proveedortabla" process="pago-content @this"
                                              onclick="PF('managePagoDialog').hide()"
@@ -267,7 +267,7 @@
                                                  value="#{abonoProveedorMB.abonoproveedor.referencia}" />
                                 </div>
                                 <div class="p-field p-col">
-                                    <!-- Datos del Banco -->
+                                     Datos del Banco 
                                     <label for="Banco-edit" >
                                         Banco:</label>
                                     <p:selectOneMenu placeholder="Seleccione" 
