@@ -1,8 +1,8 @@
-
 package com.contabilidad.controllers;
 
 import com.contabilidad.dao.GrupoDAO;
 import com.contabilidad.models.Grupo;
+import com.contabilidad.models.SubGrupo;
 import com.primefaces.Messages;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,26 +15,34 @@ import org.primefaces.PrimeFaces;
 @Named(value = "grupoMB")
 @ViewScoped
 public class GrupoManagedBean implements Serializable {
+
     private GrupoDAO grupoDAO;
+    
     private List<Grupo> listaGrupos;
+    private List<SubGrupo> listSubGrupos;
+    
     private Grupo grupo, grupoActual;
     private String action;
+    private String selectedGrupo;
     private List<Grupo> filteredGrupoList;
-    
+
     public GrupoManagedBean() {
         grupoDAO = new GrupoDAO();
+        
         listaGrupos = new ArrayList<>();
+        listSubGrupos = new ArrayList<>();
+        
         filteredGrupoList = new ArrayList<>();
         grupo = new Grupo();
         grupoActual = new Grupo();
     }
-    
+
     @PostConstruct
     public void init() {
         listaGrupos = grupoDAO.getGrupoCuenta();
         action = "create";
     }
-    
+
     public void create() {
         System.out.println("Create###########");
         System.out.println("Grupo: " + grupo.toString());
@@ -48,12 +56,12 @@ public class GrupoManagedBean implements Serializable {
             Messages.showWarn("Faltan rellenar campos");
         }
     }
-    
+
     public void edit() {
         System.out.println("Actualizar");
         Grupo grupoDB = grupoDAO.getGrupoById(grupo.getId());
         // valida que no este vacio
-        if (!grupo.getNombre().isEmpty()) { 
+        if (!grupo.getNombre().isEmpty()) {
             // se valida que no sea el mismo nombre que ya tiene
             if (!grupo.getNombre().trim().toLowerCase()
                     .equals(grupoDB.getNombre().trim().toLowerCase())) {
@@ -69,7 +77,7 @@ public class GrupoManagedBean implements Serializable {
             Messages.showWarn("Campo nombre vacio");
         }
     }
-    
+
     public void destroy() {
         if (grupoDAO.delete(grupo.getId())) {
             listaGrupos.remove(grupo);
@@ -78,13 +86,13 @@ public class GrupoManagedBean implements Serializable {
             Messages.showError("El Grupo tiene cuentas referenciadas, no se puede eliminar");
         }
     }
-    
+
     public void form(boolean editable) {
         if (!editable) {
             grupo = new Grupo();
             int codigo = grupoDAO.getUltimoCodigo();
             if (codigo > 0) {
-                grupo.setCodigo(""+(codigo + 1));
+                grupo.setCodigo("" + (codigo + 1));
             }
         }
         PrimeFaces.current().executeScript("PF('dialogFormGrupo').show();");
@@ -129,6 +137,12 @@ public class GrupoManagedBean implements Serializable {
     public void setFilteredGrupoList(List<Grupo> filteredGrupoList) {
         this.filteredGrupoList = filteredGrupoList;
     }
-    
-    
+
+    public String getSelectedGrupo() {
+        return selectedGrupo;
+    }
+
+    public void setSelectedGrupo(String selectedGrupo) {
+        this.selectedGrupo = selectedGrupo;
+    }
 }
