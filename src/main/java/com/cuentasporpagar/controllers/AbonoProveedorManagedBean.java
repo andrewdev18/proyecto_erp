@@ -13,11 +13,8 @@ import com.cuentasporpagar.models.TipoPago;
 import com.cuentasporpagar.models.TipoBanco;
 import com.cuentasporpagar.models.Factura;
 import com.cuentasporpagar.models.Proveedor;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -67,9 +64,6 @@ public final class AbonoProveedorManagedBean {
         buscarprovDAO = new BuscarProvDAO();
         listaProveedor = buscarprovDAO.llenar();
         detalleFactura = new ArrayList<>();
-        abonoproveedor.setDetalletipoPago("");
-        abonoproveedor.setDetalletipoBanco("");
-        abonoproveedor.setReferencia("");
     }
 
     //Metodos 
