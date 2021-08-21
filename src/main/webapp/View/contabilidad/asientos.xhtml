@@ -10,11 +10,6 @@
     <body>
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
             <ui:define name="content">
-                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
-                <p:dialog width="0%" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                    <div class="spinner">
-                    </div>
-                </p:dialog>
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true"/>
                     <div class="card">
