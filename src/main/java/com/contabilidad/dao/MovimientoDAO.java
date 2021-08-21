@@ -3,51 +3,42 @@ package com.contabilidad.dao;
 import com.contabilidad.models.Asiento;
 import com.contabilidad.models.Movimiento;
 import com.global.config.Conexion;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovimientoDAO {
 
     private Conexion conexion = new Conexion();
-    private Connection connection;
-    private Statement statement;
     private ResultSet resultSet;
-
-    public MovimientoDAO() {
-        conexion.conectar();
-    }
 
     //Obtener lista de movimientos en base al codigo del asiento contable
     public List<Movimiento> getMovimientoByAsiento(int idAsiento) {
         List<Movimiento> movimientos = new ArrayList<>();
         String sql = String.format("select * from getMovimientos('%1$d');", idAsiento);
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 movimientos.add(new Movimiento(resultSet.getInt("idMovimiento"), resultSet.getString("detalle"),
                         resultSet.getDouble("debe"), resultSet.getDouble("haber"), resultSet.getInt("idAsient"),
                         resultSet.getInt("idSubcuenta")));
             }
-            return movimientos;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ArrayList<>();
+        } finally {
+            conexion.desconectar();
         }
+        return movimientos;
     }
 
     public List<Movimiento> getAllMovimientos() {
         List<Movimiento> movimientos = new ArrayList<>();
         String sql = String.format("select * from movimiento;");
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 movimientos.add(new Movimiento(resultSet.getInt("idMovimiento"), resultSet.getString("detalle"),
@@ -58,16 +49,17 @@ public class MovimientoDAO {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ArrayList<>();
+        }finally {
+            conexion.desconectar();
         }
     }
 
     public int setMovimientoDefault() {
-        String queryOne = "select idAsiento from public.asiento order by idAsiento desc limit 1;";
+        String sql = "select idAsiento from public.asiento order by idAsiento desc limit 1;";
         Asiento asientoRef = new Asiento();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(queryOne);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 asientoRef.setIdAsiento(resultSet.getInt("idAsiento"));
@@ -77,6 +69,8 @@ public class MovimientoDAO {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return -1;
+        }finally {
+            conexion.desconectar();
         }
     }
 
@@ -94,12 +88,13 @@ public class MovimientoDAO {
                     movimiento.getTipoMovimiento(), movimiento.getIdMovimiento(), idAsiento);
         }
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             resultSet.next();
         } catch (Exception e) {
             System.out.println("Error Previsto: " + e.getMessage());
+        }finally {
+            conexion.desconectar();
         }
     }
 }

@@ -13,13 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 @Named
@@ -29,13 +27,13 @@ public class AsientoManagedBean implements Serializable {
     private List<Asiento> asientos;
     private Asiento currentAsiento;
 
-    private AsientoDAO asientoDAO = new AsientoDAO();
-    private MovimientoDAO movimientoDAO = new MovimientoDAO();
+    private AsientoDAO asientoDAO;
+    private MovimientoDAO movimientoDAO;
+    private DiarioDAO diarioAccess;
 
     private Date fechaCreacion;
     private Date fechaCierre;
     private List<SubCuenta> subCuentas = new ArrayList<>();
-    private DiarioDAO diarioAccess = new DiarioDAO();
     private Movimiento selectedMovimiento;
     private double totalDebe;
     private double totalHaber;
@@ -43,10 +41,15 @@ public class AsientoManagedBean implements Serializable {
 
     @PostConstruct
     public void main() {
+        asientoDAO = new AsientoDAO();
+        movimientoDAO = new MovimientoDAO();
+        diarioAccess = new DiarioDAO();
+        
         asientos = new ArrayList<>();
         currentAsiento = new Asiento();
         asientos = asientoDAO.getAsientosContables();
-        asientos.forEach(m -> m.setMovimientos(movimientoDAO.getMovimientoByAsiento(m.getIdAsiento())));
+        List<Movimiento> movimientos = movimientoDAO.getAllMovimientos();
+        asientos.forEach(a -> orderMovimientoByAsiento(a, movimientos));
         subCuentas = asientoDAO.getCuentasContables();
         diarios = diarioAccess.getDiariosContables();
     }
@@ -54,6 +57,16 @@ public class AsientoManagedBean implements Serializable {
     public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(severity, summary, detail));
+    }
+    
+    public void orderMovimientoByAsiento(Asiento asientosContables, List<Movimiento> movimientos){
+        List<Movimiento> movimientoAux = new ArrayList<>();
+        movimientos.forEach(m -> {
+            if(m.getIdAsiento() == asientosContables.getIdAsiento()){
+                movimientoAux.add(m);
+                asientosContables.setMovimientos(movimientoAux);
+            }
+        });
     }
 
     public void setMovimientos() {

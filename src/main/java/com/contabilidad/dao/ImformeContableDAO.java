@@ -11,18 +11,14 @@ import java.util.List;
 public class ImformeContableDAO {
 
     private Conexion conexion = new Conexion();
-    private Connection connection;
-    private Statement statement;
     private ResultSet resultSet;
 
     public List<Libro> getImformeLibroMayor() {
         String sql = String.format("select * from generateLibroMayor();");
-        conexion.conectar();
         List<Libro> libros = new ArrayList<>();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 libros.add(new Libro(resultSet.getString("Codigo"), resultSet.getString("SubCuenta"), resultSet.getString("Fecha"),
@@ -30,18 +26,18 @@ public class ImformeContableDAO {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }finally{ 
+            conexion.desconectar();
         }
         return libros;
     }
 
     public List<Libro> filtrateLibroByDiario(int idiario) {
-        String sql = String.format("select * from fillLibroMayor(%1$d);",idiario);
-        conexion.conectar();
+        String sql = String.format("select * from fillLibroMayor(%1$d);", idiario);
         List<Libro> libros = new ArrayList<>();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 libros.add(new Libro(resultSet.getString("Codigo"), resultSet.getString("SubCuenta"), resultSet.getString("Fecha"),
@@ -49,6 +45,8 @@ public class ImformeContableDAO {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }finally {
+            conexion.desconectar();
         }
         return libros;
     }

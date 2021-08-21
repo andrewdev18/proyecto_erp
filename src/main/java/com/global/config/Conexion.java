@@ -54,7 +54,7 @@ public class Conexion {
                 Class.forName(classForName);
                 conex = DriverManager.getConnection(url, usuario, clave);
                 st = conex.createStatement();
-                System.err.println("Conexion exitosa");
+                System.err.println("Conexion exitosa 1");
                 estado = true;
             }
         } catch (ClassNotFoundException | SQLException exSQL) {
@@ -77,7 +77,7 @@ public class Conexion {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(url, usuario, clave);
                 statement = connection.createStatement();
-                System.out.println("Conexion exitosa");
+                System.out.println("Conexion exitosa 2");
                 return true;
             }
         } catch (SQLException e) {
@@ -132,7 +132,6 @@ public class Conexion {
             mensaje = exc.getMessage();
             tipoMensaje = FacesMessage.SEVERITY_FATAL;
             System.out.println(mensaje);
-            cerrarConexion();
         }
         return lector;
     }

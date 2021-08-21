@@ -1,7 +1,6 @@
 package com.contabilidad.dao;
 
 import com.contabilidad.models.Asiento;
-import com.contabilidad.models.Movimiento;
 import com.contabilidad.models.SubCuenta;
 import com.global.config.Conexion;
 import java.sql.Connection;
@@ -12,10 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AsientoDAO {
-    
+
     private Conexion conexion = new Conexion();
-    private Connection connection;
-    private Statement statement;
     private ResultSet resultSet;
 
     private List<Asiento> asientos = new ArrayList<>();
@@ -24,12 +21,10 @@ public class AsientoDAO {
     //base de datos.
     public List<Asiento> getAsientosContables() {
         String sql = String.format("select * from getAsientosContables();");
-        conexion.conectar();
         asientos = new ArrayList<>();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 asientos.add(new Asiento(resultSet.getInt("idAsiento"), resultSet.getInt("idDiario"), resultSet.getString("documento"),
@@ -38,6 +33,8 @@ public class AsientoDAO {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return asientos;
     }
@@ -45,11 +42,9 @@ public class AsientoDAO {
     public int getCountAsientos() {
         String sql = String.format("select count(numero) from public.asiento");
         int numero = 0;
-        conexion.conectar();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 numero = resultSet.getInt("count");
@@ -57,6 +52,8 @@ public class AsientoDAO {
         } catch (Exception e) {
             numero = -1;
             return numero;
+        }finally {
+            conexion.desconectar();
         }
         return numero;
     }
@@ -66,31 +63,30 @@ public class AsientoDAO {
         Asiento asientoAux = new Asiento();
         String sql = String.format("select * from getAsientoContableById('%1$d');", id);
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.desconectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
-                asientoAux = new Asiento(resultSet.getInt("idasi"),resultSet.getInt("iddiario"), 
-                        resultSet.getString("documento"),resultSet.getString("detalle"), resultSet.getString("estado"), 
+                asientoAux = new Asiento(resultSet.getInt("idasi"), resultSet.getInt("iddiario"),
+                        resultSet.getString("documento"), resultSet.getString("detalle"), resultSet.getString("estado"),
                         resultSet.getDate("fechacreacion"), resultSet.getDate("fechacierre"), resultSet.getString("numero"), resultSet.getString("total"));
             }
-            return asientoAux;
         } catch (Exception e) {
             asientoAux = new Asiento();
             asientoAux.setNumero("ERROR");
             //asientoAux.setObservaciones(e.getMessage());
-            return asientoAux;
+        } finally {
+            conexion.desconectar();
         }
+        return asientoAux;
     }
-    
+
     public SubCuenta getCuentaByID(int idSubCuenta) {
         String sql = String.format("SELECT * FROM public.subcuenta where idsubcuenta = '%1$d';", idSubCuenta);
         SubCuenta subCuentaRef = new SubCuenta();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 subCuentaRef = new SubCuenta(resultSet.getInt("idSubcuenta"), resultSet.getInt("idCuenta"), resultSet.getInt("idImpuesto"),
@@ -98,18 +94,18 @@ public class AsientoDAO {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return subCuentaRef;
     }
 
     public List<SubCuenta> getCuentasContables() {
-        conexion.conectar();
         String sql = "SELECT * FROM public.subcuenta;";
         List<SubCuenta> subCuentas = new ArrayList<>();
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
                 subCuentas.add(new SubCuenta(resultSet.getInt("idSubcuenta"), resultSet.getInt("idCuenta"), resultSet.getInt("idImpuesto"),
@@ -117,6 +113,8 @@ public class AsientoDAO {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return subCuentas;
     }
@@ -128,14 +126,15 @@ public class AsientoDAO {
                 asiento.getNumero(), asiento.getIdDiario(), asiento.getDocumento(), asiento.getDetalle(), dateFormat.format(asiento.getFechaCreacion()),
                 dateFormat.format(asiento.getFechaCierre()), asiento.getEstado(), asiento.getTotal());
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             resultSet.next();
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
+        } finally {
+            conexion.desconectar();
         }
     }
 
@@ -147,14 +146,15 @@ public class AsientoDAO {
                 asiento.getTotal(), asiento.getDocumento(), asiento.getDetalle(), dateFormat.format(asiento.getFechaCreacion()),
                 dateFormat.format(asiento.getFechaCierre()), asiento.getEstado());
         try {
-            connection = conexion.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            conexion.conectar();
+            resultSet = conexion.ejecutarSql(sql);
             resultSet.next();
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
+        } finally {
+            conexion.desconectar();
         }
     }
 
