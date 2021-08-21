@@ -174,17 +174,24 @@
                                             <div  style="display: flex;justify-content: center" class="p-grid">
 
                                                 <h:panelGrid columns="4" class="p-col" >
-                                                    <p:outputLabel value="Descripción: "/>
-                                                    <p:inputText value="#{activosFijosMB.activos.detalle_de_activo}"   />
+                                                    <p:outputLabel for="@next" value="Descripción: "/>
+                                                    <p:inputText value="#{activosFijosMB.activos.detalle_de_activo}" required="true" >
+                                                        <!--                                                        <p:keyFilter mask="alpha"/>-->
+                                                    </p:inputText>
+                                                    <p:outputLabel for="@next" value="Costo Adquisición:" />
+                                                    <p:inputText  type="number" value="#{activosFijosMB.activos.valor_adquisicion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9]/i" />
+                                                    </p:inputText>
 
-                                                    <p:outputLabel value="Costo Adquisición: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activos.valor_adquisicion}" />
+                                                    <p:outputLabel for="@next" value="Tiempo de depreciación en Meses:" />
+                                                    <p:inputText type="number" value="#{activosFijosMB.activodepreciable.depreciacion_meses}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
-                                                    <p:outputLabel value="Tiempo de depreciación en Meses: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activodepreciable.depreciacion_meses}" />
-
-                                                    <p:outputLabel value="Porcentaje de Depreciación: %"/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activodepreciable.porcentaje_depreciacion}"  />
+                                                    <p:outputLabel for="@next" value="Porcentaje de Depreciación: %" />
+                                                    <p:inputText type="number" value="#{activosFijosMB.activodepreciable.porcentaje_depreciacion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9,]/i" />
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Número de Factura: "/>
                                                     <p:inputText   value="#{activosFijosMB.activos.numero_factura}" />
@@ -219,17 +226,23 @@
                                                   id="dialogeditardepreciable">
                                             <div  style="display: flex;justify-content: center">
                                                 <h:panelGrid columns="4"  >
-                                                    <p:outputLabel value="Descripción: "/>
-                                                    <p:inputText  value="#{activosFijosMB.listadepreciable.detalle_de_activo}"  />
+                                                    <p:outputLabel for="@next" value="Descripción: "/>
+                                                    <p:inputText  value="#{activosFijosMB.listadepreciable.detalle_de_activo}" required="true" />
 
-                                                    <p:outputLabel value="Costo Adquisición: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listadepreciable.valor_adquisicion}"  />
+                                                    <p:outputLabel for="@next" value="Costo Adquisición: "/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.listadepreciable.valor_adquisicion}"  required="true">
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Tiempo de depreciación en Meses: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listadepreciable.depreciacion_meses}" />
+                                                    <p:inputText type="number" value="#{activosFijosMB.listadepreciable.depreciacion_meses}" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
-                                                    <p:outputLabel value="Porcentaje de Depreciación: %"/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listadepreciable.porcentaje_depreciacion}"  />
+                                                    <p:outputLabel for="@next" value="Porcentaje de Depreciación: %"/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.listadepreciable.porcentaje_depreciacion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9,]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Número de Factura: "/>
                                                     <p:inputText   value="#{activosFijosMB.listadepreciable.numero_factura}" />
@@ -251,7 +264,7 @@
                                                                          class="ui-button-secondary"/>
                                                         <p:commandButton 
                                                             value="Deshabilitar"
-                                                            action="#{activosFijosMB.setDeshabilitarintangible}"
+                                                            action="#{activosFijosMB.setDeshabilitartangible}" ajax="false"
                                                             icon="pi pi-times"                                            
                                                             styleClass="ui-button-danger"  
                                                             update="formDepreciable formverdeshabilitadodepreciable"
@@ -414,17 +427,19 @@
                                                   id="dialogoingresarNodepreciable">
                                             <div  style="display: flex;justify-content: center">
                                                 <h:panelGrid columns="4"  >
-                                                    <p:outputLabel value="Descripción: "/>
-                                                    <p:inputText value="#{activosFijosMB.activos.detalle_de_activo}"  />
+                                                    <p:outputLabel for="@next" value="Descripción: "/>
+                                                    <p:inputText value="#{activosFijosMB.activos.detalle_de_activo}" required="true" />
 
-                                                    <p:outputLabel value="Costo Adquisición: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activos.valor_adquisicion}"  />
+                                                    <p:outputLabel for="@next" value="Costo Adquisición: "/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.activos.valor_adquisicion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                                     <p:datePicker  value="#{activosFijosMB.activos.fecha_adquisicion}" showIcon="true"/>
 
-                                                    <p:outputLabel value="Plusvalia"/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activoNoDepreciable.plusvalia}"  />                                                            
+                                                    <p:outputLabel for="@next" value="Plusvalia"/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.activoNoDepreciable.plusvalia}" required="true" />                                                            
 
                                                     <p:outputLabel value="N° Factura"/>
                                                     <p:inputText  value="#{activosFijosMB.activos.numero_factura}"  />                                                            
@@ -458,17 +473,19 @@
                                                   id="dialogeditarNoDepreciable">
                                             <div  style="display: flex;justify-content: center">
                                                 <h:panelGrid columns="4"  >
-                                                    <p:outputLabel value="Descripción: "/>
-                                                    <p:inputText value="#{activosFijosMB.listanodepreciable.detalle_de_activo}"  />
+                                                    <p:outputLabel for="@next" value="Descripción: "/>
+                                                    <p:inputText value="#{activosFijosMB.listanodepreciable.detalle_de_activo}" required="true" />
 
-                                                    <p:outputLabel value="Costo Adquisición: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listanodepreciable.valor_adquisicion}"  />
+                                                    <p:outputLabel for="@next" value="Costo Adquisición: "/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.listanodepreciable.valor_adquisicion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                                     <p:datePicker  value="#{activosFijosMB.listanodepreciable.fecha_adquisicion}" showIcon="true"/>
 
-                                                    <p:outputLabel value="Plusvalia"/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listanodepreciable.plusvalia}"  />                                                            
+                                                    <p:outputLabel for="@next" value="Plusvalia"/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.listanodepreciable.plusvalia}" required="true" />                                                            
 
                                                     <p:outputLabel value="N° Factura"/>
                                                     <p:inputText  value="#{activosFijosMB.listanodepreciable.numero_factura}"  />                                                            
@@ -487,7 +504,7 @@
                                                                          class="ui-button-secondary"/>
                                                         <p:commandButton 
                                                             value="Deshabilitar"
-                                                            action="#{activosFijosMB.setDeshabilitarnodepreciable}"
+                                                            action="#{activosFijosMB.setDeshabilitarnodepreciable}" ajax="false"
                                                             icon="pi pi-times"                                            
                                                             styleClass="ui-button-danger"  
                                                             update="fromverNodepreciable formverdeshabilitadonodepreciable"
@@ -630,14 +647,18 @@
                                                   id="dialogingresoAgotable">
                                             <div  style="display: flex;justify-content: center">
                                                 <h:panelGrid columns="4"  >
-                                                    <p:outputLabel value="Descripción: "/>
-                                                    <p:inputText value="#{activosFijosMB.activos.detalle_de_activo}"  />
+                                                    <p:outputLabel for="@next" value="Descripción: "/>
+                                                    <p:inputText  value="#{activosFijosMB.activos.detalle_de_activo}" required="true"  />
 
-                                                    <p:outputLabel value="Costo Adquisición: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activos.valor_adquisicion}" />
+                                                    <p:outputLabel for="@next" value="Costo Adquisición: "/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.activos.valor_adquisicion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Cantidad en Stock: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.activosagotables.stock}" />
+                                                    <p:inputText type="number" value="#{activosFijosMB.activosagotables.stock}" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                                     <p:datePicker   value="#{activosFijosMB.activos.fecha_adquisicion}" showIcon="true"/>                                                         
@@ -671,14 +692,18 @@
                                             <div  style="display: flex;justify-content: center">
 
                                                 <h:panelGrid columns="4"  >
-                                                    <p:outputLabel value="Descripción: "/>
+                                                    <p:outputLabel for="@next" value="Descripción: "/>
                                                     <p:inputText value="#{activosFijosMB.listaragotables.detalle_de_activo}" required="true" />
 
-                                                    <p:outputLabel value="Costo Adquisición: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listaragotables.valor_adquisicion}" required="true" />
+                                                    <p:outputLabel for="@next" value="Costo Adquisición: "/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.listaragotables.valor_adquisicion}" required="true" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Cantidad en Stock: "/>
-                                                    <p:inputText type="number" value="#{activosFijosMB.listaragotables.stock}" required="true"/>
+                                                    <p:inputText type="number" value="#{activosFijosMB.listaragotables.stock}" >
+                                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                                    </p:inputText>
 
                                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                                     <p:datePicker  value="#{activosFijosMB.listaragotables.fecha_adquisicion}" showIcon="true"/>
@@ -704,7 +729,7 @@
                                                                  class="ui-button-secondary"/>
                                                 <p:commandButton 
                                                     value="Deshabilitar"
-                                                    action="#{activosFijosMB.setDeshabilitaragotable}"
+                                                    action="#{activosFijosMB.setDeshabilitaragotable}" ajax="false"
                                                     icon="pi pi-times"                                            
                                                     styleClass="ui-button-danger"  
                                                     update="formagotable formverdeshabilitadoagotable"

@@ -119,7 +119,7 @@ public class ActivosFijosMB implements Serializable {
         this.activosFijos = activos;
     }
 
-    public String setRegistrar() {
+    public void setRegistrar() {
         String data = "";
         TangibleDAO tangibledao = new TangibleDAO();
         try {
@@ -130,10 +130,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+        
     }
 
-    public String setEditar() {
+    public void setEditar() {
         String data = "";
         TangibleDAO tangibledao = new TangibleDAO();
         try {
@@ -145,10 +145,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
 
-    public String setEditar1() {
+    public void setEditar1() {
         String data = "";
         NoDepreciableDAO nodepreciabledao = new NoDepreciableDAO();
         try {
@@ -160,10 +160,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
 
-    public String setEditar2() {
+    public void setEditar2() {
         String data = "";
         AgotableDAO agotablesdao = new AgotableDAO();
         try {
@@ -175,10 +175,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+        
     }
 
-    public String setEliminar() {
+    public void setEliminar() {
         String data = "";
         TangibleDAO tangibledao = new TangibleDAO();
         try {
@@ -190,11 +190,11 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
 
-    public String regresar() {
-        return "activos_fijos/ActivosTangibles.xhtml";
+    public void regresar() {
+       
     }
 
     public void obtenerdatos(ListaDepreciable lista) {
@@ -221,7 +221,7 @@ public class ActivosFijosMB implements Serializable {
 
     }
 
-    public String setRegistrarNoDepreciable() {
+    public void setRegistrarNoDepreciable() {
         String data = "";
         NoDepreciableDAO nodepreciable = new NoDepreciableDAO();
         try {
@@ -232,10 +232,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data + "se ingreso no depreciable");
-        return "activos_fijos/ActivosTangibles.xhtml";
+        
     }
 
-    public String setRegistrarAgotables() {
+    public void  setRegistrarAgotables() {
         String data = "";
         AgotableDAO tangibleDAO = new AgotableDAO();
         try {
@@ -246,12 +246,11 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data + "se ingreso no depreciable");
-        return "activos_fijos/ActivosTangibles.xhtml";
+        
     }
 
-    public String setDeshabilitarintangible() {
+    public void setDeshabilitartangible() {
         String data = "";
-        TangibleDAO tangibleDAO = new TangibleDAO();
         try {
             activodepreciable.setId_activo_fijo(idactivofijo);
             tangibleDAO.deshabilitartangible(listadepreciable);
@@ -261,10 +260,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+        
     }
     
-    public String setDeshabilitarnodepreciable() {
+    public void setDeshabilitarnodepreciable() {
         String data = "";
         NoDepreciableDAO nodepreciabledao = new NoDepreciableDAO();
         try {
@@ -276,9 +275,9 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
-        public String setDeshabilitaragotable() {
+        public void setDeshabilitaragotable() {
         String data = "";
         try {
             activosagotables.setId_activo_fijo(idactivofijo);
@@ -289,11 +288,11 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+        
     }
     
 
-    public String setHabilitarintangible(int id) {
+    public void setHabilitarintangible(int id) {
         String data = "";
 
         try {
@@ -305,9 +304,9 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
-    public String setHabilitarintangibleNoDepreciable(int id) {
+    public void setHabilitarintangibleNoDepreciable(int id) {
         String data = "";
        
         try {
@@ -319,9 +318,9 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
-    public String setHabilitarintangibleAgotables(int id) {
+    public void setHabilitarintangibleAgotables(int id) {
         String data = "";
        
         try {
@@ -333,6 +332,6 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosTangibles.xhtml";
+       
     }
 }

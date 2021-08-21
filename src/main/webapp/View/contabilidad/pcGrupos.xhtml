@@ -7,16 +7,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
-
             <ui:define name="content">
                 <h:form id="form-grupos">
                     <p:growl id="messages" showDetail="true" />
-
                     <p:dialog modal="true" draggable="false" id="dialog-form-grupo"
                               header="Grupo" widgetVar="dialogFormGrupo"
-                              responsive="true" width="60%" closeOnEscape="true">
+                              responsive="true" width="45%" closeOnEscape="true">
 
                         <p:staticMessage rendered="#{grupoMB.action eq 'create'}"
                                          severity="warn" summary="Atención" 

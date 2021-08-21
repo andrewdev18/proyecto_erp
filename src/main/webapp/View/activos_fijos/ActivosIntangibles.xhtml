@@ -11,9 +11,9 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">  
-    
+
     <h:body>
-        
+
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
             <ui:define name="content">
 
@@ -127,10 +127,14 @@ and open the template in the editor.
                             <div  style="display: flex;justify-content: center">
                                 <h:panelGrid columns="4"  >
                                     <p:outputLabel value="Descripción: "/>
-                                    <p:inputText value="#{activosintangilesMB.activosFijos.detalle_de_activo}"  />
+                                    <p:inputText value="#{activosintangilesMB.activosFijos.detalle_de_activo}">
+
+                                    </p:inputText>
 
                                     <p:outputLabel value="Costo Adquisición: "/>
-                                    <p:inputText type="number" value="#{activosintangilesMB.activosFijos.valor_adquisicion}"  />
+                                    <p:inputText type="number" value="#{activosintangilesMB.activosFijos.valor_adquisicion}" required="true">
+                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                    </p:inputText>
 
                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                     <p:datePicker value="#{activosintangilesMB.activosFijos.fecha_adquisicion}"  showIcon="true"/>                                                         
@@ -168,7 +172,9 @@ and open the template in the editor.
                                     <p:inputText value="#{activosintangilesMB.listaintangible.detalle_de_activo}" required="true" />
 
                                     <p:outputLabel value="Costo Adquisición: "/>
-                                    <p:inputText type="number" value="#{activosintangilesMB.listaintangible.valor_adquisicion}" required="true" />
+                                    <p:inputText type="number" value="#{activosintangilesMB.listaintangible.valor_adquisicion}" required="true" >
+                                        <p:keyFilter regEx="/[0-9]/i"/>
+                                    </p:inputText>
 
 
                                     <p:outputLabel value="Fecha de Adquisición:    " />

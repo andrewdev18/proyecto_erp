@@ -20,7 +20,12 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
     </h:head>
     <h:body>
-        <div >
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+        <p:dialog width="0%" widgetVar="statusDialog" modal="true" 
+                  draggable="false" closable="false" resizable="false" showHeader="false">
+            <div class="spinner"></div>
+        </p:dialog>
+        <div>
             <ui:insert name="top">
                 <div class="navbar-principal p-d-flex p-ai-center" >
                     <a href="/proyecto_erp">
@@ -39,18 +44,18 @@
                                     <p:menuitem value="otros item"/>
                                 </p:submenu>
                                 <p:submenu label="Contabilidad">
-                                    <p:menuitem value="Inicio" outcome="/View/contabilidad/home"/>
-                                    <p:menuitem value="Asientos" outcome="/View/contabilidad/asientos"/>
-                                    <p:menuitem value="Diarios" outcome="/View/contabilidad/diarios"></p:menuitem>
+                                    <p:menuitem value="Inicio" action="/View/contabilidad/home"/>
+                                    <p:menuitem value="Asientos" action="/View/contabilidad/asientos"/>
+                                    <p:menuitem value="Diarios" action="/View/contabilidad/diarios"></p:menuitem>
                                     <p:submenu label="Plan de Cuentas">
-                                        <p:menuitem value="Grupos" outcome="/View/contabilidad/pcGrupos"></p:menuitem>
-                                        <p:menuitem value="Subgrupos" outcome="/View/contabilidad/pcSubgrupos"></p:menuitem>
-                                        <p:menuitem value="Cuentas" outcome="/View/contabilidad/pcCuentas"></p:menuitem>
-                                        <p:menuitem value="Subcuentas" outcome="/View/contabilidad/planCuentas" />
+                                        <p:menuitem value="Grupos" action="/View/contabilidad/pcGrupos"></p:menuitem>
+                                        <p:menuitem value="Subgrupos" action="/View/contabilidad/pcSubgrupos"></p:menuitem>
+                                        <p:menuitem value="Cuentas" action="/View/contabilidad/pcCuentas"></p:menuitem>
+                                        <p:menuitem value="Subcuentas" action="/View/contabilidad/planCuentas" />
                                     </p:submenu>
                                     <p:submenu label="Informes">
-                                        <p:menuitem value="Balance General" outcome="/View/contabilidad/balanceGeneral"></p:menuitem>
-                                        <p:menuitem value="Libro Mayor" outcome="/View/contabilidad/libroMayor"></p:menuitem>
+                                        <p:menuitem value="Balance General" action="/View/contabilidad/balanceGeneral"></p:menuitem>
+                                        <p:menuitem value="Libro Mayor" action="/View/contabilidad/libroMayor"></p:menuitem>
                                     </p:submenu>
                                 </p:submenu>
                                 <p:submenu label ="Cuentas por pagar" expanded="true">
@@ -84,7 +89,7 @@
                                                 icon="pi pi-file-o"
                                                 outcome="/View/cuentas_por_pagar/Comprobante"/>
                                 </p:submenu> 
-                                 <p:submenu label ="Activos Fijos" expanded="true">
+                                <p:submenu label ="Activos Fijos" expanded="true">
                                     <p:menuitem value="Tangibles"
                                                 icon="pi pi-file-o"
                                                 outcome="/View/activos_fijos/ActivosTangibles"/>
