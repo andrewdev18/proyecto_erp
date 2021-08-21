@@ -163,6 +163,8 @@ public class Conexion {
             System.out.println("Se ha eliminado el registro");
         } catch (SQLException e) {
             System.out.println("No se ha podido eliminar el registro " + e.getMessage());
+        } finally {
+            desconectar();
         }
         return result;
     }

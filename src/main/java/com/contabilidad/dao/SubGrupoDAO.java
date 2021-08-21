@@ -36,6 +36,8 @@ public class SubGrupoDAO {
         } catch (SQLException ex) {
             System.out.println("Error getSubGrupos: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
     
@@ -47,6 +49,8 @@ public class SubGrupoDAO {
             }
         } catch (SQLException ex) {
             System.out.println("Error getgrupocuenta: " + ex.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return -1;
     }
@@ -59,6 +63,8 @@ public class SubGrupoDAO {
             return result.next();
         } catch (SQLException e) {
             System.out.println("Error insertar Grupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return false;
     }
@@ -73,6 +79,8 @@ public class SubGrupoDAO {
             }
         } catch (SQLException ex) {
             System.out.println("Error getsubgrupobyid: " + ex.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return g;
     }
@@ -87,6 +95,8 @@ public class SubGrupoDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error update SubGrupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return false;
     }

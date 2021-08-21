@@ -10,12 +10,11 @@
 
 .navbar-principal {
     height: 75px;
-    color: #E2EAF6;
     background-color: #445976;
+    color: #E2EAF6;
     margin-bottom: 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    padding-left: 20px;
+    
 }
 
 .contenedor-flex {
@@ -55,18 +54,8 @@ button.ui-button {
 }
 
 .titulo {
-    font-size: 3rem; 
+    font-size: 2rem; 
     color: #333b47;
-}
-
-.navbar-principal {
-    height: 75px;
-    color: #E2EAF6;
-    background-color: #445976;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
 }
 
 .navbar-principal h2 {
@@ -74,17 +63,7 @@ button.ui-button {
     font-weight: bold;
 }
 
-.containerWelcome {
-    position: relative;
-    left: 25%;
-    top: 180px;
-    width: 40%;
-}
 
-.containerWelcome .logo {
-    display: block;
-    margin: 0px auto;
-}
 
 
 

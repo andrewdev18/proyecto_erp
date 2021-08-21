@@ -50,6 +50,8 @@ public class GrupoDAO {
             }
         } catch (SQLException ex) {
             System.out.println("Error getgrupocuenta: " + ex.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return g;
     }
@@ -62,6 +64,8 @@ public class GrupoDAO {
             }
         } catch (SQLException ex) {
             System.out.println("Error getgrupocuenta: " + ex.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return -1;
     }
@@ -75,6 +79,8 @@ public class GrupoDAO {
             return true;
         } catch (SQLException e) {
             System.out.println("Error insertar Grupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return false;
     }
@@ -89,6 +95,8 @@ public class GrupoDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error update Grupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return false;
     }
