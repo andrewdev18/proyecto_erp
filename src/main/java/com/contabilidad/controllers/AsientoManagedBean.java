@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
@@ -44,12 +46,15 @@ public class AsientoManagedBean implements Serializable {
         asientoDAO = new AsientoDAO();
         movimientoDAO = new MovimientoDAO();
         diarioAccess = new DiarioDAO();
-
-        subCuentas = asientoDAO.getCuentasContables();
-        diarios = diarioAccess.getDiariosContables();
-
         asientos = new ArrayList<>();
         currentAsiento = new Asiento();
+        loadElements();
+    }
+
+    @Asynchronous
+    public void loadElements() {
+        subCuentas = asientoDAO.getCuentasContables();
+        diarios = diarioAccess.getDiariosContables();
         asientos = asientoDAO.getAsientosContables();
         List<Movimiento> movimientos = movimientoDAO.getAllMovimientos();
         asientos.forEach(a -> orderMovimientoByAsiento(a, movimientos));
