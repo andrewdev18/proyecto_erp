@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
@@ -44,25 +46,29 @@ public class AsientoManagedBean implements Serializable {
         asientoDAO = new AsientoDAO();
         movimientoDAO = new MovimientoDAO();
         diarioAccess = new DiarioDAO();
-        
         asientos = new ArrayList<>();
         currentAsiento = new Asiento();
+        loadElements();
+    }
+
+    @Asynchronous
+    public void loadElements() {
+        subCuentas = asientoDAO.getCuentasContables();
+        diarios = diarioAccess.getDiariosContables();
         asientos = asientoDAO.getAsientosContables();
         List<Movimiento> movimientos = movimientoDAO.getAllMovimientos();
         asientos.forEach(a -> orderMovimientoByAsiento(a, movimientos));
-        subCuentas = asientoDAO.getCuentasContables();
-        diarios = diarioAccess.getDiariosContables();
     }
 
     public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(severity, summary, detail));
     }
-    
-    public void orderMovimientoByAsiento(Asiento asientosContables, List<Movimiento> movimientos){
+
+    public void orderMovimientoByAsiento(Asiento asientosContables, List<Movimiento> movimientos) {
         List<Movimiento> movimientoAux = new ArrayList<>();
         movimientos.forEach(m -> {
-            if(m.getIdAsiento() == asientosContables.getIdAsiento()){
+            if (m.getIdAsiento() == asientosContables.getIdAsiento()) {
                 movimientoAux.add(m);
                 asientosContables.setMovimientos(movimientoAux);
             }
@@ -133,8 +139,6 @@ public class AsientoManagedBean implements Serializable {
         currentAsiento = new Asiento();
         currentAsiento.setNumero(generateNumeroAsiento());
         currentAsiento.setMovimientos(new ArrayList<>());
-        diarios = diarioAccess.getDiariosContables();
-        subCuentas = asientoDAO.getCuentasContables();
         totalDebe = 0;
         totalHaber = 0;
     }
