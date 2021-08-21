@@ -1,7 +1,7 @@
 # Proyecto ERP
  Unificación de los modulos
  
- ![alt text](https://github.com/[RobertoSuarez]/[proyecto_erp]/blob/[branch]/erpLogo.png?raw=true)
+ ![Logo De la Empresa](https://i.ibb.co/yFxKZBk/erpLogo.png)
  
  ### Requerimientos:
 - Apache Tomcat 9.0.46
