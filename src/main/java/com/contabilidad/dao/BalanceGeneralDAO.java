@@ -13,6 +13,7 @@ public class BalanceGeneralDAO {
     private Conexion conexion;
     private ResultSet result;
     private Gson gson;
+    private String fecha;
 
     public BalanceGeneralDAO() {
         conexion = new Conexion();
@@ -20,7 +21,7 @@ public class BalanceGeneralDAO {
     }
 
     private List<BalanceGeneral> getCalculoGrupo() {
-        String sql = "select getcalculogrupobg()";
+        String sql = "select getcalculogrupobg('"+fecha+"')";
         List<BalanceGeneral> listaCalculosGrupo = new ArrayList<>();
         result = conexion.consultar(sql);
         try {
@@ -39,7 +40,7 @@ public class BalanceGeneralDAO {
     }
 
     private List<BalanceGeneral> getCalculoSubGrupo() {
-        String sql = "select getcalculosubgrupobg()";
+        String sql = "select getcalculosubgrupobg('"+fecha+"')";
         List<BalanceGeneral> listaCalculosSubGrupo = new ArrayList<>();
         result = conexion.consultar(sql);
         try {
@@ -58,7 +59,7 @@ public class BalanceGeneralDAO {
     }
 
     private List<BalanceGeneral> getCalculoCuenta() {
-        String sql = "select getcalculocuentabg()";
+        String sql = "select getcalculocuentabg('"+fecha+"')";
         List<BalanceGeneral> listaCalculosCuenta = new ArrayList<>();
         result = conexion.consultar(sql);
         try {
@@ -77,7 +78,7 @@ public class BalanceGeneralDAO {
     }
 
     private List<BalanceGeneral> getCalculoSubCuenta() {
-        String sql = "select getcalculosubcuentabg()";
+        String sql = "select getcalculosubcuentabg('"+fecha+"')";
         List<BalanceGeneral> listaCalculosSubCuenta = new ArrayList<>();
         result = conexion.consultar(sql);
         try {
@@ -95,7 +96,8 @@ public class BalanceGeneralDAO {
         }
     }
 
-    public List<BalanceGeneral> generateBalanceGeneral() {
+    public List<BalanceGeneral> generateBalanceGeneral(String fecha) {
+        this.fecha = fecha;
         List<BalanceGeneral> balanceGeneral = new ArrayList<>();
         List<BalanceGeneral> calculoGrupo = getCalculoGrupo();
         List<BalanceGeneral> calculoSubGrupo = getCalculoSubGrupo();
@@ -125,8 +127,8 @@ public class BalanceGeneralDAO {
         return balanceGeneral;
     }
     
-    public double sumaPasivoPatrimonio() {
-        String sql = "select sumapasivopatrimonio()";
+    public double sumaPasivoPatrimonio(String fecha) {
+        String sql = "select sumapasivopatrimonio('"+fecha+"')";
         result = conexion.consultar(sql);
         try {
             if (result.next()) {
