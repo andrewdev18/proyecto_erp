@@ -165,7 +165,7 @@ public class Conexion {
         } catch (SQLException e) {
             System.out.println("No se ha podido eliminar el registro " + e.getMessage());
         } finally {
-            cerrarConexion();
+            desconectar();
         }
         return result;
     }

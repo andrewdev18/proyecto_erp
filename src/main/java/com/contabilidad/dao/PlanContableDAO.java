@@ -59,13 +59,12 @@ public class PlanContableDAO {
             while (result.next()) {
                 String cadenaJSON = result.getString("getsubcuentas");
                 CuentaContable cuentaContable = gson.fromJson(cadenaJSON, CuentaContable.class);
-                System.out.println(cuentaContable.toString());
                 cuentasContables.add(cuentaContable);
             }
         } catch (SQLException ex) {
             System.out.println("Hubo un problema en getAllClientes: " + ex.getMessage());
         } finally {
-            conexion.cerrarConexion();
+            conexion.desconectar();
         }
         return cuentasContables;
     }
@@ -85,7 +84,7 @@ public class PlanContableDAO {
         } catch (SQLException ex) {
             System.out.println("Hubo un problema en getAllClientes: " + ex.getMessage());
         } finally {
-            conexion.cerrarConexion();
+            conexion.desconectar();
         }
         return grupos;
     }
@@ -105,7 +104,7 @@ public class PlanContableDAO {
         } catch (SQLException ex) {
             System.out.println("Hubo un problema en getAllClientes: " + ex.getMessage());
         } finally {
-            conexion.cerrarConexion();
+            conexion.desconectar();
         }
         return subgrupos;
     }
@@ -126,7 +125,7 @@ public class PlanContableDAO {
         } catch (SQLException ex) {
             System.out.println("Hubo un problema en getAllClientes: " + ex.getMessage());
         } finally {
-            conexion.cerrarConexion();
+            conexion.desconectar();
         }
         return cuentas;
     }
@@ -142,7 +141,7 @@ public class PlanContableDAO {
         } catch (SQLException ex) {
             System.out.println("Hubo un problema en getAllClientes: " + ex.getMessage());
         } finally {
-            conexion.cerrarConexion();
+            conexion.desconectar();
         }
         return count;
     }
@@ -151,10 +150,12 @@ public class PlanContableDAO {
         try {
             String sql = String.format("select insertsubcuenta('%1$d', '%2$s', '%3$s', '%4$s')",
                     subcuenta.getCuenta(), subcuenta.getCodigo(), subcuenta.getNombre(), subcuenta.getTipo());
-            conexion.ejecutar(sql);
+            conexion.ejecutarSql(sql);
             return 1;
         } catch (Exception e) {
             System.out.println("Error al isert subcuenta: " + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return -1;
     }
@@ -168,6 +169,8 @@ public class PlanContableDAO {
             return 1;
         } catch (SQLException e) {
             System.out.println("Error insertar Grupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return -1;
     }
@@ -179,8 +182,10 @@ public class PlanContableDAO {
             result = conexion.ejecutarSql(sql);
             result.next();
             return 1;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error insertar Subgrupo: " + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return -1;
     }
@@ -192,8 +197,10 @@ public class PlanContableDAO {
             result = conexion.ejecutarSql(sql);
             result.next();
             return 1;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error insertar Subgrupo: " + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return -1;
     }
@@ -203,11 +210,11 @@ public class PlanContableDAO {
             String obj = gson.toJson(subCuenta);
             String sql = String.format("select updatesubcuenta('%1$s')", obj);
             result = conexion.ejecutarSql(sql);
-            if (result.next()) {
-                return true;
-            }
+            return result.next();
         } catch (SQLException e) {
             System.out.println("Error update SubGrupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return false;
     }

@@ -1,15 +1,12 @@
 package com.contabilidad.dao;
 
 import com.contabilidad.models.BalanceGeneral;
-import com.contabilidad.models.Grupo;
 import com.global.config.Conexion;
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BalanceGeneralDAO {
 
@@ -36,6 +33,8 @@ public class BalanceGeneralDAO {
         } catch (SQLException ex) {
             System.out.println("Error getCalculoGrupo: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
 
@@ -53,6 +52,8 @@ public class BalanceGeneralDAO {
         } catch (SQLException ex) {
             System.out.println("Error getCalculoGrupo: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
 
@@ -70,6 +71,8 @@ public class BalanceGeneralDAO {
         } catch (SQLException ex) {
             System.out.println("Error getcalculocuentabg: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
 
@@ -87,23 +90,29 @@ public class BalanceGeneralDAO {
         } catch (SQLException ex) {
             System.out.println("Error getcalculosubcuentabg: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
 
     public List<BalanceGeneral> generateBalanceGeneral() {
         List<BalanceGeneral> balanceGeneral = new ArrayList<>();
-
-        getCalculoGrupo().forEach(g -> {
+        List<BalanceGeneral> calculoGrupo = getCalculoGrupo();
+        List<BalanceGeneral> calculoSubGrupo = getCalculoSubGrupo();
+        List<BalanceGeneral> calculoCuenta = getCalculoCuenta();
+        List<BalanceGeneral> calculoSubCuenta = getCalculoSubCuenta();
+        
+        calculoGrupo.forEach(g -> {
             balanceGeneral.add(g);
-            getCalculoSubGrupo().forEach(sg -> {
+            calculoSubGrupo.forEach(sg -> {
                 if (sg.getParent() == g.getId()) {
                     balanceGeneral.add(sg);
 
-                    getCalculoCuenta().forEach(c -> {
+                    calculoCuenta.forEach(c -> {
                         if (c.getParent() == sg.getId()) {
                             balanceGeneral.add(c);
 
-                            getCalculoSubCuenta().forEach(sc -> {
+                            calculoSubCuenta.forEach(sc -> {
                                 if (sc.getParent() == c.getId()) {
                                     balanceGeneral.add(sc);
                                 }
@@ -113,7 +122,6 @@ public class BalanceGeneralDAO {
                 }
             });
         });
-        
         return balanceGeneral;
     }
     
@@ -126,6 +134,8 @@ public class BalanceGeneralDAO {
             }
         } catch (SQLException ex) {
             System.out.println("Error sumapasivopatrimonio: " + ex.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return 0;
     }

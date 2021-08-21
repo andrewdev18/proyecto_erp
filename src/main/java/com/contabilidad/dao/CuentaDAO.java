@@ -36,6 +36,8 @@ public class CuentaDAO {
         } catch (SQLException ex) {
             System.out.println("Error getCuentas: " + ex.getMessage());
             return null;
+        } finally {
+            conexion.desconectar();
         }
     }
 
@@ -50,6 +52,8 @@ public class CuentaDAO {
             }
         } catch (SQLException ex) {
             System.out.println("Error getcuenta: " + ex.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return cuenta;
     }
@@ -59,23 +63,25 @@ public class CuentaDAO {
             String sql = String.format("select insertcuenta('%1$d', '%2$s', '%3$s')",
                     cuenta.getIdsubgrupo(), cuenta.getCodigo(), cuenta.getNombre());
             result = conexion.ejecutarSql(sql);
-            result.next();
-            return true;
-        } catch (Exception e) {
+            return result.next();
+        } catch (SQLException e) {
             System.out.println("Error insertar Cuenta: " + e.getMessage());
-            return false;
+        } finally {
+            conexion.desconectar();
         }
+        return false;
     }
 
     public boolean update(Cuenta cuenta) {
         try {
-            String sql = String.format("select updateCuenta('%1$d','%2$s')", cuenta.getIdcuenta(), cuenta.getNombre());
+            String sql = String.format("select updateCuenta('%1$d','%2$s')", 
+                    cuenta.getIdcuenta(), cuenta.getNombre());
             result = conexion.ejecutarSql(sql);
-            if (result.next()) {
-                return true;
-            }
+            return result.next();
         } catch (SQLException e) {
             System.out.println("Error update Grupo" + e.getMessage());
+        } finally {
+            conexion.desconectar();
         }
         return false;
     }
