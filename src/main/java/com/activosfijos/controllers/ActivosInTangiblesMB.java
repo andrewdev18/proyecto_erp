@@ -62,7 +62,7 @@ public class ActivosInTangiblesMB implements Serializable {
         this.listaintangible = listaintangible;
     }
 
-    public String setRegistrar3() {
+    public void setRegistrar3() {
         String data = "";
         IntangibleDAO intangibledao = new IntangibleDAO();
         try {
@@ -73,7 +73,7 @@ public class ActivosInTangiblesMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosIntangibles.xhtml";
+        
     }
 
     public void obtenerdatosIntangibles(ListarIntangible listaIntan) {
@@ -83,7 +83,7 @@ public class ActivosInTangiblesMB implements Serializable {
         System.out.println("Id obtenido de empresa: " + listaIntan.getId_empresa());
 
     }
-    public String setEditar3() {
+    public void setEditar3() {
         String data = "";
         try {
             activoingantible.setId_activo_fijo(idactivofijo);
@@ -94,9 +94,9 @@ public class ActivosInTangiblesMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosIntangibles.xhtml";
+        
     }
-    public String setDeshabilitarintangible() {
+    public void setDeshabilitarintangible() {
         String data = "";
         IntangibleDAO intangibledao = new IntangibleDAO();
         try {
@@ -108,9 +108,9 @@ public class ActivosInTangiblesMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosIntangibles.xhtml";
+       
     }
-    public String setHabilitarintangible(int id) {
+    public void setHabilitarintangible(int id) {
         String data = "";
         try {
             activoingantible.setId_activo_fijo(id);
@@ -121,6 +121,6 @@ public class ActivosInTangiblesMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "activos_fijos/ActivosIntangibles.xhtml";
+        
     }
 }
