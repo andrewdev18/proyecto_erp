@@ -83,7 +83,19 @@
                                     <p:menuitem value="Compro. Retención"
                                                 icon="pi pi-file-o"
                                                 outcome="/View/cuentas_por_pagar/Comprobante"/>
-                                </p:submenu>                                      
+                                </p:submenu> 
+                                 <p:submenu label ="Activos Fijos" expanded="true">
+                                    <p:menuitem value="Tangibles"
+                                                icon="pi pi-file-o"
+                                                outcome="/View/activos_fijos/ActivosTangibles"/>
+                                    <p:menuitem value="Intangibles"
+                                                icon="pi pi-file-o"
+                                                outcome="/View/activos_fijos/ActivosIntangibles"/>
+                                    <p:menuitem value="Reporte de Periodos"
+                                                icon="pi pi-file-pdf"
+                                                outcome="/View/activos_fijos/Periodos"/>
+
+                                </p:submenu>    
                             </p:panelMenu>
                         </h:form>
                     </ui:insert>
