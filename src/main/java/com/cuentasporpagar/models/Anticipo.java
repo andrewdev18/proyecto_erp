@@ -20,6 +20,12 @@ public class Anticipo {
     private Proveedor proveedor;
 
     public Anticipo() {
+        this.id_anticipo = "";
+        this.importe = 0.0;
+        this.fecha = new Date();
+        this.descripcion = "";
+        this.id_proveedor = 0;
+        this.proveedor = new Proveedor();
     }
 
     public String getId_anticipo() {

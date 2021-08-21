@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class AnticipoDAO {
     // El metodo getAllJson(), trae todos los anticipos con su proveedor,
     // toda esta información es traida en formato json, la cual se deserializa
     // con la biblioteca Gson de google.
-    public static List<Anticipo> getAllJson() {
+    public static List<Anticipo> getAllJson() throws SQLException {
         String datos = null;
         Conexion conn = new Conexion();
         String query = "select select_all_anticipo_width_proveedor() as _anticipo;";
@@ -77,10 +78,12 @@ public class AnticipoDAO {
                 datos = rs.getString("_anticipo");
             }
 
-            conn.conex.close();
+            
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            conn.conex.close();
         }
 
         // Contenedor de los datos.
