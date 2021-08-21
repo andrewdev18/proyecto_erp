@@ -73,7 +73,7 @@ public class ActivosInTangiblesMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "ActivosIntangibles.xhtml";
+        return "activos_fijos/ActivosIntangibles.xhtml";
     }
 
     public void obtenerdatosIntangibles(ListarIntangible listaIntan) {
@@ -88,13 +88,13 @@ public class ActivosInTangiblesMB implements Serializable {
         try {
             activoingantible.setId_activo_fijo(idactivofijo);
             intangibledao.editar2(listaintangible);
-            System.out.println("Actualizado correctamente");
+            System.out.println("activos_fijos/Actualizado correctamente");
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "ActivosIntangibles.xhtml";
+        return "activos_fijos/ActivosIntangibles.xhtml";
     }
     public String setDeshabilitarintangible() {
         String data = "";
@@ -102,25 +102,25 @@ public class ActivosInTangiblesMB implements Serializable {
         try {
             activoingantible.setId_activo_fijo(idactivofijo);
             intangibledao.deshabilitarintangible(listaintangible);
-            System.out.println("Actualizado correctamente");
+            System.out.println("activos_fijos/Actualizado correctamente");
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "ActivosIntangibles.xhtml";
+        return "activos_fijos/ActivosIntangibles.xhtml";
     }
     public String setHabilitarintangible(int id) {
         String data = "";
         try {
             activoingantible.setId_activo_fijo(id);
             intangibledao.habilitarintangible(activoingantible);
-            System.out.println("Actualizado correctamente");
+            System.out.println("activos_fijos/Actualizado correctamente");
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        return "ActivosIntangibles.xhtml";
+        return "activos_fijos/ActivosIntangibles.xhtml";
     }
 }
