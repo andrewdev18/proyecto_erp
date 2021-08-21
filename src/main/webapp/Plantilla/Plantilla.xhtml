@@ -40,9 +40,6 @@
                     <ui:insert name="left"> 
                         <h:form>
                             <p:panelMenu stateful="true">
-                                <p:submenu label="otro">
-                                    <p:menuitem value="otros item"/>
-                                </p:submenu>
                                 <p:submenu label="Contabilidad">
                                     <p:menuitem value="Inicio" action="/View/contabilidad/home"/>
                                     <p:menuitem value="Asientos" action="/View/contabilidad/asientos"/>
@@ -85,9 +82,7 @@
                                     <p:menuitem value="Anticipos"
                                                 icon="pi pi-file-o"
                                                 outcome="/View/cuentas_por_pagar/Anticipo"/>
-                                    <p:menuitem value="Compro. Retención"
-                                                icon="pi pi-file-o"
-                                                outcome="/View/cuentas_por_pagar/Comprobante"/>
+                                    
                                 </p:submenu> 
                                 <p:submenu label ="Activos Fijos" expanded="true">
                                     <p:menuitem value="Tangibles"
