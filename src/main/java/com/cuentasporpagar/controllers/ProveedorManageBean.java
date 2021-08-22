@@ -12,6 +12,7 @@ import javax.faces.view.ViewScoped;
 import com.cuentasporpagar.models.Proveedor;
 import com.cuentasporpagar.daos.ProveedorDAO;
 import com.cuentasporpagar.models.Condiciones;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,15 +33,6 @@ public class ProveedorManageBean implements Serializable {
      private Condiciones condiciones;
      private ProveedorDAO proveedorDAO;
      private CondicionesDAO condicionesDAO;
-     private Proveedor p;
-
-     public Proveedor getP() {
-          return p;
-     }
-
-     public void setP(Proveedor p) {
-          this.p = p;
-     }
 
      public Condiciones getCondiciones() {
           return condiciones;
@@ -69,8 +61,7 @@ public class ProveedorManageBean implements Serializable {
           condicionesDAO = new CondicionesDAO();
           listaProveedor = new ArrayList<>();
           proveedorDAO = new ProveedorDAO();
-          proveedor= new Proveedor();
-          p=new Proveedor();
+          proveedor = new Proveedor();
      }
 
      public List<Proveedor> getProveedores() {
@@ -103,6 +94,7 @@ public class ProveedorManageBean implements Serializable {
      }
 
      public void cargarEditar(Proveedor p, Condiciones c) {
+          //proveedores datos
           this.proveedor.setIdProveedor(p.getIdProveedor());
           this.proveedor.setCodigo(p.getCodigo());
           this.proveedor.setNombre(p.getNombre());
@@ -114,7 +106,7 @@ public class ProveedorManageBean implements Serializable {
           this.proveedor.setTelefono(p.getTelefono());
           this.proveedor.setEmail(p.getEmail());
           this.proveedor.setEstado(p.isEstado());
-          //condiciones 
+          //condiciones datos
           this.condiciones.setCantDiasVencidos(c.getCantDiasVencidos());
           this.condiciones.setDescuento(c.getDescuento());
           this.condiciones.setDiasNeto(c.getDiasNeto());
@@ -128,14 +120,14 @@ public class ProveedorManageBean implements Serializable {
                System.out.println("ENTRANDO A  EDITAR PROVEEDOR: ");
                this.proveedorDAO.update(proveedor, this.proveedor.getCodigo());
                System.out.println("SALIENDO PROVEEDOR: ");
-                this.condiciones.setProveedor(this.proveedor);
-                this.condicionesDAO.updateCondiciones(condiciones);
+               this.condiciones.setProveedor(this.proveedor);
+               this.condicionesDAO.updateCondiciones(condiciones);
+               FacesContext.getCurrentInstance().
+                       addMessage(null, new FacesMessage("Proveedor Guardado"));
 
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor Guardado"));
-
-          } catch (Exception e) {
-               System.out.println("ERROR DAO EDITAR PROVEEDOR: " + e);
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+          } catch (SQLException e) {
+               FacesContext.getCurrentInstance().
+                       addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
 
           }
           PrimeFaces.current().executeScript("PF('manageProductDialogEdit').hide()");
@@ -145,20 +137,13 @@ public class ProveedorManageBean implements Serializable {
 
      public void insertar() {
           try {
-               System.out.println("INSERTADO  PROVEEDOR");
-               System.out.println(proveedor.getCodigo()); 
-               System.out.println(this.proveedor.getCodigo());
                this.proveedorDAO.insertarp(proveedor);
-               System.out.println("INSERTADO  CONDICIONES");
                condicionesDAO.insertarCondiciones(condiciones);
-               
-
-               System.out.print("termina metodo DAO insertar condiciones");
                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proveedor agg"));
 
           } catch (Exception e) {
-               System.out.println("ERROR DAO PROVEEDOR: " + e);
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
+               FacesContext.getCurrentInstance().
+                       addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Error al guardar"));
 
           }
           PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
@@ -219,11 +204,12 @@ public class ProveedorManageBean implements Serializable {
      public void setCod(String cod) {
           this.cod = cod;
      }
-     public void aleatorioCod(){
-          String uuid = java.util.UUID.randomUUID().toString().substring(4,7).toUpperCase();
-          String uuid2 = java.util.UUID.randomUUID().toString().substring(4,7);
-         this.proveedor.setCodigo("ERP-"+uuid+uuid2);
-         
+
+     public void aleatorioCod() {
+          String uuid = java.util.UUID.randomUUID().toString().substring(4, 7).toUpperCase();
+          String uuid2 = java.util.UUID.randomUUID().toString().substring(4, 7);
+          this.proveedor.setCodigo("ERP-" + uuid + uuid2);
+
      }
 
      //Metodos primeFaces

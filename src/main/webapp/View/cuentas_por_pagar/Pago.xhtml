@@ -193,7 +193,7 @@
                             <p:overlayPanel for="name" dynamic="true" 
                                             style="width:600px" widgetVar="moviePicker">
                                 <p:dataTable var="proveedor" value="#{abonoProveedorMB.listaProveedor}" 
-                                             rows="5" paginator="true" selectionMode="single"
+                                             rows="3" paginator="true" selectionMode="single"
                                              selection="#{abonoProveedorMB.proveedor}" rowKey="#{proveedor.nombre}">
                                     <p:ajax event="rowSelect" listener="#{abonoProveedorMB.onRowSelectf}" 
                                             oncomplete="PF('moviePicker').hide()" update=":form:pago-content,:form:ruc"
