@@ -5,6 +5,7 @@
  */
 package com.cuentasporpagar.controllers;
 
+import com.cuentasporpagar.daos.AutorizarPagoDAO;
 import com.cuentasporpagar.daos.FacturaDAO;
 import com.cuentasporpagar.models.Factura;
 import java.io.Serializable;
@@ -28,7 +29,8 @@ public class AutorizarPagoManagedBean implements Serializable {
 
     private FacturaDAO facturaDAO;
     private Factura factura;
-    private List<Factura> listaFactura;
+    private List<Factura> listaDatos;
+    private AutorizarPagoDAO AutorizarDao;
     private boolean check;
 
     /**
@@ -37,13 +39,27 @@ public class AutorizarPagoManagedBean implements Serializable {
     public AutorizarPagoManagedBean() {
         facturaDAO = new FacturaDAO();
         factura = new Factura();
-        listaFactura = new ArrayList<>();
-        listaFactura = facturaDAO.llenar();
+        listaDatos = new ArrayList<>();
+        listaDatos = facturaDAO.llenar();
+        
     }
 
     public void mostrar() {
-        listaFactura = facturaDAO.llenar();
-        System.out.println(listaFactura.size() + "holis");
+        listaDatos.clear();
+        listaDatos = facturaDAO.llenar();
+        System.out.println(listaDatos.size() + "holis");
+    }
+
+    public void cargarDatos(Factura factura) {
+        System.out.println("CANTIDAD DETALLE visualizar: " + listaDatos.size());
+        System.out.println(factura.getNfactura());
+        String dato = factura.getNfactura();
+        this.listaDatos.clear();
+        this.listaDatos=AutorizarDao.llenarDatos(factura.getNfactura());
+//
+//        
+//        this.listaDatos = this.AutorizarDao.llenarDetalle(dato);
+//        System.out.println("CANTIDAD DETALLE VIUALIZAR2: " + listaDatos.size());
     }
 
     public void insertarfactura() {
@@ -51,6 +67,14 @@ public class AutorizarPagoManagedBean implements Serializable {
         } catch (Exception e) {
             System.out.println(e + "ERROR DAO");
         }
+    }
+
+    public AutorizarPagoDAO getAutorizarDao() {
+        return AutorizarDao;
+    }
+
+    public void setAutorizarDao(AutorizarPagoDAO AutorizarDao) {
+        this.AutorizarDao = AutorizarDao;
     }
 
     public FacturaDAO getFacturaDAO() {
@@ -69,12 +93,12 @@ public class AutorizarPagoManagedBean implements Serializable {
         this.factura = factura;
     }
 
-    public List<Factura> getListaFactura() {
-        return listaFactura;
+    public List<Factura> getListaDatos() {
+        return listaDatos;
     }
 
-    public void setListaFactura(List<Factura> listaFactura) {
-        this.listaFactura = listaFactura;
+    public void setListaDatos(List<Factura> listaDatos) {
+        this.listaDatos = listaDatos;
     }
 
     public boolean isCheck() {
@@ -88,7 +112,7 @@ public class AutorizarPagoManagedBean implements Serializable {
     public void Registro(String estado) {
         String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
         if (detail == "Pago Autorizado") {
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
