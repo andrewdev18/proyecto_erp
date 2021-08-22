@@ -123,13 +123,14 @@ public final class AbonoProveedorManagedBean {
             abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
             abonoDAO.Insertar(abonoproveedor);
             bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
-            if (!bandera) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Abono proveedor ingresado"));
+            if (bandera) {
+                showInfo("Abono proveedor ingresado");
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en registrar el abono"));
+                showWarn("Error en registrar el abono");
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
+            
+            showWarn("Error el proveedor seleccionado no tiene factura");
         }
     }
     
@@ -159,11 +160,13 @@ public final class AbonoProveedorManagedBean {
         float n2 = pago;
         if (n1 < n2) {
             showWarn("Importe es menor que pagado");
+            System.out.println("Importe es menor que pagado");
             pago = 0;
         } else {
             Factura f = (Factura) event.getObject();
             f.setPagado(pago);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso de pago correctamente"));
+            showInfo("Ingreso de pago correctamente");
+            System.out.println("Ingreso de pago correctamente");
         }
     }
 
