@@ -40,7 +40,7 @@ public class FacturaManagedBean {
         detalleFactura = new ArrayList<>();
         check = true;
         this.listaFactura.clear();
-        this.listaFactura = this.facturaDAO.llenar();
+        this.listaFactura = this.facturaDAO.llenarP("1");
     }
 
     // Getter and Setter

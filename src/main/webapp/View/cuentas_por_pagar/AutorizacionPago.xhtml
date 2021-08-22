@@ -11,11 +11,10 @@
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-                <f:event type="preRenderView" listener="#{autorizarPagorMB.mostrar()}"/>
                 <h:form id="form">
                     <p:growl id="messages" showDetail="true"/>
                     <h1 style="text-align: center; color: black">Autorizar Pagos</h1>
-                    <p:dataTable id="dt-facturas" value="#{autorizarPagorMB.listaDatos}" 
+                    <p:dataTable id="dt-facturas" value="#{autorizarPagorMB.listarDatos}" 
                                  var="factura"  
                                  reflow="true" rows="5" paginator="true"
                                  resizableColumns="true" paginatorPosition="bottom">
@@ -50,9 +49,9 @@
                                              process="@this">
                             </p:commandButton>
                             <p:commandButton class="ui-button-warning rounded-button" 
-                                             icon="pi pi-check-square" 
+                                             icon="pi pi-check-square" update=":form:confirmAut"
                                              styleClass="rounded-button ui-button-secondary ui-button-flat" 
-                                             process="@this"
+                                             process="@this" action="#{autorizarPagorMB.cargarAutor(factura)}"
                                              oncomplete="PF('AutorizarPago').show()">
                             </p:commandButton>
 
@@ -81,10 +80,10 @@
                             </div>
 
                             <div class="p-formgrid p-grid">
-                                    <div class="p-field p-col">
-                                        <p:outputLabel for="descripcion" >Descripción:</p:outputLabel>
-                                        <p:inputText id="descripcion" value="#{autorizarPagorMB.factura.descripcion}"/>
-                                    </div>
+                                <div class="p-field p-col">
+                                    <p:outputLabel for="descripcion" >Descripción:</p:outputLabel>
+                                    <p:inputText id="descripcion" value="#{autorizarPagorMB.factura.descripcion}"/>
+                                </div>
                             </div>
 
 
@@ -101,7 +100,7 @@
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <label for="fecha" >Fecha factura:</label>
-                                        <h:outputText value="#{autorizarPagorMB.factura.fecha}"/>
+                                        <p:inputText value="#{autorizarPagorMB.factura.fecha}"/>
                                     </div>
 
                                     <div class="p-field p-col">
@@ -115,7 +114,7 @@
 
                             <!-- TABLA DE DIALOG 1-->
                             <p:dataTable id="dt-detalle"  
-                                         var="detalle" value="#{autorizarPagorMB.listaDatos}"
+                                         var="detalle" value="#{autorizarPagorMB.detalleDatos}"
                                          editable="true" class="p-mt-3">
                                 <f:facet name="header">
                                     <div class="p-d-flex p-jc-between p-ai-center">
@@ -134,19 +133,20 @@
                             </p:dataTable>
                         </p:outputPanel>
                         <f:facet name="footer">
-                            <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('eyeFactura').hide()"
-                                             class="ui-button-secondary" 
-                                             process="@this"/>
+                            <p:commandButton value="Cerrar" icon="pi pi-times" onclick="PF('eyeFactura').hide()"
+                                             class="ui-button-secondary" process="@this"
+                                             actionListener="#{autorizarPagorMB.reset()}"/>
                         </f:facet>
                     </p:dialog>
 
+                    <p:confirmDialog id="confirmAut" widgetVar="AutorizarPago" showEffect="fade" width="300"
+                                     message="Desea autorizar el pago de la factura ##{autorizarPagorMB.factura.nfactura}?" header="Confirmar" severity="warn">
+                            <p:inputText value="#{autorizarPagorMB.factura.nfactura}" type="hidden"/>
 
-                    <p:confirmDialog widgetVar="AutorizarPago" showEffect="fade" width="300"
-                                     message="Desea autorizar el pago de la factura?" header="Confirm" severity="warn">
-                        <p:commandButton value="Yes" icon="pi pi-check" actionListener="{facturaMB.autorizarPago(factura.nfactura)}"
-                                         process="@this" oncomplete="PF('deleteProductDialog').hide()"/>
-                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                                         onclick="PF('deleteProductDialog').hide()"/>
+                            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{autorizarPagorMB.autorizarPago}"
+                                             process="confirmAut @this" oncomplete="PF('AutorizarPago').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('AutorizarPago').hide()"/>
                     </p:confirmDialog> 
                 </h:form>
             </ui:define>
