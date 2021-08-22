@@ -11,6 +11,7 @@ import com.cuentasporpagar.models.Condiciones;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -59,7 +60,7 @@ public class CondicionesDAO implements Serializable {
                     System.out.println("Sentencia correcta condicionesDAO");
 
                }
-          } catch (Exception e) {
+          } catch (SQLException e) {
                throw e;
 
           } finally {
@@ -86,7 +87,7 @@ public class CondicionesDAO implements Serializable {
                conexion.ejecutar(sentencia);
                System.out.println(sentencia);
 
-          } catch (Exception e) {
+          } catch (SQLException e) {
                throw e;
 
           } finally {
@@ -95,7 +96,7 @@ public class CondicionesDAO implements Serializable {
 
      }
 
-     public void updateCondiciones(Condiciones c) throws Exception {
+      public void updateCondiciones(Condiciones c) throws Exception {
           Proveedor proveedor = new Proveedor();
           try {
                String sentencia = "UPDATE public.condiciones\n"
