@@ -123,7 +123,7 @@ public final class AbonoProveedorManagedBean {
             abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
             abonoDAO.Insertar(abonoproveedor);
             bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
-            if (bandera) {
+            if (!bandera) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Abono proveedor ingresado"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en registrar el abono"));
@@ -155,10 +155,10 @@ public final class AbonoProveedorManagedBean {
     }
 
     public void onRowEdit(RowEditEvent<Factura> event) {
-        float n1 = event.getObject().getImporte();
+        float n1 = event.getObject().getPendiente();
         float n2 = pago;
         if (n1 < n2) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            showWarn("Importe es menor que pagado");
             pago = 0;
         } else {
             Factura f = (Factura) event.getObject();
@@ -169,6 +169,18 @@ public final class AbonoProveedorManagedBean {
 
     public void onRowCancel(RowEditEvent<Factura> event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelada"));
+    }
+    public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(severity, summary, detail));
+    }
+    
+    public void showInfo(String message) {
+        addMessage(FacesMessage.SEVERITY_INFO, "Exito", message);
+    }
+
+    public void showWarn(String message) {
+        addMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", message);
     }
 
     public void reset() {

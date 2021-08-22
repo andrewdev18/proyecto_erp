@@ -174,14 +174,15 @@ public class AbonoProveedor {
         String sentencia = String.format("INSERT INTO abononproveedor( referencia, idasiento, idtipopago, idtipobanco, idproveedor, fecha)\n"
                 + "VALUES ('%1$s',%2$d,(select t.idtipopago FROM public.tipopago t where t.descripcion='%3$s'),(select t.idtipobanco FROM tipobanco t where t.descripcion='%4$s'),"
                 + "(select idproveedor from proveedor pro where pro.codigo ='%5$s'),'%6$s');",
-                 getReferencia(), 1, descripcionPago, descripcionBanco, proveedor, fecha);
+                getReferencia(), 1, descripcionPago, descripcionBanco, proveedor, fecha);
         System.out.print(sentencia);
         return sentencia;
     }
 
     public String BuscarSentenciaFactura(String proveedor) {
-        String sentencia = String.format("Select f.nfactura, f.importe,f.pagado,(f.importe-f.pagado) as pendiente, "
-                + "f.fecha,f.vencimiento\n from factura f "
+        String sentencia = String.format("Select f.nfactura, f.importe,f.pagado,(f.importe-da.pago) as pendiente, \n"
+                + "f.fecha,f.vencimiento from factura f\n"
+                + "inner join detalleabono da on(da.idfactura=f.idfactura)\n"
                 + "where f.idproveedor = (Select p.idproveedor from proveedor p where p.ruc ='%1$s')", proveedor);
         System.out.println(sentencia);
         return sentencia;
