@@ -124,12 +124,13 @@ public final class AbonoProveedorManagedBean {
             abonoDAO.Insertar(abonoproveedor);
             bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
             if (bandera) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Abono proveedor ingresado"));
+                showInfo("Abono proveedor ingresado");
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en registrar el abono"));
+                showWarn("Error en registrar el abono");
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
+            
+            showWarn("Error el proveedor seleccionado no tiene factura");
         }
     }
     
@@ -155,20 +156,34 @@ public final class AbonoProveedorManagedBean {
     }
 
     public void onRowEdit(RowEditEvent<Factura> event) {
-        float n1 = event.getObject().getImporte();
+        float n1 = event.getObject().getPendiente();
         float n2 = pago;
         if (n1 < n2) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            showWarn("Importe es menor que pagado");
+            System.out.println("Importe es menor que pagado");
             pago = 0;
         } else {
             Factura f = (Factura) event.getObject();
             f.setPagado(pago);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso de pago correctamente"));
+            showInfo("Ingreso de pago correctamente");
+            System.out.println("Ingreso de pago correctamente");
         }
     }
 
     public void onRowCancel(RowEditEvent<Factura> event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelada"));
+    }
+    public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(severity, summary, detail));
+    }
+    
+    public void showInfo(String message) {
+        addMessage(FacesMessage.SEVERITY_INFO, "Exito", message);
+    }
+
+    public void showWarn(String message) {
+        addMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", message);
     }
 
     public void reset() {
