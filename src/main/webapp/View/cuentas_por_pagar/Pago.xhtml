@@ -153,8 +153,8 @@
                                                  selection="#{abonoProveedorMB.listaFactura}">
 
                                         <!--Nos ayuda en poder ingresar dato en Pago-->
-                                        <p:ajax event="rowEdit" listener="#{abonoProveedorMB.onRowEdit}" update=":form:table-factura"/>
-                                        <p:ajax event="rowEditCancel" listener="#{abonoProveedorMB.onRowCancel}" update=":form:table-factura"/>
+                                        <p:ajax event="rowEdit" listener="#{abonoProveedorMB.onRowEdit}" update=":form:table-factura,:form:msgs"/>
+                                        <p:ajax event="rowEditCancel" listener="#{abonoProveedorMB.onRowCancel}" update=":form:table-factura,:form:msgs"/>
 
                                         <p:column headerText="Factura No." >
                                             <h:outputText value="#{pagoFactura.nfactura}"/>
