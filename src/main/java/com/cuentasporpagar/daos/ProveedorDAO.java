@@ -56,29 +56,28 @@ public class ProveedorDAO extends Conexion {
                System.out.print(cadena);
                conexion.Ejecutar2(cadena);
 
-          } catch (Exception e) {
+          } catch (SQLException e) {
 
           } finally {
                conexion.cerrarConexion();
           }
      }
 
-     public void update(Proveedor proveedor, String codigo) throws SQLException {
-
+     public void update(Proveedor proveedor, String codigo) throws SQLException {         
           try {
                this.conexion.Conectar();
-               System.out.println("EDITAR METODOPROVEEDOR----------------------------------------------------------------");
                String cadena = "UPDATE public.proveedor\n"
-                       + "	SET  razonsocial= '" + proveedor.getRazonSocial() + "', ruc='" + proveedor.getRuc() + "', "
-                       + "nombre='" + proveedor.getNombre() + "', direccion='" + proveedor.getDireccion() + "', "
-                       + "email='" + proveedor.getEmail() + "', webpage='" + proveedor.getWebPage() + "', "
-                       + "contacto='" + proveedor.getContacto() + "', telefono='" + proveedor.getTelefono() + "',"
-                       + " estado='" + proveedor.isEstado() + "'\n"
-                       + "	WHERE codigo ='" + codigo + "';";
-
+                       + "	SET  razonsocial= '" + proveedor.getRazonSocial() + "',"
+                       + " ruc='" + proveedor.getRuc() + "', "
+                       + "nombre='" + proveedor.getNombre() + "',"
+                       + " direccion='" + proveedor.getDireccion() + "', "
+                       + "email='" + proveedor.getEmail() + "', "
+                       + "webpage='" + proveedor.getWebPage() + "', "
+                       + "contacto='" + proveedor.getContacto() + "',"
+                       + " telefono='" + proveedor.getTelefono() + "',"
+                       + " estado='" + proveedor.isEstado() + "'";
                conexion.ejecutar(cadena);
-
-          } catch (Exception e) {
+          } catch (SQLException e) {
                throw e;
           } finally {
                this.conexion.cerrarConexion();

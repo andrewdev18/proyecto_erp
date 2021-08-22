@@ -57,7 +57,6 @@ public class CondicionesDAO implements Serializable {
                     p.setEstado(result.getBoolean("estado"));
                     c.setProveedor(p);
                     lista.add(c);
-                    System.out.println("Sentencia correcta condicionesDAO");
 
                }
           } catch (SQLException e) {
@@ -95,12 +94,33 @@ public class CondicionesDAO implements Serializable {
           }
 
      }
+     public void updateCondiciones(Condiciones c) throws SQLException{
+           System.out.println("ENTRANDO A EDITAR CONDICIONES");
+          try{
+               this.conexion.Conectar();
+               String cadena = "UPDATE public.condiciones set "
+                       + "descuento = "+c.getDescuento()+", "
+                       + "diasneto = "+c.getDiasNeto()+", "
+                       +"diasdescuento = "+c.getDiasDescuento()+","
+                       + "cantdiasvencidos = "+c.getCantDiasVencidos()+", "
+                       + "descripcion = '"+c.getDescripcion()+"' "
+                       + "WHERE idproveedor = "+c.getProveedor().getIdProveedor()+"";
+               conexion.ejecutar(cadena);
+               System.out.print(cadena);
+          }catch( SQLException e){
+             
+               System.err.print(e);
+          }
+          finally{
+               this.conexion.cerrarConexion();
+          }
+     }
 
-      public void updateCondiciones(Condiciones c) throws Exception {
-          Proveedor proveedor = new Proveedor();
+  /*    public void updateCondiciones(Condiciones c) throws Exception {
+        
           try {
                String sentencia = "UPDATE public.condiciones\n"
-                       + "	SET descuento=?, diasneto=?, diasdescuento=?, cantdiasvencidos=?, descripcion=?\n"
+                       + "	SET descuento =?, diasneto =?, diasdescuento =?, cantdiasvencidos =?, descripcion =?\n"
                        + "	WHERE idproveedor =?;";
                this.conexion.Conectar();
 
@@ -131,6 +151,7 @@ public class CondicionesDAO implements Serializable {
                this.conexion.cerrarConexion();
           }
 
-     }
+     }*/
+     
 
 }
