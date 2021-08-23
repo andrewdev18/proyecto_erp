@@ -24,7 +24,7 @@
                         </p:toolbar>
                         <p:dialog header="Asiento Contable" showEffect="fade" modal="true"
                                   widgetVar="detalleAsiento" responsive="true" width="75%"
-                                  draggable="false" height="450"> 
+                                  draggable="false" height="500"> 
                             <p:outputPanel id="manage-asiento" class="ui-fluid">
                                 <p:outputPanel rendered="#{not empty asientoManagedBean.currentAsiento}">
                                     <div class="row justify-content-around">
@@ -210,9 +210,8 @@
                                      value="#{asientoManagedBean.asientos}" reflow="true" paginator="true"
                                      selection="#{asientoManagedBean.currentAsiento}"
                                      rows="7" rowSelectMode="add" paginatorPosition="bottom" rowKey="#{asiento.numero}" >
-
                             <f:facet name="header">
-                                <div class="products-table-header">
+                                <div class="p-d-flex p-jc-between p-ai-center">
                                     <span style="font-weight: bold; margin-right: 6px;">Asientos Contables</span>
                                     <span class="filter-container ui-input-icon-left">
                                         <i class="pi pi-search"></i>
@@ -225,22 +224,27 @@
                                 <h:outputText value="#{asiento.fechaCreacion}">
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
 
                             <p:column headerText="Numero" sortBy="#{asiento.numero}" filterBy="#{asiento.numero}" filterStyle="display : none">
                                 <h:outputText value="#{asiento.numero}" />
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
 
                             <p:column headerText="Referencia" sortBy="#{asiento.documento}">
                                 <h:outputText value="#{asiento.documento}" />
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
 
                             <p:column headerText="Diario" sortBy="#{asiento.idDiario}">
-                                <h:outputText value="#{asiento.idDiario}" />
+                                <h:outputText value="#{asiento.nombreDiario}" />
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
 
                             <p:column headerText="Total" sortBy="#{asiento.total}">
                                 <h:outputText value="$ #{asiento.total}" />
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
 
                             <p:column headerText="Estado" sortBy="#{asiento.estado}">
@@ -253,6 +257,7 @@
                                 <p:chip rendered="#{asiento.estado eq 'cerrado'}" styleClass="p-mr-2 custom-chip" class="bg-danger">
                                     <h:outputText class="text-light" value="#{asiento.estado}"/>
                                 </p:chip>
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
                             <p:column headerText="Acciones">
                                 <p:commandButton icon="pi pi-pencil" update=":form:manage-asiento"
@@ -261,6 +266,7 @@
                                     <f:setPropertyActionListener value="#{asiento}" target="#{asientoManagedBean.currentAsiento}"/>
                                     <p:resetInput target=":form:manage-asiento"/>
                                 </p:commandButton>
+                                <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
                         </p:dataTable>
                     </div>

@@ -27,9 +27,11 @@ public class AsientoDAO {
             resultSet = conexion.ejecutarSql(sql);
             //Llena la lista de los datos
             while (resultSet.next()) {
-                asientos.add(new Asiento(resultSet.getInt("idAsiento"), resultSet.getInt("idDiario"), resultSet.getString("documento"),
-                        resultSet.getString("detalle"), resultSet.getString("estado"), resultSet.getDate("FechaCreacion"),
-                        resultSet.getDate("FechaCierre"), resultSet.getString("numero"), resultSet.getString("total")));
+                Asiento onAsiento = new Asiento(resultSet.getInt("_idasiento"), resultSet.getInt("_iddiario"), resultSet.getString("_documento"),
+                        resultSet.getString("_detalle"), resultSet.getString("_estado"), resultSet.getDate("_fechacreacion"),
+                        resultSet.getDate("_fechacierre"), resultSet.getString("_numero"), resultSet.getString("_total"));
+                onAsiento.setNombreDiario(resultSet.getString("_nombre"));
+                asientos.add(onAsiento);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

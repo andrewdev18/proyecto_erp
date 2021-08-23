@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
@@ -44,25 +46,27 @@ public class AsientoManagedBean implements Serializable {
         asientoDAO = new AsientoDAO();
         movimientoDAO = new MovimientoDAO();
         diarioAccess = new DiarioDAO();
-        
         asientos = new ArrayList<>();
         currentAsiento = new Asiento();
+        loadElements();
+    }
+
+    @Asynchronous
+    public void loadElements() {
         asientos = asientoDAO.getAsientosContables();
         List<Movimiento> movimientos = movimientoDAO.getAllMovimientos();
         asientos.forEach(a -> orderMovimientoByAsiento(a, movimientos));
-        subCuentas = asientoDAO.getCuentasContables();
-        diarios = diarioAccess.getDiariosContables();
     }
 
     public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(severity, summary, detail));
     }
-    
-    public void orderMovimientoByAsiento(Asiento asientosContables, List<Movimiento> movimientos){
+
+    public void orderMovimientoByAsiento(Asiento asientosContables, List<Movimiento> movimientos) {
         List<Movimiento> movimientoAux = new ArrayList<>();
         movimientos.forEach(m -> {
-            if(m.getIdAsiento() == asientosContables.getIdAsiento()){
+            if (m.getIdAsiento() == asientosContables.getIdAsiento()) {
                 movimientoAux.add(m);
                 asientosContables.setMovimientos(movimientoAux);
             }
@@ -93,10 +97,9 @@ public class AsientoManagedBean implements Serializable {
                     currentAsiento = new Asiento();
                     fechaCreacion = new Date();
                     fechaCierre = new Date();
-                    asientos = asientoDAO.getAsientosContables();
-                    asientos.forEach(m -> m.setMovimientos(movimientoDAO.getMovimientoByAsiento(m.getIdAsiento())));
                     showInfo("Se ha registrado un nuevo Asiento");
                     openNewAsiento();
+                    loadElements();
                 } else {
                     showWarn("Los valores del debe y el haber deben coincidir, y ser diferentes a cero");
                 }
@@ -113,6 +116,7 @@ public class AsientoManagedBean implements Serializable {
                     showInfo("Cambios Realizados Correctamente");
                     closeDialogModal();
                     openNewAsiento();
+                    loadElements();
                 } else {
                     showWarn("No se detectaron cambios");
                 }
@@ -133,8 +137,6 @@ public class AsientoManagedBean implements Serializable {
         currentAsiento = new Asiento();
         currentAsiento.setNumero(generateNumeroAsiento());
         currentAsiento.setMovimientos(new ArrayList<>());
-        diarios = diarioAccess.getDiariosContables();
-        subCuentas = asientoDAO.getCuentasContables();
         totalDebe = 0;
         totalHaber = 0;
     }
@@ -211,6 +213,8 @@ public class AsientoManagedBean implements Serializable {
     public void calculateTotal() {
         updateTotalDebe();
         updateTotalHaber();
+        subCuentas = asientoDAO.getCuentasContables();
+        diarios = diarioAccess.getDiariosContables();
     }
 
     public void closeDialogModal() {
@@ -233,7 +237,10 @@ public class AsientoManagedBean implements Serializable {
     public boolean compareMovimientos(List<Movimiento> movimientos) {
         int counter = 0;
         for (int i = 0; i < movimientos.size(); i++) {
-            if (movimientos.get(i).getIdSubcuenta() == currentAsiento.getMovimientos().get(i).getIdSubcuenta()) {
+            if (movimientos.get(i).getIdSubcuenta() == currentAsiento.getMovimientos().get(i).getIdSubcuenta()
+                    && movimientos.get(i).getDebe() == currentAsiento.getMovimientos().get(i).getDebe()
+                    && movimientos.get(i).getHaber() == currentAsiento.getMovimientos().get(i).getHaber()
+                    && movimientos.get(i).getTipoMovimiento().equals(currentAsiento.getMovimientos().get(i).getTipoMovimiento())) {
                 counter++;
             }
         }

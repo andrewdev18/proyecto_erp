@@ -113,9 +113,16 @@ public class Proveedor {
     public String getNombre() {
         return nombre;
     }
+    public void setNombre(String nombre){
+         this.nombre = nombre;
+    }
 
-    public void setNombre(String nombre) {
+    public String set_Nombre(String nombre) {
         this.nombre = nombre;
+        if (nombre == null) {
+            return "";
+        }
+        return this.nombre;
     }
 
     public String getDireccion() {

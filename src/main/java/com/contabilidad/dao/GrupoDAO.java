@@ -31,6 +31,7 @@ public class GrupoDAO {
                 Grupo g = gson.fromJson(cadenaJSON, Grupo.class);
                 listaGrupo.add(g);
             }
+            
             return listaGrupo;
         } catch (SQLException ex) {
             System.out.println("Error getgrupocuenta: " + ex.getMessage());

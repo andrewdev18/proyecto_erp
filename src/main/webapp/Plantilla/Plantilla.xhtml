@@ -11,6 +11,7 @@
         <h:outputStylesheet name="css/cssLayout.css" />
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/estilo.css"/>
+        <h:outputStylesheet name="css/estilosCuentasxCobrar.css" />
         <h:outputStylesheet name="css/primeflex.min.css" />   
         <h:outputStylesheet name="css/primeflex.min.css.map" />
         <h:outputStylesheet library="css" name="contabilidad.css"></h:outputStylesheet>
@@ -20,11 +21,16 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
     </h:head>
     <h:body>
-        <div >
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+        <p:dialog width="0%" widgetVar="statusDialog" modal="true" 
+                  draggable="false" closable="false" resizable="false" showHeader="false">
+            <div class="spinner"></div>
+        </p:dialog>
+        <div>
             <ui:insert name="top">
                 <div class="navbar-principal p-d-flex p-ai-center" >
                     <a href="/proyecto_erp">
-                        <h:graphicImage name="images/erpLogo.png"  height="60px" class="p-m-3"/>
+                        <h:graphicImage name="images/erpLogo.png"  height="60px" class="p-mr-3"/>
                     </a>
                     <h2>ERP CONTABLE</h2> 
                 </div>
@@ -35,22 +41,19 @@
                     <ui:insert name="left"> 
                         <h:form>
                             <p:panelMenu stateful="true">
-                                <p:submenu label="otro">
-                                    <p:menuitem value="otros item"/>
-                                </p:submenu>
                                 <p:submenu label="Contabilidad">
-                                    <p:menuitem value="Inicio" outcome="/View/contabilidad/home"/>
-                                    <p:menuitem value="Asientos" outcome="/View/contabilidad/asientos"/>
-                                    <p:menuitem value="Diarios" outcome="/View/contabilidad/diarios"></p:menuitem>
+                                    <p:menuitem value="Inicio" action="/View/contabilidad/home"/>
+                                    <p:menuitem value="Asientos" action="/View/contabilidad/asientos"/>
+                                    <p:menuitem value="Diarios" action="/View/contabilidad/diarios"></p:menuitem>
                                     <p:submenu label="Plan de Cuentas">
-                                        <p:menuitem value="Grupos" outcome="/View/contabilidad/pcGrupos"></p:menuitem>
-                                        <p:menuitem value="Subgrupos" outcome="/View/contabilidad/pcSubgrupos"></p:menuitem>
-                                        <p:menuitem value="Cuentas" outcome="/View/contabilidad/pcCuentas"></p:menuitem>
-                                        <p:menuitem value="Subcuentas" outcome="/View/contabilidad/planCuentas" />
+                                        <p:menuitem value="Grupos" action="/View/contabilidad/pcGrupos"></p:menuitem>
+                                        <p:menuitem value="Subgrupos" action="/View/contabilidad/pcSubgrupos"></p:menuitem>
+                                        <p:menuitem value="Cuentas" action="/View/contabilidad/pcCuentas"></p:menuitem>
+                                        <p:menuitem value="Subcuentas" action="/View/contabilidad/planCuentas" />
                                     </p:submenu>
                                     <p:submenu label="Informes">
-                                        <p:menuitem value="Balance General" outcome="/View/contabilidad/balanceGeneral"></p:menuitem>
-                                        <p:menuitem value="Libro Mayor" outcome="/View/contabilidad/libroMayor"></p:menuitem>
+                                        <p:menuitem value="Balance General" action="/View/contabilidad/balanceGeneral"></p:menuitem>
+                                        <p:menuitem value="Libro Mayor" action="/View/contabilidad/libroMayor"></p:menuitem>
                                     </p:submenu>
                                 </p:submenu>
                                 <p:submenu label ="Cuentas por pagar" expanded="true">
@@ -80,11 +83,9 @@
                                     <p:menuitem value="Anticipos"
                                                 icon="pi pi-file-o"
                                                 outcome="/View/cuentas_por_pagar/Anticipo"/>
-                                    <p:menuitem value="Compro. Retención"
-                                                icon="pi pi-file-o"
-                                                outcome="/View/cuentas_por_pagar/Comprobante"/>
+
                                 </p:submenu> 
-                                 <p:submenu label ="Activos Fijos" expanded="true">
+                                <p:submenu label ="Activos Fijos" expanded="true">
                                     <p:menuitem value="Tangibles"
                                                 icon="pi pi-file-o"
                                                 outcome="/View/activos_fijos/ActivosTangibles"/>
@@ -96,6 +97,33 @@
                                                 outcome="/View/activos_fijos/Periodos"/>
 
                                 </p:submenu>    
+                                <p:submenu label ="Cuentas por cobrar" expanded="true">
+                                    <p:menuitem value="Mantenimiento de Clientes"
+                                                icon="pi pi-briefcase"
+                                                outcome="/View/cuentas_por_cobrar/MantenimientoCliente.xhtml"/>
+                                    <p:submenu label="Cobranzas" icon="pi pi-dollar">
+                                        <p:menuitem value="Nuevo Cobro"
+                                                    outcome="/View/cuentas_por_cobrar/NuevoRegistroCobro.xhtml"/>
+                                        <p:menuitem value="Listado Cobro"
+                                                    outcome="/View/cuentas_por_cobrar/ListadoCobros.xhtml"/>
+                                    </p:submenu>
+
+                                    <p:submenu label="Retenciones" icon="pi pi-file">
+                                        <p:menuitem value="Aplicar Retención"
+                                                    outcome="/View/cuentas_por_cobrar/AgregarRetencion.xhtml"/>
+                                    </p:submenu>
+
+                                    <p:submenu label="Reportes" icon="pi pi-book">
+                                        <p:menuitem value="Listado de Clientes con/sin deuda"
+                                                    outcome="/View/cuentas_por_cobrar/ListaClienteConSinDeuda.xhtml"/>
+                                        <p:menuitem value="Estado de Cuenta" 
+                                                    outcome="/View/cuentas_por_cobrar/EstadoDeCuenta.xhtml"/>
+                                        <p:menuitem value="Facturas Pendientes" 
+                                                    outcome="/View/cuentas_por_cobrar/FacturasPendientes.xhtml"/>
+                                        <p:menuitem value="Cartera x Edades de Vencimiento" 
+                                                    outcome="/View/cuentas_por_cobrar/CarteraxEdadesDeVencimiento.xhtml"/>
+                                    </p:submenu>
+                                </p:submenu>
                             </p:panelMenu>
                         </h:form>
                     </ui:insert>
