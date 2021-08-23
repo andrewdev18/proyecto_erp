@@ -30,8 +30,8 @@ public class Clientes_Con_Sin_DeudaController implements Serializable {
     //Declaro mi lista de Clientes con y sin Deudas que van hacer cargadas en el
     //datatable
     List<Clientes_Con_Sin_Deuda> lista_Clientes_con_sin_deudas;
-    List<Clientes_Con_Sin_Deuda> lista_Clientes_Con_Deudas;
-    List<Clientes_Con_Sin_Deuda> lista_Clientes_Sin_Deudas;
+    List<Clientes_Con_Sin_Deuda> lista_Clientes_Con_Deudas;//clientes con deudas
+    List<Clientes_Con_Sin_Deuda> lista_Clientes_Sin_Deudas;//clientes sin deudas
 
     //Procedimiento principal(Se ejecuta una vez se llame al controlador)
     public Clientes_Con_Sin_DeudaController() {

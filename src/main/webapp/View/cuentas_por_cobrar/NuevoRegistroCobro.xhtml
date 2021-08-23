@@ -45,7 +45,8 @@
                                         <br/> <br/>
                                         <p:selectOneMenu id="optionFactura" 
                                                          value="#{abonoController.idFactura}"
-                                                         style="height: 40px; width: 185px !important;">                            
+                                                         style="height: 40px; width: 185px !important;"
+                                                          filter="true" filterMatchMode="startsWith">                            
                                             <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
                                             <f:selectItems value="#{abonoController.listaVenta}"
                                                            itemLabel="#{abonoController.listaVenta}"/>

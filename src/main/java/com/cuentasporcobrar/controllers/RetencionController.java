@@ -90,8 +90,8 @@ public class RetencionController implements Serializable {
     public List<SelectItem> getListaVentas() {
         return listaVenta;
     }
-
     //Fin
+    
     //Metodo que nos carga las facturas de un determinado cliente.
     public void cargarFacturas() {
         try {

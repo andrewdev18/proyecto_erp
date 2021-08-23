@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.cuentasporcobrar.controllers;
 
 import com.cuentasporcobrar.daos.Estado_De_CuentaDAO;
@@ -38,11 +34,17 @@ public class Estado_De_CuentaController implements Serializable {
 
     //Procedimiento principal(Se ejecuta una vez se llame al controlador)
     public Estado_De_CuentaController() {
+        
+        try{
         //Para que se carguen en el data table el estado de cuenta general 
         estado_De_CuentaDAO =new Estado_De_CuentaDAO();
         lista_Estado_De_Cuenta=new ArrayList<>();
         lista_Estado_De_Cuenta=estado_De_CuentaDAO.obtenerTodosLosEstadosCuenta();
         Design();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
     }
     
     public void Design() {

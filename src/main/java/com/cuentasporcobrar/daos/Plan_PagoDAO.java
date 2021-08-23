@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cuentasporcobrar.daos;
 
 import com.cuentasporcobrar.models.Plan_Pago;
@@ -40,46 +35,61 @@ public class Plan_PagoDAO implements Serializable {
 
     //Procedimiento para insertar un nuevo Plan de Pago.
     public int insertarPlanDePago() {
-        /*--Se ubica en el siguiente orden 
+        try {
+            /*--Se ubica en el siguiente orden 
         (idVenta,dias de credito,fecha de credito,
         valor total de la factura,intereses)*/
-        String sentenciaSQL = "Select ingresar_plan_de_pago(" + plan_pago.getIdFactura()
-                + "," + plan_pago.getDiasCredito()
-                + ",'" + plan_pago.getFechaFacturacion()
-                + "'," + plan_pago.getValorTotalFactura() + "," + plan_pago.getIntereses() + ")";
+            String sentenciaSQL = "Select ingresar_plan_de_pago(" + plan_pago.getIdFactura()
+                    + "," + plan_pago.getDiasCredito()
+                    + ",'" + plan_pago.getFechaFacturacion()
+                    + "'," + plan_pago.getValorTotalFactura() + "," + plan_pago.getIntereses() + ")";
 
-        //Verificamos la conexion
-        if (conex.isEstado()) {
+            //Verificamos la conexion
+            if (conex.isEstado()) {
 
-            /*Una vez se asegura que la conexion este correcta.
+                /*Una vez se asegura que la conexion este correcta.
             Se ejecuta la sentencia ingresada.*/
-            return conex.ejecutarProcedimiento(sentenciaSQL);
+                return conex.ejecutarProcedimiento(sentenciaSQL);
 
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
-
+        
+        //@return Caso contrario: Se retorna -1 indicando que la conexión está
+        //en estado Falso
         return -1;
     }
 
-    //Modificar/Actualizar un Plan de pago, retorna 1 o -1 dependiendo 
-    //si la función ejecuta correctamente. Nota: Solo se pueden modificar planes
+    //Modificar/Actualizar un Plan de pago, 
+    //@return retorna 1 o -1 dependiendo si la función ejecuta correctamente.
+    //Nota: Solo se pueden modificar planes
     // de pago que no tengan abonos.
     public int actualizarPlanDePago(int idPlanDePago) {
-        String sentenciaSQL = "Select actualizar_plan_de_pago(" + idPlanDePago + ","
-                + plan_pago.getIdFactura()
-                + "," + plan_pago.getDiasCredito()
-                + ",'" + plan_pago.getFechaFacturacion()
-                + "'," + plan_pago.getValorTotalFactura() + ","
-                + plan_pago.getIntereses() + ")";
+        try {
+            String sentenciaSQL = "Select actualizar_plan_de_pago(" + idPlanDePago + ","
+                    + plan_pago.getIdFactura()
+                    + "," + plan_pago.getDiasCredito()
+                    + ",'" + plan_pago.getFechaFacturacion()
+                    + "'," + plan_pago.getValorTotalFactura() + ","
+                    + plan_pago.getIntereses() + ")";
 
-        //Verificamos la conexion
-        if (conex.isEstado()) {
+            //Verificamos la conexion
+            if (conex.isEstado()) {
 
-            //Una vez se asegura que la conexion este correcta.
-            //Se ejecuta la sentencia ingresada.
-            return conex.ejecutarProcedimiento(sentenciaSQL);
+                //Una vez se asegura que la conexion este correcta.
+                //Se ejecuta la sentencia ingresada.
+                return conex.ejecutarProcedimiento(sentenciaSQL);
 
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
-        //Caso contrario: Se retorna -1 indicando que la conexión está
+        //@return Caso contrario: Se retorna -1 indicando que la conexión está
         //en estado Falso
         return -1;
     }
@@ -98,15 +108,14 @@ public class Plan_PagoDAO implements Serializable {
                 result = conex.ejecutarConsulta(sentencia);
 
                 //Instanciamos la clase AbonoDAO.        
-                AbonoDAO abonoDAO= new AbonoDAO();
-                
+                AbonoDAO abonoDAO = new AbonoDAO();
+
                 //Recorremos la TABLA retornada y la almacenamos en la lista.
                 while (result.next()) {
 
                     //Concatenamos la sucursal, el punto de emision y el numero de la factura
-                    String numFact =abonoDAO.obtenerConcatenacionFactura(result.getInt("id_sucursal_r"),
+                    String numFact = abonoDAO.obtenerConcatenacionFactura(result.getInt("id_sucursal_r"),
                             result.getInt("puntoemision_r"), result.getInt("secuencia_r"));
-                    
 
                     lista_cobros.add(
                             new Plan_Pago(result.getObject("fechacredito_i", LocalDate.class),
@@ -125,7 +134,7 @@ public class Plan_PagoDAO implements Serializable {
                     con valores incorrectos.*/
                 System.out.println(ex.getMessage());
                 lista_cobros.add(
-                        new Plan_Pago(null, -1, null, -1, -1, -1, -1, "", -1,""));
+                        new Plan_Pago(null, -1, null, -1, -1, -1, -1, "", -1, ""));
             } finally {
 
                 conex.cerrarConexion();
@@ -136,4 +145,3 @@ public class Plan_PagoDAO implements Serializable {
     }
 
 }
-

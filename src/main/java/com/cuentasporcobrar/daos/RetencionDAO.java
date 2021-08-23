@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cuentasporcobrar.daos;
 
 import com.cuentasporcobrar.models.Retencion;
@@ -62,53 +57,59 @@ public class RetencionDAO implements Serializable {
         }
         return lista_Retencion;
     }
-    
+
     // Con esta función retornamos todos los id de las ventas/facturas de un
     // Cliente en específico.
     public List<Retencion> obtenerVentas(int idCliente) {
         lista_Retencion = new ArrayList<>();
         if (conex.isEstado()) {
             try {
-                
-                String sentencia ="select*from obtener_idfacturas_de_Cliente("+idCliente+")";
+
+                String sentencia = "select*from obtener_idfacturas_de_Cliente(" + idCliente + ")";
                 result = conex.ejecutarConsulta(sentencia);
-                
+
                 while (result.next()) {
-                    
+
                     lista_Retencion.add(new Retencion(result.getInt("idventa_r"),
-                    result.getInt("id_sucursal_r"),
-                    result.getInt("puntoemision_r"),
-                    result.getInt("secuencia_r")));
-                    
+                            result.getInt("id_sucursal_r"),
+                            result.getInt("puntoemision_r"),
+                            result.getInt("secuencia_r")));
+
                 }
-                
-            }catch (SQLException ex) {
-                lista_Retencion.add(new Retencion(-1,-1,-1,-1));
+
+            } catch (SQLException ex) {
+                lista_Retencion.add(new Retencion(-1, -1, -1, -1));
                 conex.cerrarConexion();
             } finally {
-                
+
                 conex.cerrarConexion();
-                
+
             }
         }
         return lista_Retencion;
     }
-    
+
     //funcion para Insertar una retencion, retorna 1 o -1 dependiendo si la
     //funcion ejecuta correctamente.
-    public int insertarRetencion(int idCliente,int idVenta) {
-        String sentenciaSQL = "Select Ingresar_Retencion(" + idCliente + ","
-                + idVenta + ",'"
-                + retencion.getFechaEmision() + "',"
-                + retencion.getBaseImponible() + ",'"
-                + retencion.getDescImpuesto() + "')";
+    public int insertarRetencion(int idCliente, int idVenta) {
+        try {
+            String sentenciaSQL = "Select Ingresar_Retencion(" + idCliente + ","
+                    + idVenta + ",'"
+                    + retencion.getFechaEmision() + "',"
+                    + retencion.getBaseImponible() + ",'"
+                    + retencion.getDescImpuesto() + "')";
 
-        //Verificamos la conexion
-        if (conex.isEstado()) {
-            //Una vez se asegura que la conexion este correcta.
-            //Se ejecuta la sentencia ingresada.
-            System.out.println(sentenciaSQL);
-            return conex.ejecutarProcedimiento(sentenciaSQL);
+            //Verificamos la conexion
+            if (conex.isEstado()) {
+                //Una vez se asegura que la conexion este correcta.
+                //Se ejecuta la sentencia ingresada.
+                System.out.println(sentenciaSQL);
+                return conex.ejecutarProcedimiento(sentenciaSQL);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
         //Caso contrario: Se retorna -1 indicando que la conexión está
         //en estado Falso
@@ -118,22 +119,29 @@ public class RetencionDAO implements Serializable {
 
     //Modificar/Actualizar una retencion, retorna 1 o -1 dependiendo si la
     //funcion ejecuta correctamente.
-    public int actualizarRetencion(Retencion ret,int idcliente) {
-        String sentenciaSQL = "Select actualizar_retencion(" + idcliente + ","
-                + ret.getIdRetencion() + ",'"
-                + ret.getFechaEmision() + "',"
-                + ret.getBaseImponible() + ",'"
-                + ret.getDescImpuesto() + "')";
-        
-        //Verificamos la conexion
-        if (conex.isEstado()) {
-            
-            //Una vez se asegura que la conexion este correcta.
-            //Se ejecuta la sentencia ingresada.
-            System.out.println("update 1: " + sentenciaSQL);
-            return conex.ejecutarProcedimiento(sentenciaSQL);
-            
+    public int actualizarRetencion(Retencion ret, int idcliente) {
+        try {
+            String sentenciaSQL = "Select actualizar_retencion(" + idcliente + ","
+                    + ret.getIdRetencion() + ",'"
+                    + ret.getFechaEmision() + "',"
+                    + ret.getBaseImponible() + ",'"
+                    + ret.getDescImpuesto() + "')";
+
+            //Verificamos la conexion
+            if (conex.isEstado()) {
+
+                //Una vez se asegura que la conexion este correcta.
+                //Se ejecuta la sentencia ingresada.
+                System.out.println("update 1: " + sentenciaSQL);
+                return conex.ejecutarProcedimiento(sentenciaSQL);
+
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
+
         //Caso contrario: Se retorna -1 indicando que la conexión está
         //en estado Falso
         return -1;
