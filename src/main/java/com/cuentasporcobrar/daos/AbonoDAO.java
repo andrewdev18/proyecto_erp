@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cuentasporcobrar.daos;
 
 import com.cuentasporcobrar.models.Abono;
@@ -111,21 +106,25 @@ public class AbonoDAO implements Serializable {
     Nota:Al momento de insertar un nuevo abonos, automaticamente el valor 
     pendiente de el plan de pago se actualiza en el procedimiento de PostGre*/
     public int insertarNuevoAbono(int idCliente, int idPlanPago) {
-        /*Se ubica en el siguiente orden: 
+
+        try {
+            /*Se ubica en el siguiente orden: 
         (ID cliente, id plan de pago, forma de pago, valor abonado, fecha)*/
-        String sentenciaSQL = "select ingresar_abono(" + idCliente + "," + idPlanPago + ","
-                + abono.getIdFormaDePago() + "," + abono.getValorAbonado() + ",'"
-                + abono.getFechaAbono() + "')";
+            String sentenciaSQL = "select ingresar_abono(" + idCliente + "," + idPlanPago + ","
+                    + abono.getIdFormaDePago() + "," + abono.getValorAbonado() + ",'"
+                    + abono.getFechaAbono() + "')";
 
-        //Verificamos la conexion
-        if (conex.isEstado()) {
-
-            /*Una vez se asegura que la conexion este correcta.
+            //Verificamos la conexion
+            if (conex.isEstado()) {
+                /*Una vez se asegura que la conexion este correcta.
             Se ejecuta la sentencia ingresada.*/
-            return conex.ejecutarProcedimiento(sentenciaSQL);
-
+                return conex.ejecutarProcedimiento(sentenciaSQL);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
-
         return -1;
     }
 

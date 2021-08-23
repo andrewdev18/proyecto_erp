@@ -64,7 +64,7 @@
                             </p:column>
                             <p:column exportable="false">
                                 <p:commandButton icon="pi pi-trash" update=":form:pago-content-edit"
-                                                 oncomplete="PF('deleteProductDialog').show()"
+                                                 oncomplete="PF('deleteFactura').show()"
                                                  styleClass="ui-button-danger rounded-button"
                                                  actionListener="#{abonoProveedorMB.cargar(pago)}"
                                                  process="@this">
@@ -146,11 +146,15 @@
                             </div>
                             <div class="p-formgrid p-grid">
                                 <div class="p-field p-col">
-                                    <p:dataTable id="table-factura" editable="true"
+                                    <p:dataTable id="table-factura" 
+                                                 class="p-mt-3" 
+                                                 reflow="true"
+                                                 size="small" editable="true"
                                                  var="pagoFactura" 
                                                  value="#{abonoProveedorMB.listaFactura}" 
                                                  style="padding-top: 20px" 
-                                                 selection="#{abonoProveedorMB.listaFactura}">
+                                                 selection="#{abonoProveedorMB.listaFactura}"
+                                                 resizableColumns="true">
 
                                         <!--Nos ayuda en poder ingresar dato en Pago-->
                                         <p:ajax event="rowEdit" listener="#{abonoProveedorMB.onRowEdit}" update=":form:table-factura,:form:msgs"/>
@@ -166,26 +170,40 @@
                                             <h:outputText value="#{pagoFactura.vencimiento}"/>
                                         </p:column>
                                         <p:column headerText="Importe">
-                                            <h:outputText value="#{pagoFactura.importe}"/>
+                                            <h:outputText value="$#{pagoFactura.importe}"/>
                                         </p:column>
                                         <p:column headerText="Pendiente" >
-                                            <h:outputText value="#{pagoFactura.pendiente}"/>
+                                            <h:outputText value="$#{pagoFactura.pendiente}"/>
                                         </p:column>
-                                        <p:column headerText="Pago" >
-                                            <p:cellEditor>
+                                        <p:column headerText="Pago" style="width:50px">
+                                            <p:cellEditor >
                                                 <f:facet name="output">
-                                                    <h:outputText value="$#{pagoFactura.pagado}"/>
+                                                    <h:outputText value="#{pagoFactura.por_pagar}">
+                                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                                    </h:outputText>
                                                 </f:facet>
                                                 <f:facet name="input">
                                                     <p:inputText value="#{abonoProveedorMB.pago}" label="Pago"/>
-
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
-                                        <p:column style="width:6rem">
-                                            <p:rowEditor/>
-
+                                        <p:column exportable="false" style="width: 70px">
+                                            <p:rowEditor styleClass="rounded-button ui-button-warning"/>
+                                        </p:column >
+                                        <p:column style="width: 50px">
+                                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                             oncomplete="PF('deleteFactDialog').show()">
+                                                <f:setPropertyActionListener value="#{pagoFactura}" target="#{abonoProveedorMB.factura}"/>
+                                            </p:commandButton>
                                         </p:column>
+                                        <p:columnGroup type="footer">
+                                            <p:row>
+                                                <p:column colspan="5" style="text-align:right" footerText="Total:"/>
+                                                <p:column style="text-align:left" footerText="$"/>
+                                                <p:column style="text-align:left" />
+                                                <p:column style="text-align:left" />
+                                            </p:row>
+                                        </p:columnGroup>
 
                                     </p:dataTable>
                                 </div>
@@ -219,13 +237,14 @@
                             <div class="col-md-2">
                                 <p:commandButton value="Guardar" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}" 
                                                  icon="pi pi-check" update=":form:proveedortabla, msgs"
-                                                 process="pago-content @this" styleClass="ui-button-success"/>
+                                                 process="pago-content @this" styleClass="ui-button-success"
+                                                 oncomplete="PF('managePagoDialog').show()"/>
                             </div>
                             <div class="col-md-2">
                                 <p:commandButton value="Cerrar" actionListener="#{abonoProveedorMB.reset}"
                                                  icon="pi pi-times"
                                                  styleClass="ui-button-danger" process="@this"
-                                                 oncomplete="location.reload()"/>
+                                                 oncomplete="PF('managePagoDialog').show(),location.reload()"/>
                             </div>
                         </div>
 
@@ -349,17 +368,27 @@
 
                     </p:dialog>
 
-                    <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                    <p:confirmDialog widgetVar="deleteFactura" showEffect="fade" width="300"
                                      message="Seguro que quiere borrar este pago?" header="Confirm" severity="warn" >
                         <p:commandButton value="Ok" icon="pi pi-check" 
-                                         onclick="PF('deleteProductDialog').hide()"
+                                         onclick="PF('deleteFactura').hide()"
                                          oncomplete="PF('dataPagoDialog').show()"
                                          styleClass="ui-button-success" process="@this">
                         </p:commandButton>
                         <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
-                                         onclick="PF('deleteProductDialog').hide()"
+                                         onclick="PF('deleteFactura').hide()"
                                          class="ui-button-secondary" styleClass="ui-button-danger"
                                          onsuccess="location.reload()" process="@this"/>
+                    </p:confirmDialog>
+                    <p:confirmDialog widgetVar="deleteFactDialog" showEffect="fade" width="300"
+                                     message="Delete the product?" header="Confirm" severity="warn">
+                        <p:commandButton value="Ok" icon="pi pi-check" actionListener="#{abonoProveedorMB.deleteFactura}"
+                                         process="@this" oncomplete="PF('deleteFactDialog').hide()"
+                                         styleClass="ui-button-success"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
+                                         onclick="PF('deleteFactDialog').hide()"
+                                         class="ui-button-secondary" styleClass="ui-button-danger"
+                                         process="@this"/>
                     </p:confirmDialog>
 
                     <p:confirmDialog widgetVar="dataPagoDialog" showEffect="fade" width="800"
@@ -381,6 +410,19 @@
                         <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
                                          icon="pi pi-times"/>
+                    </p:confirmDialog>
+
+                    <p:confirmDialog widgetVar="deleteFactuDialog" showEffect="fade" width="300"
+                                     message="Seguro que quiere borrar este pago?" header="Confirm" severity="warn" >
+                        <p:commandButton value="Ok" icon="pi pi-check" 
+                                         onclick="PF('deleteFactura').hide()"
+                                         oncomplete="PF('dataPagoDialog').show()"
+                                         styleClass="ui-button-success" process="@this">
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
+                                         onclick="PF('deleteFactura').hide()"
+                                         class="ui-button-secondary" styleClass="ui-button-danger"
+                                         onsuccess="location.reload()" process="@this"/>
                     </p:confirmDialog>
                 </h:form>
             </ui:define>

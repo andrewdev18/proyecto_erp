@@ -34,6 +34,8 @@ public class Facturas_PendientesController implements Serializable {
     double[] totalVentaCartera;
 
     public Facturas_PendientesController() {
+        
+        try{
         //Para cargar el data table con los datos de las facturas pendientes.
         facturas_PendientesDAO=new Facturas_PendientesDAO();
         listaFacturas_Pendientes=new ArrayList<>();
@@ -43,6 +45,9 @@ public class Facturas_PendientesController implements Serializable {
         totalVentaCartera=facturas_PendientesDAO.obtenerTotalVentayCarteraPendiente();
         
         Design();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
     
     public void Design() {

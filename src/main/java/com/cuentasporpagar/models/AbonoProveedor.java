@@ -180,10 +180,10 @@ public class AbonoProveedor {
     }
 
     public String BuscarSentenciaFactura(String proveedor) {
-        String sentencia = String.format("Select f.nfactura, f.importe,f.pagado,(f.importe-da.pago) as pendiente, \n"
-                + "f.fecha,f.vencimiento from factura f\n"
-                + "inner join detalleabono da on(da.idfactura=f.idfactura)\n"
-                + "where f.idproveedor = (Select p.idproveedor from proveedor p where p.ruc ='%1$s')", proveedor);
+        String sentencia = String.format("select f.nfactura,f.importe,f.pagado,"
+                + "f.fecha,f.vencimiento,(f.importe-f.pagado)as pendiente   from factura f\n"
+                + "where f.idproveedor=(Select p.idproveedor from proveedor p where p.ruc='%1$s') \n"
+                + "and f.habilitar=1 and f.estado=1 and f.pagado<f.importe;", proveedor);
         System.out.println(sentencia);
         return sentencia;
     }
