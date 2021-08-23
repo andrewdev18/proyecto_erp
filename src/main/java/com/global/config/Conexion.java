@@ -136,6 +136,26 @@ public class Conexion {
         return lector;
     }
 
+    public int ejecutarProcedimiento(String sql) {
+        int retorno = -1;
+        try {
+            if (abrirConexion()) {
+                st.executeQuery(sql);
+                mensaje = "El procedimiento se ejecutó correctamente";
+                retorno = 1;
+                tipoMensaje = FacesMessage.SEVERITY_INFO;
+            }
+        } catch (SQLException exc) {
+            System.out.println(sql);
+            mensaje = exc.getMessage();
+            tipoMensaje = FacesMessage.SEVERITY_FATAL;
+            System.out.println(mensaje);
+        } finally {
+            cerrarConexion();
+        }
+        return retorno;
+    }
+
     public int ejecutar(String sql) {
         int retorno = -1;
         try {

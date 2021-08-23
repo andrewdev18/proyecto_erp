@@ -127,10 +127,13 @@ public class AbonoProveedorDAO {
     public void Insertar(AbonoProveedor abonoProveedor) {
         if (conex.isEstado()) {
             try {
-                String sentencia = String.format("select insert_abono('%1$s','%2$s','%3$s','%4$s','%5$s') as registro",
+                String sentencia = String.format("select insert_abono('%1$s','%2$s',"
+                        + "'%3$s','%4$s','%5$s','%6$s') as registro",
                         abonoProveedor.getDetalletipoPago(), abonoProveedor.getDetalletipoBanco(),
-                        abonoProveedor.getRuc(), abonoProveedor.getReferencia(), abonoProveedor.getFecha());
+                        abonoProveedor.getRuc(), abonoProveedor.getReferencia(), 
+                        abonoProveedor.getFecha(),abonoProveedor.getPeriodo());
                 result = conex.ejecutarConsulta(sentencia);
+                System.out.println(sentencia);
                 while (result.next()) {
                     abonoProveedor.setIdAbonoProveedor(result.getInt("registro"));
                 }
@@ -146,9 +149,9 @@ public class AbonoProveedorDAO {
         if (conex.isEstado()) {
             try {
                 for (int i = 0; i < selectedFactura.size(); i++) {
-                    String sentencia = String.format("select insert_detalleabono(%1$d,'%2$s','%3$s','%4$s')",
+                    String sentencia = String.format("select insert_detalleabono(%1$d,'%2$s','%3$s')",
                             abono.getIdAbonoProveedor(), selectedFactura.get(i).getPagado(),
-                            abono.getPeriodo(), selectedFactura.get(i).getNfactura());
+                            selectedFactura.get(i).getNfactura());
                     System.out.print(sentencia);
                     result = conex.ejecutarConsulta(sentencia);
                 }
@@ -165,6 +168,7 @@ public class AbonoProveedorDAO {
     public void search_date_payment(float importe, AbonoProveedor abonoProveedor) {
         if (conex.isEstado()) {
             try {
+                System.out.println(importe);
                 String sentencia = String.format("select search_date_payment('%1$s') as idabono;", importe);
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {

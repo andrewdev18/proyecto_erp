@@ -24,7 +24,7 @@
                         </p:toolbar>
                         <p:dialog header="Asiento Contable" showEffect="fade" modal="true"
                                   widgetVar="detalleAsiento" responsive="true" width="75%"
-                                  draggable="false" height="450"> 
+                                  draggable="false" height="500"> 
                             <p:outputPanel id="manage-asiento" class="ui-fluid">
                                 <p:outputPanel rendered="#{not empty asientoManagedBean.currentAsiento}">
                                     <div class="row justify-content-around">
@@ -238,7 +238,7 @@
                             </p:column>
 
                             <p:column headerText="Diario" sortBy="#{asiento.idDiario}">
-                                <h:outputText value="#{asiento.idDiario}" />
+                                <h:outputText value="#{asiento.nombreDiario}" />
                                 <p:skeleton rendered="#{asientoManagedBean.asientos == null}"></p:skeleton>
                             </p:column>
 

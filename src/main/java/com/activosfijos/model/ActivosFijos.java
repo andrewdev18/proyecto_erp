@@ -3,34 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.activosfijos.model;
 
 import java.time.LocalDate;
 import java.util.Date;
+
 /**
  *
  * @author desta
  */
 public class ActivosFijos {
- private int id_activo_fijo=0;
- private String detalle_de_activo="";
- private int valor_adquisicion=0;
- private LocalDate fecha_adquisicion=LocalDate.now();
- private int id_empresa=0;
- private String proveedor="";
- private String numero_factura="001-001-000000000";
 
- 
- public ActivosFijos(){}
- 
- public ActivosFijos(int id_activo_fijo,String detalle_de_activo, int valor_adquisicion,LocalDate fecha_adquisicion ,int id_empresa,String proveedor, String numero_factura){
-     this.detalle_de_activo= detalle_de_activo;
-     this.valor_adquisicion=valor_adquisicion;
-     this.fecha_adquisicion=fecha_adquisicion;
-     this.id_empresa=id_empresa;
-     this.proveedor=proveedor;
-     this.numero_factura=numero_factura;
+    private int id_activo_fijo = 0;
+    private String detalle_de_activo = "";
+    private int valor_adquisicion = 0;
+    private LocalDate fecha_adquisicion = LocalDate.now();
+    private int id_empresa = 0;
+    private int idproveedor = 0;
+    private String proveedor="" ;
+    private String numero_factura = "001-001-000000000";
+
+    public ActivosFijos() {
+    }
+
+    public ActivosFijos(String proveedor) {
+        this.proveedor = proveedor;
     }
 
     public String getProveedor() {
@@ -39,6 +36,23 @@ public class ActivosFijos {
 
     public void setProveedor(String proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public ActivosFijos(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion, LocalDate fecha_adquisicion, int id_empresa, int idproveedor, String numero_factura) {
+        this.detalle_de_activo = detalle_de_activo;
+        this.valor_adquisicion = valor_adquisicion;
+        this.fecha_adquisicion = fecha_adquisicion;
+        this.id_empresa = id_empresa;
+        this.idproveedor = idproveedor;
+        this.numero_factura = numero_factura;
+    }
+
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
     }
 
     public String getNumero_factura() {

@@ -19,22 +19,34 @@ public class ListarIntangible {
     private LocalDate fecha_adquisicion = LocalDate.now();
     private int id_empresa;
     private int id_intangible;
-    private String proveedor ;
-    private String numero_factura = "001-001-000000000";
+    private int idproveedor;
+    private String proveedor;
+    private String numero_factura ;
 
     public ListarIntangible() {
     }
 
-    public ListarIntangible(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion, LocalDate fecha_adquisicion,int id_empresa, int id_intangible, String proveedor, String numero_factura) {
+    public ListarIntangible(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion, int id_empresa, int id_intangible, int idproveedor, String proveedor, String numero_factura) {
         this.id_activo_fijo = id_activo_fijo;
         this.detalle_de_activo = detalle_de_activo;
         this.valor_adquisicion = valor_adquisicion;
-        this.fecha_adquisicion=fecha_adquisicion;
         this.id_empresa = id_empresa;
         this.id_intangible = id_intangible;
+        this.idproveedor = idproveedor;
         this.proveedor = proveedor;
         this.numero_factura = numero_factura;
     }
+
+    
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
+    }
+
+  
 
     public String getProveedor() {
         return proveedor;

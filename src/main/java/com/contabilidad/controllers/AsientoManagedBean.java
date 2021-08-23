@@ -53,8 +53,6 @@ public class AsientoManagedBean implements Serializable {
 
     @Asynchronous
     public void loadElements() {
-        subCuentas = asientoDAO.getCuentasContables();
-        diarios = diarioAccess.getDiariosContables();
         asientos = asientoDAO.getAsientosContables();
         List<Movimiento> movimientos = movimientoDAO.getAllMovimientos();
         asientos.forEach(a -> orderMovimientoByAsiento(a, movimientos));
@@ -99,10 +97,9 @@ public class AsientoManagedBean implements Serializable {
                     currentAsiento = new Asiento();
                     fechaCreacion = new Date();
                     fechaCierre = new Date();
-                    asientos = asientoDAO.getAsientosContables();
-                    asientos.forEach(m -> m.setMovimientos(movimientoDAO.getMovimientoByAsiento(m.getIdAsiento())));
                     showInfo("Se ha registrado un nuevo Asiento");
                     openNewAsiento();
+                    loadElements();
                 } else {
                     showWarn("Los valores del debe y el haber deben coincidir, y ser diferentes a cero");
                 }
@@ -119,6 +116,7 @@ public class AsientoManagedBean implements Serializable {
                     showInfo("Cambios Realizados Correctamente");
                     closeDialogModal();
                     openNewAsiento();
+                    loadElements();
                 } else {
                     showWarn("No se detectaron cambios");
                 }
@@ -215,6 +213,8 @@ public class AsientoManagedBean implements Serializable {
     public void calculateTotal() {
         updateTotalDebe();
         updateTotalHaber();
+        subCuentas = asientoDAO.getCuentasContables();
+        diarios = diarioAccess.getDiariosContables();
     }
 
     public void closeDialogModal() {
@@ -237,7 +237,10 @@ public class AsientoManagedBean implements Serializable {
     public boolean compareMovimientos(List<Movimiento> movimientos) {
         int counter = 0;
         for (int i = 0; i < movimientos.size(); i++) {
-            if (movimientos.get(i).getIdSubcuenta() == currentAsiento.getMovimientos().get(i).getIdSubcuenta()) {
+            if (movimientos.get(i).getIdSubcuenta() == currentAsiento.getMovimientos().get(i).getIdSubcuenta()
+                    && movimientos.get(i).getDebe() == currentAsiento.getMovimientos().get(i).getDebe()
+                    && movimientos.get(i).getHaber() == currentAsiento.getMovimientos().get(i).getHaber()
+                    && movimientos.get(i).getTipoMovimiento().equals(currentAsiento.getMovimientos().get(i).getTipoMovimiento())) {
                 counter++;
             }
         }
