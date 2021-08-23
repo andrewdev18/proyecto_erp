@@ -120,13 +120,13 @@ public final class AbonoProveedorManagedBean {
     public void enviar(List<Factura> listaFactura) {
         if (this.listaFactura.size() > 0) {
             if (this.listaFactura.size() == dateMofid) {
-                System.out.println(this.listaFactura.get(0).getPagado());
                 abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
                 abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
                 abonoDAO.Insertar(abonoproveedor);
                 bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
                 if (bandera) {
                     showInfo("Abono proveedor ingresado");
+                    dateMofid=0;
                 } else {
                     showWarn("Error en registrar el abono");
                 }
@@ -167,13 +167,17 @@ public final class AbonoProveedorManagedBean {
         float n2 = pago;
         if (n1 < n2) {
             showWarn("Importe es menor que pagado");
-            System.out.println("Importe es menor que pagado");
             pago = 0;
-        } else {
+        } else if(pago!=0) {
             Factura f = (Factura) event.getObject();
             f.setPagado(pago);
+            f.setPor_pagar(pago);
             dateMofid = dateMofid + 1;
+            System.out.println(dateMofid);
             showInfo("Ingreso de pago correctamente");
+        }
+        else{
+            showWarn("El pago a registrar debe ser mayor a 0");
         }
     }
 
@@ -185,17 +189,19 @@ public final class AbonoProveedorManagedBean {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(severity, summary, detail));
     }
-
+    
+    //Funcion para mostrar mensaje de informacion correcta
     public void showInfo(String message) {
         addMessage(FacesMessage.SEVERITY_INFO, "Exito", message);
     }
-
+    
+    //Funcion para mostrar mensaje de informacion incorrecta
     public void showWarn(String message) {
         addMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", message);
     }
-
+    
+    //Limpia los imputext
     public void reset() {
-        System.out.println("Se reset");
         PrimeFaces.current().resetInputs(":form:pago-content,:form:table-factura, "
                 + ":form:pago, :form:pago-content-edit");
         this.setNom("");
@@ -203,6 +209,14 @@ public final class AbonoProveedorManagedBean {
         tipoBanco = new TipoBanco();
         tipoPago = new TipoPago();
         listaFactura.clear();
+    }
+    
+    //Elimina una factura que no desea
+    public void deleteFactura() {
+        this.listaFactura.remove(this.factura);
+        this.factura = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Product Removed"));
+        PrimeFaces.current().ajax().update("form:msgs", "form:table-factura");
     }
 
     public List<AbonoProveedor> getListaAbonos() {
