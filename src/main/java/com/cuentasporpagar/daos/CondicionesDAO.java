@@ -67,24 +67,17 @@ public class CondicionesDAO implements Serializable {
           }
           return lista;
      }
-
      public void insertarCondiciones(Condiciones c) throws Exception {
-          try {
+          try {this.conexion.Conectar();
                String sentencia = "INSERT INTO public.condiciones(descuento,"
                        + " diasneto, diasdescuento, cantdiasvencidos,"
                        + " descripcion, idproveedor)\n"
-                       + "	VALUES (?,?,?,?,?,"
+                       + " VALUES ("+c.getDescuento()+","+c.getDiasNeto()+","+c.getDiasDescuento()+","
+                       + ""+c.getCantDiasVencidos()+",'"+c.getDescripcion()+"',"
                        + "(SELECT idproveedor FROM proveedor ORDER BY idproveedor DESC LIMIT 1));";
-               this.conexion.Conectar();
-               PreparedStatement pst = this.conexion.conex.prepareStatement(sentencia);
-               pst.setDouble(1, c.getDescuento());
-               pst.setInt(2, c.getDiasNeto());
-               pst.setInt(3, c.getDiasDescuento());
-               pst.setInt(4, c.getCantDiasVencidos());
-               pst.setString(5, c.getDescripcion());
-               pst.executeUpdate();
-               conexion.ejecutar(sentencia);
-               System.out.println(sentencia);
+               
+               conexion.insertar(sentencia);
+               System.out.print(sentencia);
 
           } catch (SQLException e) {
                throw e;
@@ -94,7 +87,7 @@ public class CondicionesDAO implements Serializable {
           }
 
      }
-     public void updateCondiciones(Condiciones c) throws SQLException{
+     public void updateCondiciones(Condiciones c, int codigo) throws SQLException{
            System.out.println("ENTRANDO A EDITAR CONDICIONES");
           try{
                this.conexion.Conectar();
@@ -104,7 +97,7 @@ public class CondicionesDAO implements Serializable {
                        +"diasdescuento = "+c.getDiasDescuento()+","
                        + "cantdiasvencidos = "+c.getCantDiasVencidos()+", "
                        + "descripcion = '"+c.getDescripcion()+"' "
-                       + "WHERE idproveedor = "+c.getProveedor().getIdProveedor()+"";
+                       + "WHERE idproveedor = "+codigo+"";
                conexion.ejecutar(cadena);
                System.out.print(cadena);
           }catch( SQLException e){

@@ -63,10 +63,10 @@ public class ProveedorDAO extends Conexion {
           }
      }
 
-     public void update(Proveedor proveedor, String codigo) throws SQLException {         
+     public void update(Proveedor proveedor, int codigo) throws SQLException {         
           try {
                this.conexion.Conectar();
-               String cadena = "UPDATE public.proveedor\n"
+                String cadena = "UPDATE public.proveedor\n"
                        + "	SET  razonsocial= '" + proveedor.getRazonSocial() + "',"
                        + " ruc='" + proveedor.getRuc() + "', "
                        + "nombre='" + proveedor.getNombre() + "',"
@@ -75,7 +75,8 @@ public class ProveedorDAO extends Conexion {
                        + "webpage='" + proveedor.getWebPage() + "', "
                        + "contacto='" + proveedor.getContacto() + "',"
                        + " telefono='" + proveedor.getTelefono() + "',"
-                       + " estado='" + proveedor.isEstado() + "'";
+                       + " estado='" + proveedor.isEstado() + "' "
+                       + " Where idproveedor = "+codigo+"";
                conexion.ejecutar(cadena);
           } catch (SQLException e) {
                throw e;

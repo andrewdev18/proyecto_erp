@@ -117,11 +117,12 @@ public class ProveedorManageBean implements Serializable {
      public void editar() {
           try {
 
+               System.out.print(this.proveedor.getIdProveedor()+"---BEIVCO");
                System.out.println("ENTRANDO A  EDITAR PROVEEDOR: ");
-               this.proveedorDAO.update(proveedor, this.proveedor.getCodigo());
+               this.proveedorDAO.update(proveedor, proveedor.getIdProveedor());
                System.out.println("SALIENDO PROVEEDOR: ");
                this.condiciones.setProveedor(this.proveedor);
-               this.condicionesDAO.updateCondiciones(condiciones);
+               this.condicionesDAO.updateCondiciones(condiciones,proveedor.getIdProveedor());
                FacesContext.getCurrentInstance().
                        addMessage(null, new FacesMessage("Proveedor Guardado"));
 
