@@ -8,13 +8,14 @@ package com.cuentasporpagar.controllers;
 import com.cuentasporpagar.daos.FacturaDAO;
 import com.cuentasporpagar.models.Factura;
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import org.primefaces.PrimeFaces;
 
 /**
  * /**
@@ -28,7 +29,8 @@ public class AutorizarPagoManagedBean implements Serializable {
 
     private FacturaDAO facturaDAO;
     private Factura factura;
-    private List<Factura> listaFactura;
+    private List<Factura> listarDatos;
+    private List<Factura> detalleDatos;
     private boolean check;
 
     /**
@@ -37,20 +39,10 @@ public class AutorizarPagoManagedBean implements Serializable {
     public AutorizarPagoManagedBean() {
         facturaDAO = new FacturaDAO();
         factura = new Factura();
-        listaFactura = new ArrayList<>();
-        listaFactura = facturaDAO.llenar();
-    }
-
-    public void mostrar() {
-        listaFactura = facturaDAO.llenar();
-        System.out.println(listaFactura.size() + "holis");
-    }
-
-    public void insertarfactura() {
-        try {
-        } catch (Exception e) {
-            System.out.println(e + "ERROR DAO");
-        }
+        listarDatos = new ArrayList<>();
+        detalleDatos = new ArrayList<>();
+        this.listarDatos.clear();
+        this.listarDatos = this.facturaDAO.llenar();
     }
 
     public FacturaDAO getFacturaDAO() {
@@ -69,12 +61,20 @@ public class AutorizarPagoManagedBean implements Serializable {
         this.factura = factura;
     }
 
-    public List<Factura> getListaFactura() {
-        return listaFactura;
+    public List<Factura> getListarDatos() {
+        return listarDatos;
     }
 
-    public void setListaFactura(List<Factura> listaFactura) {
-        this.listaFactura = listaFactura;
+    public void setListarDatos(List<Factura> listarDatos) {
+        this.listarDatos = listarDatos;
+    }
+
+    public List<Factura> getDetalleDatos() {
+        return detalleDatos;
+    }
+
+    public void setDetalleDatos(List<Factura> detalleDatos) {
+        this.detalleDatos = detalleDatos;
     }
 
     public boolean isCheck() {
@@ -85,13 +85,42 @@ public class AutorizarPagoManagedBean implements Serializable {
         this.check = cheack;
     }
 
-    public void Registro(String estado) {
-        String detail = check ? "Pago Autorizado" : "Pago no Autorizado";
-        if (detail == "Pago Autorizado") {
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(detail));
-        }
+    public void cargarDatos(Factura factura) {
+        String dato = factura.getNfactura();
+        this.factura.setNombre(factura.getNombre());
+        this.factura.setNfactura(factura.getNfactura());
+        this.factura.setDescripcion(factura.getDescripcion());
+        this.factura.setImporte(factura.getImporte());
+        this.factura.setFecha(factura.getFecha());
+        this.factura.setVencimiento(factura.getVencimiento());
+        this.factura.setRuc(facturaDAO.Buscar(dato));
+        this.factura.setPagado(facturaDAO.buscarPagado(dato));
+        this.factura.setAux(sumfechas());
+        detalleDatos.clear();
+        detalleDatos = facturaDAO.llenarDetalle(dato);
+    }
+    
+    public void cargarAutor(Factura factura) {
+        this.factura.setNfactura(factura.getNfactura());
+    }
+
+    public int sumfechas() {
+        Duration diff = Duration.between(factura.getFecha().atStartOfDay(), factura.getVencimiento().atStartOfDay());
+        long diffDays = diff.toDays();
+        int dia = (int) diffDays;
+        return dia;
+    }
+
+    public void reset() {
+        PrimeFaces.current().resetInputs("form:outputvisu, form:dt-detalle");
+        detalleDatos.clear();
+    }
+
+    public void autorizarPago() {
+        this.facturaDAO.AutorizarPago(factura.getNfactura());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Pago Autorizado" + factura.getNfactura()));
+        listarDatos.clear();
+        listarDatos = facturaDAO.llenar();
+        PrimeFaces.current().ajax().update("form:dt-facturas");
     }
 }

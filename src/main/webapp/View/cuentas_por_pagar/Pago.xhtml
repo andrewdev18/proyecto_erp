@@ -11,12 +11,13 @@
         <ui:composition template="../../Plantilla/Plantilla.xhtml">
 
             <ui:define name="content">
-<!--                                Filtra la información de los abono realizados -->
+                <!--                                Filtra la información de los abono realizados -->
                 <f:event type="preRenderView" listener="#{abonoProveedorMB.mostrarAbono()}"/>
                 <h:form id="form">
+                    <p:growl id="msgs" showDetail="true"/>
                     <p:panel >
                         <h1 style="text-align: center"> PAGOS</h1>
-                        <p:growl id="msgs" showDetail="true"/>
+
                         <!--                Botones que se presentan en la pantalla principal-->
                         <p:toolbar>
                             <p:toolbarGroup>
@@ -152,8 +153,8 @@
                                                  selection="#{abonoProveedorMB.listaFactura}">
 
                                         <!--Nos ayuda en poder ingresar dato en Pago-->
-                                        <p:ajax event="rowEdit" listener="#{abonoProveedorMB.onRowEdit}" update=":form:table-factura"/>
-                                        <p:ajax event="rowEditCancel" listener="#{abonoProveedorMB.onRowCancel}" update=":form:table-factura"/>
+                                        <p:ajax event="rowEdit" listener="#{abonoProveedorMB.onRowEdit}" update=":form:table-factura,:form:msgs"/>
+                                        <p:ajax event="rowEditCancel" listener="#{abonoProveedorMB.onRowCancel}" update=":form:table-factura,:form:msgs"/>
 
                                         <p:column headerText="Factura No." >
                                             <h:outputText value="#{pagoFactura.nfactura}"/>
@@ -193,7 +194,7 @@
                             <p:overlayPanel for="name" dynamic="true" 
                                             style="width:600px" widgetVar="moviePicker">
                                 <p:dataTable var="proveedor" value="#{abonoProveedorMB.listaProveedor}" 
-                                             rows="5" paginator="true" selectionMode="single"
+                                             rows="3" paginator="true" selectionMode="single"
                                              selection="#{abonoProveedorMB.proveedor}" rowKey="#{proveedor.nombre}">
                                     <p:ajax event="rowSelect" listener="#{abonoProveedorMB.onRowSelectf}" 
                                             oncomplete="PF('moviePicker').hide()" update=":form:pago-content,:form:ruc"
@@ -214,17 +215,19 @@
                                 </p:dataTable>
                             </p:overlayPanel>
                         </p:outputPanel>
-<!--
--->                        <f:facet name="footer">
-                            <p:commandButton value="Aceptar" icon="pi pi-check" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}"
-                                             update=":form:proveedortabla" process="pago-content @this"
-                                             onclick="PF('managePagoDialog').hide()"
-                                             styleClass="ui-button-success" />
-                            <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
-                                             onclick="PF('managePagoDialog').hide()"
-                                             class="ui-button-secondary" styleClass="ui-button-danger"
-                                             onsuccess="location.reload()" process="@this"/>
-                        </f:facet>
+                        <div class="row justify-content-end">
+                            <div class="col-md-2">
+                                <p:commandButton value="Guardar" actionListener="#{abonoProveedorMB.enviar(pagoFactura)}" 
+                                                 icon="pi pi-check" update=":form:proveedortabla, msgs"
+                                                 process="pago-content @this" styleClass="ui-button-success"/>
+                            </div>
+                            <div class="col-md-2">
+                                <p:commandButton value="Cerrar" actionListener="#{abonoProveedorMB.reset}"
+                                                 icon="pi pi-times"
+                                                 styleClass="ui-button-danger" process="@this"
+                                                 oncomplete="location.reload()"/>
+                            </div>
+                        </div>
 
                     </p:dialog>
                     <!-- Dialogo Editar-->
@@ -267,7 +270,7 @@
                                                  value="#{abonoProveedorMB.abonoproveedor.referencia}" />
                                 </div>
                                 <div class="p-field p-col">
-                                     Datos del Banco 
+                                    Datos del Banco 
                                     <label for="Banco-edit" >
                                         Banco:</label>
                                     <p:selectOneMenu placeholder="Seleccione" 
@@ -307,7 +310,7 @@
                                                  var="pagoFactura" 
                                                  value="#{abonoProveedorMB.detalleFactura}" 
                                                  style="padding-top: 20px" >
-                                        
+
                                         <p:column headerText="Factura No." >
                                             <h:outputText value="#{pagoFactura.nfactura}"/>
                                         </p:column>
@@ -329,7 +332,7 @@
                                     </p:dataTable>
                                 </div>
                             </div>
-                            
+
                         </p:outputPanel>
 
                         <f:facet name="footer">
@@ -354,24 +357,24 @@
                                          styleClass="ui-button-success" process="@this">
                         </p:commandButton>
                         <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
-                                             onclick="PF('deleteProductDialog').hide()"
-                                             class="ui-button-secondary" styleClass="ui-button-danger"
-                                             onsuccess="location.reload()" process="@this"/>
+                                         onclick="PF('deleteProductDialog').hide()"
+                                         class="ui-button-secondary" styleClass="ui-button-danger"
+                                         onsuccess="location.reload()" process="@this"/>
                     </p:confirmDialog>
-                    
+
                     <p:confirmDialog widgetVar="dataPagoDialog" showEffect="fade" width="800"
                                      message="Los pagos registrados no pueden borrarse..
-                                              Para deshacer un pago despues de registrarlo, debe 'revertirlo'(ingresarlo otra vez con el importe opuesto).
-                                              
-                                              Crear Pago de Reversion ahora?" 
-                                              header="Confirm" severity="warn">
+                                     Para deshacer un pago despues de registrarlo, debe 'revertirlo'(ingresarlo otra vez con el importe opuesto).
+
+                                     Crear Pago de Reversion ahora?" 
+                                     header="Confirm" severity="warn">
                         <p:commandButton value="Aceptar" icon="pi pi-check" 
                                          process="@this" oncomplete="PF('managePagoDialog-edit').show()" 
                                          update=":form:pago-content-edit"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times" actionListener="#{abonoProveedorMB.reset}"
-                                             onclick="PF('dataPagoDialog').hide()"
-                                             class="ui-button-secondary" styleClass="ui-button-danger"
-                                             onsuccess="location.reload()" process="@this"/>
+                                         onclick="PF('dataPagoDialog').hide()"
+                                         class="ui-button-secondary" styleClass="ui-button-danger"
+                                         onsuccess="location.reload()" process="@this"/>
                     </p:confirmDialog>
 
                     <p:confirmDialog global="true" showEffect="fade" width="300">

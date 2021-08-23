@@ -18,13 +18,16 @@
                         </p:toolbarGroup>
                         <p:toolbarGroup>
                             <h5 class="mr-2">Fecha Al:</h5>
-                            <p:datePicker locale="es" label="Al" disabled="true"/>
-                            <p:commandButton value="Generar" style="margin-left: 10px"  />
+                            <p:datePicker locale="es" label="Al" value="#{balanceGeneralMB.fecha}" />
+                            <p:commandButton value="Generar" style="margin-left: 10px" 
+                                             action="#{balanceGeneralMB.recibiendoFecha()}"
+                                             update="dt-libros"/>
                         </p:toolbarGroup>
                     </p:toolbar>
                     <p:dataTable id="dt-libros" widgetVar="dtBalance" var="balance"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-                                 value="#{balanceGeneralMB.balanceGeneral}">
+                                 value="#{balanceGeneralMB.balanceGeneral}" rows="7" paginator="true"
+                                 paginatorPosition="bottom">
 
                         <f:facet name="header">
                             <div class="row">
@@ -32,7 +35,8 @@
                                     <h4 style="font-weight: bold;">Nombre de la Empresa</h4>
                                 </div>
                                 <div class="col-md-6">
-                                    <h:outputText value="Al 18/08/2021">
+                                    Al <h:outputText value="#{balanceGeneralMB.fecha}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
                                 </div>
                             </div>
@@ -52,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-9">Pasivo + Patrimonio</div>
                                 <div class="col-md-3" style="text-align: left">
-                                    <p><h:outputText value="#{balanceGeneralMB.sumaPasivoPatrimonio()}"/></p>
+                                    <p><h:outputText id="sumaPP" value="#{balanceGeneralMB.pasivoPatrimonio}"/></p>
                                 </div>
                             </div>
                         </f:facet>

@@ -13,16 +13,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import com.cuentasporpagar.models.Proveedor;
 import com.cuentasporpagar.models.Factura;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.primefaces.PrimeFaces;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 /**

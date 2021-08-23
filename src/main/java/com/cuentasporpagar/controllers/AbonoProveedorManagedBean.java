@@ -49,6 +49,7 @@ public final class AbonoProveedorManagedBean {
     private String nom;
     private String cod;
     private boolean bandera;
+    private int dateMofid = 0;
 
     public AbonoProveedorManagedBean() {
         abonoproveedor = new AbonoProveedor();
@@ -93,18 +94,18 @@ public final class AbonoProveedorManagedBean {
 
     public void cargar(AbonoProveedor abonoProveedor) {
         //Buscar idabonoproveedor para tener los datos del abono
-        
+
         abonoDAO.search_date_payment(abonoProveedor.getPago(), this.abonoproveedor);
         System.out.print("Id Proveedor: " + this.abonoproveedor.getIdAbonoProveedor());
         //Buscar datos de abono proveedor
-        
+
         abonoDAO.select_date_payment(this.abonoproveedor.getIdAbonoProveedor());
         System.out.print("Cant Lista: " + this.listaAbonos.size());
         //Buscar datos de la facturas
-        
+
         detalleFactura = abonoDAO.select_date_invoice(this.abonoproveedor.getIdAbonoProveedor());
         System.out.print("Cant Lista-: " + detalleFactura.size());
-        
+
         //Ingresar los datos a los inputext
         tipoPago.setDescripcion(listaAbonos.get(0).getDetalletipoPago());
         tipoBanco.setDescrpcion(listaAbonos.get(0).getDetalletipoBanco());
@@ -112,33 +113,40 @@ public final class AbonoProveedorManagedBean {
         abonoproveedor.setFecha(listaAbonos.get(0).getFecha());
         abonoproveedor.setPeriodo(listaAbonos.get(0).getPeriodo());
         setNom(listaAbonos.get(0).getNombreProveedor());
-        
+
         //Ingresar los datos a la tabla
-        
     }
 
     public void enviar(List<Factura> listaFactura) {
         if (this.listaFactura.size() > 0) {
-            abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
-            abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
-            abonoDAO.Insertar(abonoproveedor);
-            bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
-            if (bandera) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Abono proveedor ingresado"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en registrar el abono"));
+            if (this.listaFactura.size() == dateMofid) {
+                System.out.println(this.listaFactura.get(0).getPagado());
+                abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
+                abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
+                abonoDAO.Insertar(abonoproveedor);
+                bandera = abonoDAO.InsertarDetalle(this.listaFactura, abonoproveedor);
+                if (bandera) {
+                    showInfo("Abono proveedor ingresado");
+                } else {
+                    showWarn("Error en registrar el abono");
+                }
             }
+            else {
+                    showWarn("Error ingrese datos en Pago");
+                }
+
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error el proveedor seleccionado no tiene factura"));
+
+            showWarn("Error el proveedor seleccionado no tiene factura");
         }
     }
-    
+
     public void deshabilitar(List<Factura> listaFactura) {
         if (this.detalleFactura.size() > 0) {
             abonoproveedor.setDetalletipoPago(tipoPago.getDescripcion());
             abonoproveedor.setDetalletipoBanco(tipoBanco.getDescrpcion());
             abonoDAO.Insertar(abonoproveedor);
-            
+
             bandera = abonoDAO.InsertarDetalle(this.detalleFactura, abonoproveedor);
             if (bandera) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Detalle de abono revertido"));
@@ -155,20 +163,35 @@ public final class AbonoProveedorManagedBean {
     }
 
     public void onRowEdit(RowEditEvent<Factura> event) {
-        float n1 = event.getObject().getImporte();
+        float n1 = event.getObject().getPendiente();
         float n2 = pago;
         if (n1 < n2) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Importe es menor que pagado"));
+            showWarn("Importe es menor que pagado");
+            System.out.println("Importe es menor que pagado");
             pago = 0;
         } else {
             Factura f = (Factura) event.getObject();
             f.setPagado(pago);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ingreso de pago correctamente"));
+            dateMofid = dateMofid + 1;
+            showInfo("Ingreso de pago correctamente");
         }
     }
 
     public void onRowCancel(RowEditEvent<Factura> event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cancelada"));
+    }
+
+    public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(severity, summary, detail));
+    }
+
+    public void showInfo(String message) {
+        addMessage(FacesMessage.SEVERITY_INFO, "Exito", message);
+    }
+
+    public void showWarn(String message) {
+        addMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", message);
     }
 
     public void reset() {

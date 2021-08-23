@@ -128,7 +128,7 @@
                                     <div class="p-field p-col">
                                         <p:inputText id="hola" value="#{BuscarMB.cod}" type="hidden" />
                                         <p:outputLabel value="#{facturaMB.factura.ruc=BuscarMB.cod}" style="visibility: hidden"/>
-                                        <p:inputText value="#{facturaMB.factura.ruc}" style="visibility: hidden"/>
+                                        <p:inputText type="number" value="#{facturaMB.factura.ruc}" style="visibility: hidden"/>
                                     </div>
                                 </div>
 
@@ -136,12 +136,12 @@
                                 <div class="p-formgrid p-grid">
                                     <div class="p-field p-col">
                                         <p:outputLabel for="importe">Importe:</p:outputLabel>
-                                        <p:spinner id="importe" value="#{facturaMB.factura.importe}" 
+                                        <p:inputText id="importe" value="#{facturaMB.factura.importe}" 
                                                    required="true"/>
                                     </div>
                                     <div class="p-field p-col">
                                         <p:outputLabel for="pagado" >Pagado: </p:outputLabel>
-                                        <p:spinner id="pagado" value="#{facturaMB.factura.pagado}"/>
+                                        <p:inputText type="number" id="pagado" value="#{facturaMB.factura.pagado}"/>
                                     </div>
 
 
