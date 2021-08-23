@@ -118,9 +118,10 @@ public class AutorizarPagoManagedBean implements Serializable {
 
     public void autorizarPago() {
         this.facturaDAO.AutorizarPago(factura.getNfactura());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Pago Autorizado" + factura.getNfactura()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+        (FacesMessage.SEVERITY_INFO,"Exito","Pago Autorizado a Factura #" + factura.getNfactura()));
         listarDatos.clear();
         listarDatos = facturaDAO.llenar();
-        PrimeFaces.current().ajax().update("form:dt-facturas");
+        PrimeFaces.current().ajax().update("form:dt-facturas",":form:messages");
     }
 }

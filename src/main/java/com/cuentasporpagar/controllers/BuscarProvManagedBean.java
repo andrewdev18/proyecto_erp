@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -93,8 +94,22 @@ public class BuscarProvManagedBean implements Serializable {
         setFec(LocalDate.now());
         setVence(getFec().plusDays(msg4));
         System.out.println(getFec() + "----" + getVence());
-
-        //setVence(msg4);
+    }
+    
+    public void onRowSelect2(SelectEvent<Proveedor> event) {
+        LocalDate fecha = (LocalDate) event.getComponent().getAttributes().get("fech");
+        String msg2 = event.getObject().getNombre();
+        String msg3 = event.getObject().getRuc();
+        int msg4 = event.getObject().getVence();
+        System.out.println("Nombre: " + msg2);
+        System.out.println("Ruc: " + msg3);
+        System.out.println("Vence: " + fecha);
+        setNom(msg2);
+        setCod(msg3);
+        setNvenc(msg4);
+        setVence(fecha.plusDays(msg4));
+        System.out.println(fecha + "----" + getVence());
+        PrimeFaces.current().ajax().update("form:editdven","form:editvencimiento");
     }
 
     public void sumfechas(int d1, LocalDate d2) {
