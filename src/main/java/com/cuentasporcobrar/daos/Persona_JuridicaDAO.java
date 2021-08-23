@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.cuentasporcobrar.daos;
 
 import com.cuentasporcobrar.models.Persona;
@@ -32,78 +28,91 @@ public class Persona_JuridicaDAO extends PersonaDAO implements Serializable {
         conex = new Conexion();
         this.person_Juridica = person_Juridica;
     }
-    
+
     //--Ejecutando Funcion (Ingresando Persona Juridica)
     public int insertarClienteJuridico() {
-        String sentenciaSQL = "Select Ingresar_Cliente_Juridico"
-                + "(" + person_Juridica.getIdTipoIdenficacion() + ",'"
-                + person_Juridica.getIdentificacion() + "','"
-                + person_Juridica.getDireccion() + "','"
-                + person_Juridica.getTlf1() + "','"
-                + person_Juridica.getTlf2() + "','"
-                + person_Juridica.getCorreo() + "','"
-                + person_Juridica.getRazonSocial() +"',"
-                + person_Juridica.getIdTipoCliente()+")";
-        //Verificamos la conexion
-        if (conex.isEstado()) {
-            //Una vez se asegura que la conexion este correcta.
-            //Se ejecuta la sentencia ingresada.
-            return conex.ejecutarProcedimiento(sentenciaSQL);
+        try {
+
+            String sentenciaSQL = "Select Ingresar_Cliente_Juridico"
+                    + "(" + person_Juridica.getIdTipoIdenficacion() + ",'"
+                    + person_Juridica.getIdentificacion() + "','"
+                    + person_Juridica.getDireccion() + "','"
+                    + person_Juridica.getTlf1() + "','"
+                    + person_Juridica.getTlf2() + "','"
+                    + person_Juridica.getCorreo() + "','"
+                    + person_Juridica.getRazonSocial() + "',"
+                    + person_Juridica.getIdTipoCliente() + ")";
+            //Verificamos la conexion
+            if (conex.isEstado()) {
+                //Una vez se asegura que la conexion este correcta.
+                //Se ejecuta la sentencia ingresada.
+                return conex.ejecutarProcedimiento(sentenciaSQL);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
-        //Caso contrario: Se retorna -1 indicando que la conexión está
+        //@return Caso contrario: Se retorna -1 indicando que la conexión está
         //en estado Falso
         return -1;
     }
-    
+
     //Método que actualiza Cliente Juridico
     public int actualizarClienteJuridico() {
-        String sentenciaSQL = "Select actualizar_persona_juridica(" 
-                + person_Juridica.getIdCliente() + ","
-                + person_Juridica.getIdTipoIdenficacion() + ",'"
-                + person_Juridica.getIdentificacion() + "','"
-                + person_Juridica.getDireccion() + "','"
-                + person_Juridica.getTlf1() + "','"
-                + person_Juridica.getTlf2() + "','"
-                + person_Juridica.getCorreo() + "','"
-                + person_Juridica.getRazonSocial() + "',"
-                + person_Juridica.getIdTipoCliente() + ")";
+        try {
+            String sentenciaSQL = "Select actualizar_persona_juridica("
+                    + person_Juridica.getIdCliente() + ","
+                    + person_Juridica.getIdTipoIdenficacion() + ",'"
+                    + person_Juridica.getIdentificacion() + "','"
+                    + person_Juridica.getDireccion() + "','"
+                    + person_Juridica.getTlf1() + "','"
+                    + person_Juridica.getTlf2() + "','"
+                    + person_Juridica.getCorreo() + "','"
+                    + person_Juridica.getRazonSocial() + "',"
+                    + person_Juridica.getIdTipoCliente() + ")";
 
-        if (conex.isEstado()) {
-            //Una vez se asegura que la conexion este correcta.
-            //Se ejecuta la sentencia ingresada.
-            return conex.ejecutarProcedimiento(sentenciaSQL);
+            if (conex.isEstado()) {
+                //Una vez se asegura que la conexion este correcta.
+                //Se ejecuta la sentencia ingresada.
+                return conex.ejecutarProcedimiento(sentenciaSQL);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            conex.cerrarConexion();
         }
-        //Caso contrario: Se retorna -1 indicando que la conexión está
+        //@return Caso contrario: Se retorna -1 indicando que la conexión está
         //en estado Falso
         return -1;
     }
-    
+
     //Método que retorna los clientes Juridicos
     public Persona_Juridica obtenerClienteJuridico(int idCliente) {
-        Persona_Juridica p_juridica=new Persona_Juridica();
+        Persona_Juridica p_juridica = new Persona_Juridica();
         if (conex.isEstado()) {
             try {
                 String sentencia = "select*from obtener_cliente_juridico("
-                        +idCliente+")";
+                        + idCliente + ")";
                 result = conex.ejecutarConsulta(sentencia);
                 while (result.next()) {
-                    
-                     //Almacenamos en un objeto los datos personales de un 
+
+                    //Almacenamos en un objeto los datos personales de un 
                     //Cliente Juridico.
-                     p_juridica= new Persona_Juridica(
-                                                result.getString("razon_social_r"),
-                                                result.getInt("idtipoidentificacion_r"),
-                                                result.getString("direccion_r"),
-                                                result.getString("identificacion_r"),
-                                                result.getBoolean("estado_r"),
-                                                result.getString("telefono1_r"),
-                                                result.getString("telefono2_r"),
-                                                result.getString("correo1_r"),
-                                                result.getInt("idtipocliente_r"));
-                     
+                    p_juridica = new Persona_Juridica(
+                            result.getString("razon_social_r"),
+                            result.getInt("idtipoidentificacion_r"),
+                            result.getString("direccion_r"),
+                            result.getString("identificacion_r"),
+                            result.getBoolean("estado_r"),
+                            result.getString("telefono1_r"),
+                            result.getString("telefono2_r"),
+                            result.getString("correo1_r"),
+                            result.getInt("idtipocliente_r"));
+
                 }
             } catch (SQLException ex) {
-                p_juridica=new Persona_Juridica("",-1,"","",false,"","","",-1);
+                p_juridica = new Persona_Juridica("", -1, "", "", false, "", "", "", -1);
             } finally {
                 conex.cerrarConexion();
             }
@@ -111,4 +120,3 @@ public class Persona_JuridicaDAO extends PersonaDAO implements Serializable {
         return p_juridica;
     }
 }
-

@@ -81,7 +81,7 @@ public class DiarioDAO {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
-        }finally {
+        } finally {
             conexion.desconectar();
         }
     }
@@ -98,7 +98,7 @@ public class DiarioDAO {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
-        }finally {
+        } finally {
             conexion.desconectar();
         }
     }
@@ -107,12 +107,15 @@ public class DiarioDAO {
         String sql = String.format("delete from diariocontable where iddiario = '%1$d'", idDiario);
         try {
             conexion.conectar();
-            conexion.eliminar(sql);
-            return "Eliminacion Exitosa";
+            if (conexion.eliminar(sql) != -1) {
+                return "Eliminacion Exitosa";
+            }else{
+                return "Error Eliminacion";
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return e.getMessage();
-        }finally{
+        } finally {
             conexion.desconectar();
         }
     }

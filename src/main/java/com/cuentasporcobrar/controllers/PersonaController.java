@@ -52,15 +52,29 @@ public class PersonaController implements Serializable {
         persona_Juridica = new Persona_Juridica();
         persona_Natural = new Persona_Natural();
 
+        try{
+           
         listaCliente = new ArrayList<>();
+        //Esta linea de código nos obtiene todos los clientes.
+        //@return Retorna una lista, la cual será cargada en la tabla clientes.
         listaCliente = personaDAO.obtenerTodosLosClientes();
+        
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
 
     }
 
     public void mostrar() {
+        try{
         listaCliente = personaDAO.obtenerTodosLosClientes();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
 
+    //Getters y Setters 
+    //Inicio
     public Persona getPersona() {
         return persona;
     }
@@ -92,7 +106,8 @@ public class PersonaController implements Serializable {
     public void setPersona_Juridica(Persona_Juridica persona_Juridica) {
         this.persona_Juridica = persona_Juridica;
     }
-
+    //Fin
+    
     public void cargarClientes(Persona per) {
         try {
             this.persona = per;
@@ -197,6 +212,8 @@ public class PersonaController implements Serializable {
 
     //Al momento de darle click al icono de editar, se ejecuta este procedi.
     public void obtenerUnClienteJuridico(int idClienteJ) {
+        try{
+          
         //Se almacena el id cliente en una variable auxiliar
         int aux = idClienteJ;
         persona_JuridicaDAO = new Persona_JuridicaDAO(persona_Juridica);
@@ -210,9 +227,14 @@ public class PersonaController implements Serializable {
         //Se instancia nuevamente la personaJuridicaDAO pero con todos los 
         //datos recopilados
         persona_JuridicaDAO = new Persona_JuridicaDAO(persona_Juridica);
+        
+        }catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }    
     }
 
     public void obtenerUnClienteNatural(int idClienteN) {
+        try{
         //Se almacena el id cliente en una variable auxiliar
         int aux = idClienteN;
         persona_NaturalDAO = new Persona_NaturalDAO(persona_Natural);
@@ -229,7 +251,9 @@ public class PersonaController implements Serializable {
         //Se instancia nuevamente la personaJuridicaDAO pero con todos los 
         //datos recopilados
         persona_NaturalDAO = new Persona_NaturalDAO(persona_Natural);
-
+        }catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
 
     public void actualizarClienteJuridico() {
