@@ -97,24 +97,34 @@
 .pendiente{
     border-radius: 10px;
     background-color : yellow !important;
+    color: white;
+    padding: 5px 5px;
 }
 
 .pagado{
     border-radius: 10px;
-    background-color : greenyellow !important;
+    background-color : green !important;
+    color: white;
+    padding: 5px 5px;
 }
 
 .vencido{
     border-radius: 10px;
     background-color : red !important;
+    color: white;
+    padding: 5px 5px;
 }
 
 .SUCCESS{
     border-radius: 10px;
-    background-color : greenyellow !important;
+    background-color : green !important;
+    color: white;
+    padding: 5px 5px;
 }
 
 .FAILURE{
     border-radius: 10px;
     background-color: red !important;
+    color: white;
+    padding: 5px 5px;
 }
