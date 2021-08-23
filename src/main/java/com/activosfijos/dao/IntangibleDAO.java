@@ -28,7 +28,7 @@ public class IntangibleDAO {
        String consulta = String.format("INSERT INTO activos_fijos(\n"
                 + "	detalle_de_activo,  valor_adquisicion, fecha_adquisicion,proveedor,numero_factura,estado)\n"
                 + "	VALUES ('%s', '%s', '%s', '%s', '%s','habilitado')returning id_activo_fijo;", activosFijos.getDetalle_de_activo(),
-                activosFijos.getValor_adquisicion(), activosFijos.getFecha_adquisicion(), activosFijos.getProveedor(), activosFijos.getNumero_factura());
+                activosFijos.getValor_adquisicion(), activosFijos.getFecha_adquisicion(), activosFijos.getIdproveedor(), activosFijos.getNumero_factura());
         String idactivofijo = conexion.obtenerValor(consulta, 1);
         String consulta2 = String.format("INSERT INTO public.fijo_intangible(\n"
                 + "	 id_activo_fijo)\n"
@@ -52,16 +52,16 @@ public class IntangibleDAO {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                ListarIntangible listaintangible = new ListarIntangible(
-                        rs.getInt("id_activo_fijo"),
-                        rs.getString("detalle_de_activo"),
-                        rs.getInt("valor_adquisicion"),
-                        rs.getObject("fecha_adquisicion", LocalDate.class),
-                        rs.getInt("id_empresa"),
-                        rs.getInt("id_intangible"),
-                        rs.getString("proveedor"),
-                        rs.getString("numero_factura")
-                );
+                ListarIntangible listaintangible = new ListarIntangible();
+                listaintangible.setId_activo_fijo(rs.getInt("id_activo_fijo"));
+                listaintangible.setDetalle_de_activo(rs.getString("detalle_de_activo"));
+                listaintangible.setValor_adquisicion(rs.getInt("valor_adquisicion"));
+                listaintangible.setFecha_adquisicion(rs.getObject("fecha_adquisicion", LocalDate.class));
+                listaintangible.setId_empresa(rs.getInt("id_empresa"));
+                listaintangible.setId_intangible(rs.getInt("id_intangible"));
+                listaintangible.setIdproveedor(rs.getInt("idproveedor"));
+                //listaintangible.setProveedor(rs.getString("proveedor"));
+                listaintangible.setNumero_factura(rs.getString("numero_factura"));
                 listInta.add(listaintangible);
             }
 
@@ -88,16 +88,16 @@ public class IntangibleDAO {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                ListarIntangible listaintangible = new ListarIntangible(
-                        rs.getInt("id_activo_fijo"),
-                        rs.getString("detalle_de_activo"),
-                        rs.getInt("valor_adquisicion"),
-                        rs.getObject("fecha_adquisicion", LocalDate.class),
-                        rs.getInt("id_empresa"),
-                        rs.getInt("id_intangible"),
-                        rs.getString("proveedor"),
-                        rs.getString("numero_factura")
-                );
+                ListarIntangible listaintangible = new ListarIntangible();
+                listaintangible.setId_activo_fijo(rs.getInt("id_activo_fijo"));
+                listaintangible.setDetalle_de_activo(rs.getString("detalle_de_activo"));
+                listaintangible.setValor_adquisicion(rs.getInt("valor_adquisicion"));
+                listaintangible.setFecha_adquisicion(rs.getObject("fecha_adquisicion", LocalDate.class));
+                listaintangible.setId_empresa(rs.getInt("id_empresa"));
+                listaintangible.setId_intangible(rs.getInt("id_intangible"));
+                listaintangible.setIdproveedor(rs.getInt("idproveedor"));
+                //listaintangible.setProveedor(rs.getString("proveedor"));
+                listaintangible.setNumero_factura(rs.getString("numero_factura"));
                 listInta.add(listaintangible);
             }
 

@@ -14,37 +14,46 @@ import java.time.LocalDate;
 public class ListaDepreciable {
 
     private int id_activo_fijo;
-    private String detalle_de_activo ="";
-    private int valor_adquisicion =0;
+    private String detalle_de_activo ;
+    private int valor_adquisicion ;
     private LocalDate fecha_adquisicion = LocalDate.now();
     private int id_empresa ;
-    private int depreciacion_meses =0;
+    private int depreciacion_meses ;
     private double cuota_depresiacion ;
-    private double porcentaje_depreciacion =0;
+    private double porcentaje_depreciacion ;
     private double valor_neto_libros ;
-    private String proveedor ="";
-    private String numero_factura ="001-001-000000000";
-
-    public ListaDepreciable() {
-    }
-
-    public ListaDepreciable(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion,LocalDate fecha_adquisicion, int id_empresa, int depreciacion_meses, double cuota_depresiacion, double porcentaje_depreciacion, double valor_neto_libros, String proveedor, String numero_factura) {
+    private int idproveedor;
+    private String proveedor;
+    private String numero_factura ;
+    
+    public ListaDepreciable(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion, int id_empresa, int depreciacion_meses, double cuota_depresiacion, double porcentaje_depreciacion, double valor_neto_libros, int idproveedor, String proveedor) {
         this.id_activo_fijo = id_activo_fijo;
         this.detalle_de_activo = detalle_de_activo;
         this.valor_adquisicion = valor_adquisicion;
-        this.fecha_adquisicion=fecha_adquisicion;
         this.id_empresa = id_empresa;
         this.depreciacion_meses = depreciacion_meses;
         this.cuota_depresiacion = cuota_depresiacion;
         this.porcentaje_depreciacion = porcentaje_depreciacion;
         this.valor_neto_libros = valor_neto_libros;
+        this.idproveedor = idproveedor;
         this.proveedor = proveedor;
-        this.numero_factura = numero_factura;
     }
 
-
-
     
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
+    }
+
+ 
+
+    public ListaDepreciable() {
+    }
+
+ 
 
     public int getId_activo_fijo() {
         return id_activo_fijo;

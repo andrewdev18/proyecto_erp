@@ -172,11 +172,31 @@
                                                   modal="true" widgetVar="NuevoDepreciable"
                                                   id="ingresodepreciable">
                                             <div  style="display: flex;justify-content: center" class="p-grid">
+                                                <p:outputPanel id="panelnuevodepreciable" class="ui-fluid">
+                                                <p:overlayPanel for="listaproveedor" dynamic="true" 
+                                                                style="width:600px" widgetVar="moviePicker">
+                                                    <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" 
+                                                                 rows="5" paginator="true" selectionMode="single"
+                                                                 selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
+                                                        <p:ajax event="rowSelect" listener="#{activosFijosMB.onRowSelect}" 
+        oncomplete="PF('moviePicker').hide()" update=":formnuevoDepreciable:panelnuevodepreciable,:formnuevoDepreciable:listaproveedor" 
+                                                                />
 
+                                                        <p:column headerText="Proveedor">
+                                                            <h:outputText value="#{proveedor.codigo}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Nombre">
+                                                            <h:outputText value="#{proveedor.nombre}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Ruc">
+                                                            <h:outputText value="#{proveedor.ruc}"/>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </p:overlayPanel>
                                                 <h:panelGrid columns="4" class="p-col" >
                                                     <p:outputLabel for="@next" value="Descripción: "/>
-                                                    <p:inputText value="#{activosFijosMB.activos.detalle_de_activo}" required="true" >
-                                                        <!--                                                        <p:keyFilter mask="alpha"/>-->
+                                                    <p:inputText  value="#{activosFijosMB.activos.detalle_de_activo}" required="true" >
+                                                        <!-- <p:keyFilter mask="alpha"/>-->
                                                     </p:inputText>
                                                     <p:outputLabel for="@next" value="Costo Adquisición:" />
                                                     <p:inputText  type="number" value="#{activosFijosMB.activos.valor_adquisicion}" required="true" >
@@ -196,13 +216,14 @@
                                                     <p:outputLabel value="Número de Factura: "/>
                                                     <p:inputText   value="#{activosFijosMB.activos.numero_factura}" />
 
-                                                    <p:outputLabel value="Proveedor: "/>
-                                                    <p:inputText  value="#{activosFijosMB.activos.proveedor}"  />
+                                                    <p:outputLabel for="listaproveedor" value="Proveedor: "/>
+                                                    <p:inputText  id="listaproveedor" type="button"  value="#{activosFijosMB.activos.proveedor}"  />
 
                                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                                     <p:datePicker  value="#{activosFijosMB.activos.fecha_adquisicion}" showIcon="true"/>
 
                                                 </h:panelGrid>
+                                                    </p:outputPanel>
                                                 <div > 
                                                     <f:facet name="footer">
                                                         <p:commandButton value="Guardar" 
@@ -225,6 +246,26 @@
                                                   modal="true" widgetVar="EditarDepreciable"
                                                   id="dialogeditardepreciable">
                                             <div  style="display: flex;justify-content: center">
+                                                <p:outputPanel id="paneleditarpreciableeditar" class="ui-fluid">
+                                                <p:overlayPanel for="listaproveedoreditar" dynamic="true" 
+                                                                style="width:600px" widgetVar="moviePicker">
+                                                    <p:dataTable var="proveedor" value="#{BuscarMB.listaProveedor}" 
+                                                                 rows="5" paginator="true" selectionMode="single"
+                                                                 selection="#{BuscarMB.proveedor}" rowKey="#{proveedor.nombre}">
+                                                        <p:ajax event="rowSelect" listener="#{activosFijosMB.onRowSelect}" 
+                                                                oncomplete="PF('moviePicker').hide()" update=":editarDepreciable:paneleditarpreciableeditar,:editarDepreciable:listaproveedoreditar"/>
+
+                                                        <p:column headerText="Proveedor">
+                                                            <h:outputText value="#{proveedor.codigo}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Nombre">
+                                                            <h:outputText value="#{proveedor.nombre}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Ruc">
+                                                            <h:outputText value="#{proveedor.ruc}"/>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </p:overlayPanel>
                                                 <h:panelGrid columns="4"  >
                                                     <p:outputLabel for="@next" value="Descripción: "/>
                                                     <p:inputText  value="#{activosFijosMB.listadepreciable.detalle_de_activo}" required="true" />
@@ -247,13 +288,14 @@
                                                     <p:outputLabel value="Número de Factura: "/>
                                                     <p:inputText   value="#{activosFijosMB.listadepreciable.numero_factura}" />
 
-                                                    <p:outputLabel value="Proveedor: "/>
-                                                    <p:inputText  value="#{activosFijosMB.listadepreciable.proveedor}"  />
+                                                    <p:outputLabel for="listaproveedoreditar" value="Proveedor: "/>
+                                                    <p:inputText  id="listaproveedoreditar" type="button" value="#{activosFijosMB.listadepreciable.proveedor}"  />
 
                                                     <p:outputLabel value="Fecha de Adquisición:    " />
                                                     <p:datePicker  value="#{activosFijosMB.listadepreciable.fecha_adquisicion}" showIcon="true"/>
 
                                                 </h:panelGrid>
+                                                    </p:outputPanel>
                                                 <div > 
                                                     <f:facet name="footer">
                                                         <p:commandButton value="Guardar" 
@@ -445,7 +487,7 @@
                                                     <p:inputText  value="#{activosFijosMB.activos.numero_factura}"  />                                                            
 
                                                     <p:outputLabel value="Proveedor"/>
-                                                    <p:inputText value="#{activosFijosMB.activos.proveedor}"  />                                                            
+                                                    <p:inputText value="#{activosFijosMB.activos.idproveedor}"  />                                                            
 
                                                 </h:panelGrid>
 
@@ -667,7 +709,7 @@
                                                     <p:inputText  value="#{activosFijosMB.activos.numero_factura}"  />                                                            
 
                                                     <p:outputLabel value="Proveedor"/>
-                                                    <p:inputText value="#{activosFijosMB.activos.proveedor}"  /> 
+                                                    <p:inputText value="#{activosFijosMB.activos.idproveedor}"  /> 
                                                 </h:panelGrid>
                                                 <div > 
                                                     <f:facet name="footer">

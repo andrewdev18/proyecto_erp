@@ -28,7 +28,7 @@ public class AgotableDAO {
         String consulta = String.format("INSERT INTO activos_fijos(\n"
                 + "	detalle_de_activo,  valor_adquisicion, fecha_adquisicion,proveedor,numero_factura,estado)\n"
                 + "	VALUES ('%s', '%s', '%s', '%s', '%s','habilitado')returning id_activo_fijo;", activosFijos.getDetalle_de_activo(),
-                activosFijos.getValor_adquisicion(), activosFijos.getFecha_adquisicion(), activosFijos.getProveedor(), activosFijos.getNumero_factura());
+                activosFijos.getValor_adquisicion(), activosFijos.getFecha_adquisicion(), activosFijos.getIdproveedor(), activosFijos.getNumero_factura());
         String idactivofijo = conexion.obtenerValor(consulta, 1);
         String consulta2 = String.format("INSERT INTO public.fijo_tangible_agotable(\n"
                 + "	id_activo_fijo, stock)\n"
@@ -52,16 +52,16 @@ public class AgotableDAO {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                ListaAgotable listaagotable = new ListaAgotable(
-                        rs.getInt("id_activo_fijo"),
-                        rs.getString("detalle_de_activo"),
-                        rs.getInt("valor_adquisicion"),
-                        rs.getObject("fecha_adquisicion", LocalDate.class),
-                        rs.getInt("id_empresa"),
-                        rs.getInt("stock"),
-                        rs.getString("proveedor"),
-                        rs.getString("numero_factura")
-                );
+                ListaAgotable listaagotable = new ListaAgotable();
+                listaagotable.setId_activo_fijo(rs.getInt("id_activo_fijo"));
+                listaagotable.setDetalle_de_activo(rs.getString("detalle_de_activo"));
+                listaagotable.setValor_adquisicion(rs.getInt("valor_adquisicion"));
+                listaagotable.setFecha_adquisicion(rs.getObject("fecha_adquisicion", LocalDate.class));
+                listaagotable.setId_empresa(rs.getInt("id_empresa"));
+                listaagotable.setStock(rs.getInt("stock"));
+                listaagotable.setIdproveedor(rs.getInt("idproveedor"));
+               // listaagotable.setProveedor(rs.getString("proveedor"));
+                listaagotable.setNumero_factura(rs.getString("numero_factura"));
                 listaago.add(listaagotable);
             }
 
@@ -73,6 +73,7 @@ public class AgotableDAO {
 
         return listaago;
     }
+
     public List<ListaAgotable> listaragotablesDeshabilitados() throws Exception {
         List<ListaAgotable> listaago = new ArrayList<>();
         Conexion conexion = new Conexion();
@@ -87,16 +88,16 @@ public class AgotableDAO {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                ListaAgotable listaagotable = new ListaAgotable(
-                        rs.getInt("id_activo_fijo"),
-                        rs.getString("detalle_de_activo"),
-                        rs.getInt("valor_adquisicion"),
-                        rs.getObject("fecha_adquisicion", LocalDate.class),
-                        rs.getInt("id_empresa"),
-                        rs.getInt("stock"),
-                        rs.getString("proveedor"),
-                        rs.getString("numero_factura")
-                );
+                ListaAgotable listaagotable = new ListaAgotable();
+                listaagotable.setId_activo_fijo(rs.getInt("id_activo_fijo"));
+                listaagotable.setDetalle_de_activo(rs.getString("detalle_de_activo"));
+                listaagotable.setValor_adquisicion(rs.getInt("valor_adquisicion"));
+                listaagotable.setFecha_adquisicion(rs.getObject("fecha_adquisicion", LocalDate.class));
+                listaagotable.setId_empresa(rs.getInt("id_empresa"));
+                listaagotable.setStock(rs.getInt("stock"));
+                listaagotable.setIdproveedor(rs.getInt("idproveedor"));
+               // listaagotable.setProveedor(rs.getString("proveedor"));
+                listaagotable.setNumero_factura(rs.getString("numero_factura"));
                 listaago.add(listaagotable);
             }
 
@@ -112,7 +113,7 @@ public class AgotableDAO {
     public boolean editar2(ListaAgotable li) throws SQLException {
 
         Conexion conexion = new Conexion();
-          String consulta = String.format("UPDATE public.activos_fijos\n"
+        String consulta = String.format("UPDATE public.activos_fijos\n"
                 + "	SET detalle_de_activo='%s', valor_adquisicion='%s', fecha_adquisicion='%s',   proveedor='%s', numero_factura='%s'\n"
                 + "	WHERE id_activo_fijo='%s';", li.getDetalle_de_activo(), li.getValor_adquisicion(),
                 li.getFecha_adquisicion(), li.getProveedor(), li.getNumero_factura(), li.getId_activo_fijo());
@@ -125,6 +126,7 @@ public class AgotableDAO {
         System.out.println("update 1: " + consulta + "\n update 2: " + consulta2);
         return true;
     }
+
     public boolean deshabilitarnoagotable(ListaAgotable li) throws SQLException {
 
         Conexion conexion = new Conexion();
@@ -136,6 +138,7 @@ public class AgotableDAO {
         System.out.println("update 1: " + consulta);
         return true;
     }
+
     public boolean habilitarnoAgotable(ActivoAgotable li) throws SQLException {
 
         Conexion conexion = new Conexion();

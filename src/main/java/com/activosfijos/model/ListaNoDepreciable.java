@@ -14,32 +14,46 @@ import java.time.LocalDate;
 public class ListaNoDepreciable {
 
     private int id_activo_fijo;
-    private String detalle_de_activo = "";
-    private int valor_adquisicion = 0;
+    private String detalle_de_activo ;
+    private int valor_adquisicion ;
     private LocalDate fecha_adquisicion = LocalDate.now();
-    private int id_empresa ;
-    private int tiempo_amortizacion = 0;
-    private double porcentaje_amortizacion = 0;
-    private int capitalizacion_meses = 0;
-    private double revalorizar = 0;
-    private double plusvalia = 0;
-    private String proveedor = "";
-    private String numero_factura = "001-001-000000000";
+    private int id_empresa;
+    private int tiempo_amortizacion ;
+    private double porcentaje_amortizacion ;
+    private int capitalizacion_meses ;
+    private double revalorizar ;
+    private double plusvalia ;
+    private int idproveedor;
+    private String proveedor;
+    private String numero_factura;
 
-    public ListaNoDepreciable(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion, LocalDate fecha_adquisicion, int id_empresa, int tiempo_amortizacion, double porcentaje_amortizacion, int capitalizacion_meses, double revalorizar, double plusvalia, String proveedor, String numero_factura) {
+    public ListaNoDepreciable(int id_activo_fijo, String detalle_de_activo, int valor_adquisicion, int id_empresa, int tiempo_amortizacion, double porcentaje_amortizacion, int capitalizacion_meses, double revalorizar, double plusvalia, int idproveedor, String proveedor, String numero_factura) {
         this.id_activo_fijo = id_activo_fijo;
         this.detalle_de_activo = detalle_de_activo;
         this.valor_adquisicion = valor_adquisicion;
-        this.fecha_adquisicion = fecha_adquisicion;
         this.id_empresa = id_empresa;
         this.tiempo_amortizacion = tiempo_amortizacion;
         this.porcentaje_amortizacion = porcentaje_amortizacion;
         this.capitalizacion_meses = capitalizacion_meses;
         this.revalorizar = revalorizar;
         this.plusvalia = plusvalia;
-                this.proveedor = proveedor;
+        this.idproveedor = idproveedor;
+        this.proveedor = proveedor;
         this.numero_factura = numero_factura;
     }
+
+    
+    
+    
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
+    }
+
+    
 
     public ListaNoDepreciable() {
     }
