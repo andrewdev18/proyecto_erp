@@ -30,10 +30,6 @@ public class ActivoNoDepreciable {
         this.plusvalia = plusvalia;
     }
 
-
-
-
-
     public int getId_activo_fijo() {
         return id_activo_fijo;
     }

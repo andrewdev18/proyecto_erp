@@ -17,14 +17,18 @@ import com.activosfijos.model.ActivoNoDepreciable;
 import com.activosfijos.model.ListaAgotable;
 import com.activosfijos.model.ListaDepreciable;
 import com.activosfijos.model.ListaNoDepreciable;
+import com.cuentasporpagar.models.Proveedor;
 import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author desta
  */
 @ManagedBean(name = "activosFijosMB")
-@ViewScoped
+//@ViewScoped
+@SessionScoped
 public class ActivosFijosMB implements Serializable {
 
     ActivosFijos activosFijos = new ActivosFijos();
@@ -130,7 +134,7 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        
+
     }
 
     public void setEditar() {
@@ -145,7 +149,7 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
     }
 
     public void setEditar1() {
@@ -160,7 +164,7 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
     }
 
     public void setEditar2() {
@@ -175,7 +179,7 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        
+
     }
 
     public void setEliminar() {
@@ -190,11 +194,11 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
     }
 
     public void regresar() {
-       
+
     }
 
     public void obtenerdatos(ListaDepreciable lista) {
@@ -232,10 +236,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data + "se ingreso no depreciable");
-        
+
     }
 
-    public void  setRegistrarAgotables() {
+    public void setRegistrarAgotables() {
         String data = "";
         AgotableDAO tangibleDAO = new AgotableDAO();
         try {
@@ -246,7 +250,7 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data + "se ingreso no depreciable");
-        
+
     }
 
     public void setDeshabilitartangible() {
@@ -260,9 +264,9 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        
+
     }
-    
+
     public void setDeshabilitarnodepreciable() {
         String data = "";
         NoDepreciableDAO nodepreciabledao = new NoDepreciableDAO();
@@ -275,9 +279,10 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
     }
-        public void setDeshabilitaragotable() {
+
+    public void setDeshabilitaragotable() {
         String data = "";
         try {
             activosagotables.setId_activo_fijo(idactivofijo);
@@ -288,9 +293,8 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-        
+
     }
-    
 
     public void setHabilitarintangible(int id) {
         String data = "";
@@ -304,11 +308,12 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
     }
+
     public void setHabilitarintangibleNoDepreciable(int id) {
         String data = "";
-       
+
         try {
             activoNoDepreciable.setId_activo_fijo(id);
             nodepreciabledao.habilitarnoDepreciable(activoNoDepreciable);
@@ -318,11 +323,12 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
     }
+
     public void setHabilitarintangibleAgotables(int id) {
         String data = "";
-       
+
         try {
             activosagotables.setId_activo_fijo(id);
             agotablesdao.habilitarnoAgotable(activosagotables);
@@ -332,6 +338,16 @@ public class ActivosFijosMB implements Serializable {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println(data);
-       
+
+    }
+
+    public void onRowSelect(SelectEvent<Proveedor> event) {
+        try {
+            this.activosFijos.setProveedor(event.getObject().getNombre());
+            this.activosFijos.setIdproveedor(event.getObject().getIdProveedor());
+            this.listadepreciable.setIdproveedor(event.getObject().getIdProveedor());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
